@@ -13,7 +13,7 @@ public class Algorithm {
     int pathCount = 1;  //buat nyimpen current path count
     String[] mapPath;  //buat nyimpen nama file map
     int playerX=0, playerY=0, playerMap=0;  //buat nyimpen posisi start
-    int endX=4, endY=4, endMap=0;  //buat nyimpen posisi end
+    int endX=14, endY=14, endMap=0;  //buat nyimpen posisi end
     boolean found = false;  //buat ngecek udah ketemu path apa belum
 
     Algorithm(){
@@ -57,12 +57,12 @@ public class Algorithm {
             System.out.println("=========================");
             printHasil(hasil);
             System.out.println("=========================");
+            pause();
             return;  
         }
         else{
             System.out .println("Player X: " + playerX + " Player Y: " + playerY + " Player Map: " + playerMap);  //print posisi player
             printHasil(path);
-            pause();
             for(int i=0;i<4;i++){  // 4 arah (atas, bawah, kiri, kanan)
                                     
                     
