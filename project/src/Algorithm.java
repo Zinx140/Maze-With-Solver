@@ -1,7 +1,10 @@
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
-import java.nio.Buffer;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Scanner;
+
 
 public class Algorithm {
     int[][][] hasil;
@@ -15,14 +18,14 @@ public class Algorithm {
     int playerX=0, playerY=0, playerMap=0;  //buat nyimpen posisi start
     int endX=14, endY=14, endMap=0;  //buat nyimpen posisi end
     boolean found = false;  //buat ngecek udah ketemu path apa belum
+    int[][] map1 = new int[15][15];
+
+    Scanner scanner = new Scanner(System.in);
 
     Algorithm(){
-        loadMap();
+        loadMap("Maze-With-Solver/project/src/listMap.txt");  //baca listmap.txt
 
         BackTracking(this.visited, this.path, this.pathCount, this.playerX, this.playerY, this.playerMap);
-
-
-
 
     }
 
@@ -38,7 +41,7 @@ public class Algorithm {
         }
     }
 
-    void BackTracking(boolean[][][] visited,int[][][] path, int pathCount, int playerX, int playerY, int playerMap){
+    void BackTracking(boolean[][][] visited, int[][][] path, int pathCount, int playerX, int playerY, int playerMap){
         
         if(playerX == endX && playerY == endY && playerMap == endMap){  //base case -> kalau udah sampe tujuan
             System.out.println("=== Path found! ==="); 
@@ -121,10 +124,6 @@ public class Algorithm {
 
             }
         }
-        
-
-
-
     }
 
     boolean isValid(boolean[][][] visited,int[][][] path, int pathCount, int playerX, int playerY, int playerMap){
@@ -155,17 +154,67 @@ public class Algorithm {
     }
     
     void pause(){
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Press Enter to continue...");   
         scanner.nextLine();  //wait for enter
     }
 
+    // public void loadMap(String path) {
+    //     try {
+    //         File file = new File(path);
+    //         if (!file.exists()) {
+    //             System.err.println("File tidak ditemukan: " + path);
+    //             return;
+    //         }
 
-    void loadMap(){
+    //         InputStream is = new FileInputStream(file);
+    //         BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+
+    //         List<Integer> numbers = new ArrayList<>();
+
+    //         String line;
+    //         while ((line = br.readLine()) != null) {
+    //             String[] tokens = line.trim().split(" ");
+    //             for (String token : tokens) {
+    //                 if (!token.trim().isEmpty()) { // Pastikan token tidak kosong
+    //                     numbers.add(Integer.parseInt(token.trim()));
+    //                 }
+    //             }
+    //         }
+
+    //         br.close();
+
+    //         int totalTiles = 15 * 15;
+    //         if (numbers.size() != totalTiles) {
+    //             throw new IllegalArgumentException("Jumlah angka dalam file tidak sesuai dengan ukuran peta (" 
+    //                 + gp.MAX_WORLD_COL + "x" + gp.MAX_WORLD_COL + "). Dibutuhkan " + totalTiles + " angka, tetapi ditemukan " + numbers.size() + ".");
+    //         }
+
+    //         int col = 0;
+    //         int row = 0;
+    //         for (int num : numbers) {
+    //             map1[col][row] = num;
+    //             col++;
+    //             if (col == gp.MAX_WORLD_COL) {
+    //                 col = 0;
+    //                 row++;
+    //             }
+    //         }
+
+    //         System.out.println("Peta berhasil dimuat!");
+
+    //     } catch (IOException e) {
+    //         System.err.println("Terjadi kesalahan saat membaca file: " + e.getMessage());
+    //     } catch (IllegalArgumentException e) {
+    //         System.err.println(e.getMessage());
+    //     }
+    // }
+
+
+    void loadMap(String file){
         //baca txt map
         try{
-        
-            BufferedReader read = new BufferedReader(new FileReader("project\\src\\listMap.txt"));
+            InputStream is = new FileInputStream(file);
+            BufferedReader read = new BufferedReader(new InputStreamReader(is, "UTF-8"));  //baca file listmap.txt
             int jumlahMap = Integer.parseInt(read.readLine());  //baca jumlah map
             mapY = Integer.parseInt(read.readLine()); // baca dimensi y map
             mapX = Integer.parseInt(read.readLine()); // dimensi x map
