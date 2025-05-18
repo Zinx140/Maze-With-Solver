@@ -29,12 +29,11 @@ public class TileManager {
         player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;
         player.playerY = gp.maps.get(gp.currentMap).PlayerStartY;
         mapTile[player.playerX][player.playerY] = 3;
-
+        gp.copyMap(gp.mapTemp, mapTile);
     }
 
     public void getTileImage() {
         try {
-            
             tile[0] = new Tile();
             tile[0].image = ImageIO.read(new File("project/img/way.png"));
             tile[0].collison = false;

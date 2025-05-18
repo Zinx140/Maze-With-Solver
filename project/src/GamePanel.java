@@ -30,17 +30,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             player.move(tileM.mapTile, 2, keys, false); // Left
         } else if (keyCode == KeyEvent.VK_D) {
             player.move(tileM.mapTile, 3, keys, false); // Right
-        } else if (keyCode == KeyEvent.VK_ENTER) {
-            solve(tileM.mapTile, player, keys, 0); // Panggil fungsi solve
-            isSolving = true;
-            System.out.println("=== End of Path ===");
-        } else if (keyCode == KeyEvent.VK_ESCAPE) {
-            System.exit(0);
-        } else if(keyCode == KeyEvent.VK_E) {  //cheat next Stage
-            tileM.changeMap(player);
+        } 
+        if (keyCode == KeyEvent.VK_X && gamestate == PLAYER_STATE) {
+            gamestate = PLAY_STATE;
         }
-        
-        
     }
 
     @Override
@@ -70,7 +63,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
-<<<<<<< HEAD
     public final int PLAY_STATE = 1;
     public final int PLAYER_STATE = 2;
     public final int SOLVING_STATE = 3;
@@ -82,12 +74,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ImageIcon playerStatIcon;
     ImageIcon nextStageIcon;
     ImageIcon exitIcon;
-=======
     public int currentMap = 0; // Map yang sedang dimainkan
 
     // gold di game
     public int MAX_GOLD_PERMAP = 5;    
->>>>>>> b5cfc891783e6089cf40e34c1818282e8fcf02e7
 
     boolean isSolving = false;
     Image img;
@@ -115,26 +105,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
-<<<<<<< HEAD
         mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         try {
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/solveBtn.png"));
+            img = ImageIO.read(new File("project/img/solveBtn.png"));
             Image scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
             solveIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/resetBtn.png"));
+            img = ImageIO.read(new File("project/img/resetBtn.png"));
             scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
             resetIcon = new ImageIcon(scaledImage);
             
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/statusBtn.png"));
+            img = ImageIO.read(new File("project/img/statusBtn.png"));
             scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
             playerStatIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/nextBtn.png"));
+            img = ImageIO.read(new File("project/img/nextBtn.png"));
             scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
             nextStageIcon = new ImageIcon(scaledImage);
             
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/exit.png"));
+            img = ImageIO.read(new File("project/img/exit.png"));
             scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
             exitIcon = new ImageIcon(scaledImage);
         } catch (IOException e) {
@@ -142,8 +131,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             e.printStackTrace();
         }
         initMenuBtn();
-=======
-
 
         //isi list map 
         maps.add(new Map("project/src/maps/map1.txt", 1,1));
@@ -151,8 +138,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         maps.add(new Map("project/src/maps/map3.txt", 9,1));
         maps.add(new Map("project/src/maps/map4.txt", 1,1));
         maps.add(new Map("project/src/maps/map5.txt", 13,1));
-
->>>>>>> b5cfc891783e6089cf40e34c1818282e8fcf02e7
     }
 
     @Override
@@ -252,7 +237,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerstat.setIcon(playerStatIcon);
         playerstat.setBounds(290, 120, 100, 43);
         playerstat.addActionListener(e -> {
-            System.out.println("Reset");
+            gamestate = PLAYER_STATE;
         });
         this.add(playerstat);
 
@@ -276,7 +261,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         nextStage.setIcon(nextStageIcon);
         nextStage.setBounds(510, 120, 43, 43);
         nextStage.addActionListener(e -> {
-            System.out.println("Next Stage");
+            tileM.changeMap(player);
         });
         this.add(nextStage);
 

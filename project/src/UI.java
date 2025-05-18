@@ -1,3 +1,4 @@
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
@@ -15,7 +16,7 @@ public class UI extends JPanel {
     public UI(GamePanel gp) {
         this.gp = gp;
         try {
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/header.png"));
+            img = ImageIO.read(new File("project/img/header.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -36,7 +37,7 @@ public class UI extends JPanel {
 
         }
         if (gp.gamestate == gp.PLAYER_STATE) {
-
+            drawStats();
         }
         if (gp.gamestate == gp.LOSE_STATE) {
             String text = "YOU LOSE";
@@ -44,11 +45,31 @@ public class UI extends JPanel {
             int y = gp.SCREEN_HEIGHT / 2;
             g2.drawString(text, x, y);
         }
-        
-        
+
         g2.setColor(Color.white);
         g2.setFont(new Font("Arial", Font.BOLD, 24));
         g2.drawImage(img, 0, 0, gp.SCREEN_WIDTH, 210, null);
         g2.drawString("Stage: 1", 50, 150);
     }
+
+    public void drawStats() {
+        int frameX = gp.TILE_SIZE * 1 + 20;
+        int frameY = gp.TILE_SIZE * 6;
+        int frameWidth = gp.TILE_SIZE * 12;
+        int frameHeight = gp.TILE_SIZE * 13;
+
+        drawSubWindow(frameX, frameY, frameWidth, frameHeight);
+    }
+
+    public void drawSubWindow(int x, int y, int width, int height) {
+        Color c = new Color(0, 0, 0, 210);
+        g2.setColor(c);
+        g2.fillRoundRect(x, y, width, height, 35, 35);
+
+        c = new Color(255, 255, 255);
+        g2.setColor(c);
+        g2.setStroke(new BasicStroke(5));
+        g2.drawRoundRect(x + 5, y + 5, width - 10, height - 10, 25, 25);
+    }
+
 }

@@ -9,6 +9,9 @@ public class Game {
         window.setResizable(false);
         window.setTitle("Maze");
         
+        // MenuPanel menuPanel = new MenuPanel();
+        // window.add(menuPanel);
+
         GamePanel gamePanel = new GamePanel();
         window.setPreferredSize(new Dimension(gamePanel.SCREEN_WIDTH, gamePanel.SCREEN_HEIGHT + 250));
         window.add(gamePanel);
