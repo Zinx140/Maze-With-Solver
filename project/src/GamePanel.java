@@ -36,7 +36,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("=== End of Path ===");
         } else if (keyCode == KeyEvent.VK_ESCAPE) {
             System.exit(0);
+        } else if(keyCode == KeyEvent.VK_E) {  //cheat next Stage
+            tileM.changeMap(player);
         }
+        
+        
     }
 
     @Override
@@ -66,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
+<<<<<<< HEAD
     public final int PLAY_STATE = 1;
     public final int PLAYER_STATE = 2;
     public final int SOLVING_STATE = 3;
@@ -77,6 +82,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ImageIcon playerStatIcon;
     ImageIcon nextStageIcon;
     ImageIcon exitIcon;
+=======
+    public int currentMap = 0; // Map yang sedang dimainkan
+
+    // gold di game
+    public int MAX_GOLD_PERMAP = 5;    
+>>>>>>> b5cfc891783e6089cf40e34c1818282e8fcf02e7
 
     boolean isSolving = false;
     Image img;
@@ -92,6 +103,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ArrayList<Plate> keys = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
 
+    ArrayList<Map> maps = new ArrayList<>();
+
     Scanner getString = new Scanner(System.in);
     Scanner getInt = new Scanner(System.in);
 
@@ -102,6 +115,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
+<<<<<<< HEAD
         mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         try {
             img = ImageIO.read(new File("Maze-With-Solver/project/img/solveBtn.png"));
@@ -128,6 +142,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             e.printStackTrace();
         }
         initMenuBtn();
+=======
+
+
+        //isi list map 
+        maps.add(new Map("project/src/maps/map1.txt", 1,1));
+        maps.add(new Map("project/src/maps/map2.txt", 1,1));
+        maps.add(new Map("project/src/maps/map3.txt", 9,1));
+        maps.add(new Map("project/src/maps/map4.txt", 1,1));
+        maps.add(new Map("project/src/maps/map5.txt", 13,1));
+
+>>>>>>> b5cfc891783e6089cf40e34c1818282e8fcf02e7
     }
 
     @Override
@@ -289,7 +314,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("=== Path found! ===");
             System.out.println("Path: " + path);
             draw(map);
-            solutions.add(new Solution(map, path)); 
+            solutions.add(new Solution(map, path, player.gold)); 
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4) { // Up
                 Player playerClone = player.clone();

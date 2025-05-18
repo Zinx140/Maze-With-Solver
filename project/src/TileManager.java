@@ -19,44 +19,75 @@ public class TileManager {
         tile = new Tile[30];
         mapTile = new int[gp.MAX_WORLD_COL][gp.MAX_WORLD_ROW];
 
-        loadMap("Maze-With-Solver/project/src/maps/map1.txt");
+        loadMap("project/src/maps/map1.txt");
         getTileImage();
+    }
+
+    public void changeMap(Player player) {
+        gp.currentMap++;
+        loadMap(gp.maps.get(gp.currentMap).path);
+        player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;
+        player.playerY = gp.maps.get(gp.currentMap).PlayerStartY;
+        mapTile[player.playerX][player.playerY] = 3;
+
     }
 
     public void getTileImage() {
         try {
             
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(new File("Maze-With-Solver/project/img/way.png"));
+            tile[0].image = ImageIO.read(new File("project/img/way.png"));
             tile[0].collison = false;
             
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(new File("Maze-With-Solver/project/img/wall.png"));
+            tile[1].image = ImageIO.read(new File("project/img/wall.png"));
             tile[1].collison = false;
 
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(new File("Maze-With-Solver/project/img/princess.png"));
+            tile[2].image = ImageIO.read(new File("project/img/princess.png"));
             tile[2].collison = false;
             
             tile[3] = new Tile();
-            tile[3].image = ImageIO.read(new File("Maze-With-Solver/project/img/prince.png"));
+            tile[3].image = ImageIO.read(new File("project/img/prince.png"));
             tile[3].collison = false;
             
             tile[4] = new Tile();
-            tile[4].image = ImageIO.read(new File("Maze-With-Solver/project/img/path.png"));
+            tile[4].image = ImageIO.read(new File("project/img/path.png"));
             tile[4].collison = false;
             
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(new File("Maze-With-Solver/project/img/plate.png"));
+            tile[5].image = ImageIO.read(new File("project/img/plate.png"));
             tile[5].collison = false;
             
             tile[6] = new Tile();
-            tile[6].image = ImageIO.read(new File("Maze-With-Solver/project/img/path.png"));
+            tile[6].image = ImageIO.read(new File("project/img/path.png"));
             tile[6].collison = false;
+
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(new File("project/img/gold.png"));
+            tile[9].collison = false;
+
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(new File("project/img/stair.png"));
+            tile[10].collison = false;
+
 
         } catch (IOException e) {
             e.getStackTrace();
         }
+    }
+
+
+    public void randomGold(int[][] map) {
+       for(int i=0;i<gp.MAX_GOLD_PERMAP;i++){
+            int x = (int) (Math.random() * gp.MAX_WORLD_COL);
+            int y = (int) (Math.random() * gp.MAX_WORLD_ROW);
+            if(map[x][y] == 0){
+                map[x][y] = 9;
+            }else{
+                i--;
+            }
+       }
     }
 
     public void loadMap(String path) {
@@ -108,6 +139,11 @@ public class TileManager {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
+
+        //pas load random posisi gold
+        randomGold(mapTile);
+
+
     }
 
     public void draw(Graphics2D g2) {

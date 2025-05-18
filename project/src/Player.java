@@ -6,6 +6,7 @@ public class Player implements Cloneable {
     int hp;
     int maxHp;
     GamePanel gp;
+    int gold=0;
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.playerX = playerX;
@@ -51,11 +52,22 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex); 
                     }
                     clearTrace(map);
-                } else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4 && map[playerX][playerY - 1] != 2) {
+                } else if(map[playerX][playerY - 1] == 9) {
                     map[playerX][playerY] = trace; 
                     playerY--;
                     map[playerX][playerY] = 3; 
-                }
+                    gold++;
+                    System.out.println("+1 Gold");
+                    System.out.println("Gold: " + gold);
+
+                    clearTrace(map);
+                }else if(map[playerX][playerY - 1] == 10) {
+                    gp.tileM.changeMap(this);
+                }else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4 && map[playerX][playerY - 1] != 2) {
+                    map[playerX][playerY] = trace; 
+                    playerY--;
+                    map[playerX][playerY] = 3; 
+                } 
                 break;
             case 1: // down
                 if (map[playerX][playerY + 1] == 2) {
@@ -70,7 +82,18 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex);
                     }
                     clearTrace(map);
-                } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4 && map[playerX][playerY + 1] != 2) {
+                } else if(map[playerX][playerY + 1] == 9) {
+                       map[playerX][playerY] = trace; 
+                       playerY++;
+                       map[playerX][playerY] = 3; 
+                       gold++;
+                       System.out.println("+1 Gold");
+                       System.out.println("Gold: " + gold);
+   
+                       clearTrace(map);
+                   }else if(map[playerX][playerY + 1] == 10) {
+                    gp.tileM.changeMap(this);
+                    }else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4 && map[playerX][playerY + 1] != 2) {
                     map[playerX][playerY] = trace; 
                     playerY++;
                     map[playerX][playerY] = 3; 
@@ -89,11 +112,21 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex); 
                     }
                     clearTrace(map);
-                } else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4 && map[playerX - 1][playerY] != 2) {
+                } else if(map[playerX - 1][playerY] == 9) {
                     map[playerX][playerY] = trace; 
                     playerX--;
                     map[playerX][playerY] = 3; 
-                }
+                    gold++;
+                    System.out.println("+1 Gold");
+                    System.out.println("Gold: " + gold);
+                    clearTrace(map);
+                }else if(map[playerX - 1][playerY] == 10) {
+                    gp.tileM.changeMap(this);
+                }else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4 && map[playerX - 1][playerY] != 2) {
+                    map[playerX][playerY] = trace; 
+                    playerX--;
+                    map[playerX][playerY] = 3; 
+                } 
                 break;
             case 3: // right
                 if (map[playerX + 1][playerY] == 2) {
@@ -108,11 +141,21 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex); 
                     }
                     clearTrace(map);
-                } else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4 && map[playerX + 1][playerY] != 2) {
+                } else if(map[playerX + 1][playerY] == 9) { //gold
+                    map[playerX][playerY] = trace; 
+                    playerX++;
+                    map[playerX][playerY] = 3; 
+                    gold++;
+                    System.out.println("+1 Gold");
+                    System.out.println("Gold: " + gold);
+                    clearTrace(map);
+                }else if(map[playerX + 1][playerY] == 10) {
+                    gp.tileM.changeMap(this);
+                }else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4 && map[playerX + 1][playerY] != 2) {
                     map[playerX][playerY] = trace; 
                     playerX++;
                     map[playerX][playerY] = 3;
-                }
+                } 
                 break;
         }
     }
