@@ -62,6 +62,7 @@ public class Player implements Cloneable {
                     } else {
                         map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
                         monsters.remove(x);
+                        playerY--;
                     }
                 } else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4
                         && map[playerX][playerY - 1] != 2) {
@@ -97,6 +98,7 @@ public class Player implements Cloneable {
                     } else {
                         map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
                         monsters.remove(x);
+                        playerY++;
                     }
                 } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4
                         && map[playerX][playerY + 1] != 2) {
@@ -132,6 +134,7 @@ public class Player implements Cloneable {
                     } else {
                         map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
                         monsters.remove(x);
+                        playerX--;
                     }
                 } else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4
                         && map[playerX - 1][playerY] != 2) {
@@ -167,6 +170,7 @@ public class Player implements Cloneable {
                     } else {
                         map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
                         monsters.remove(x);
+                        playerX++;
                     }
                 } else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4
                         && map[playerX + 1][playerY] != 2) {
