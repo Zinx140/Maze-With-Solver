@@ -77,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ImageIcon icon;
     boolean isSolving = false;
     BufferedImage img;
+    BufferedImage imgNext;
     int gamestate;
 
     Thread gameThread;
@@ -194,8 +195,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             isSolving = true;
         });
         this.add(solution);
+        JButton playerstat = new JButton("Player Stat");
+        playerstat.setBounds(330, 110, 100, 70);
+        playerstat.addActionListener(e -> {
+            System.out.println("Reset");
+        });
+        this.add(playerstat);
         JButton reset = new JButton("Reset");
-        reset.setBounds(350, 110, 100, 70);
+        reset.setBounds(460, 110, 100, 70);
         reset.addActionListener(e -> {
             System.out.println("Reset");
         });
@@ -206,12 +213,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("Next Stage");
         });
         this.add(nextStage);
-        JButton prevStage = new JButton("Prev Stage");
-        prevStage.setBounds(550, 120, 50, 50);
-        prevStage.addActionListener(e -> {
-            System.out.println("Prev Stage");
-        });
-        this.add(prevStage);
     }
     
     public void draw(int map[][]) {
