@@ -35,6 +35,12 @@ public class GamePanel {
                     case 4:
                         System.out.print(". "); // Tile enemy
                         break;
+                    case 5:
+                        System.out.print("K "); // Tile kunci
+                        break;
+                    case 6:
+                        System.out.print(". "); // Tile pintu
+                        break;
                 }
             }
             System.out.println();
@@ -50,7 +56,13 @@ public class GamePanel {
         }
     }
 
-    public void solve(int map[][], Player player, int path) {
+    public void copyArrayList(ArrayList<Key> keysClone, ArrayList<Key> keys) {
+        for (int i = 0; i < keys.size(); i++) {
+            keysClone.add(keys.get(i));
+        }
+    }
+
+    public void solve(int map[][], Player player, ArrayList<Key> keys, int path) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
         if (map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
@@ -59,27 +71,35 @@ public class GamePanel {
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4) { // Up
                 Player playerClone = player.clone();
+                ArrayList<Key> keysClone = new ArrayList<>();
+                copyArrayList(keysClone, keys);
                 copyMap(currentMap, map);
-                playerClone.move(currentMap, 0);
-                solve(currentMap, playerClone, path + 1);
+                playerClone.move(currentMap, 0, keysClone);
+                solve(currentMap, playerClone, keysClone, path + 1);
             } 
             if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4) { // Down
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
-                playerClone.move(currentMap, 1);
-                solve(currentMap, playerClone, path + 1);
+                ArrayList<Key> keysClone = new ArrayList<>();
+                copyArrayList(keysClone, keys);
+                playerClone.move(currentMap, 1, keysClone);
+                solve(currentMap, playerClone, keysClone, path + 1);
             } 
             if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4) { // Left
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
-                playerClone.move(currentMap, 2);
-                solve(currentMap, playerClone, path + 1);
+                ArrayList<Key> keysClone = new ArrayList<>();
+                copyArrayList(keysClone, keys);
+                playerClone.move(currentMap, 2, keysClone);
+                solve(currentMap, playerClone, keysClone, path + 1);
             } 
             if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4) { // Right
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
-                playerClone.move(currentMap, 3);
-                solve(currentMap, playerClone, path + 1);
+                ArrayList<Key> keysClone = new ArrayList<>();
+                copyArrayList(keysClone, keys);
+                playerClone.move(currentMap, 3, keysClone);
+                solve(currentMap, playerClone, keysClone, path + 1);
             }
         }
     }
@@ -87,25 +107,34 @@ public class GamePanel {
     public void Play() {
         mapTile = new int[MAX_WORLD_ROW][MAX_WORLD_COL]; // Inisialisasi peta
         loadMap("Maze-With-Solver/project/src/map1.txt"); // baca listmap.txt
-        Player player = new Player(1, 1); // Inisialisasi posisi awal player
-        mapTile[player.playerY][player.playerX] = 3; // Set tile player
-        solve(mapTile, player, 0); // Panggil fungsi solve
-        // while (mapTile[player.playerY][player.playerX] != 2) { // Selama player belum sampai tujuan
+        Player player = new Player(1, 1, this); // Inisialisasi posisi awal player
+        ArrayList<Key> keys = new ArrayList<>(); // Inisialisasi list kunci
+        keys.add(new Key(3, 2, 7, 12)); // Tambahkan kunci ke list
+        setKeys(mapTile, keys); // Set kunci di peta
+        mapTile[player.playerX][player.playerY] = 3; // Set tile player
+        solve(mapTile, player, keys, 0); // Panggil fungsi solve
+        // while (mapTile[player.playerX][player.playerY] != 2) { // Selama player belum sampai tujuan
         //     draw(mapTile);
         //     System.out.print("Input move (w/a/s/d): ");
         //     String input = getString.nextLine();
         //     if (input.equals("w")) {
-        //         player.move(mapTile, 0); // Up
+        //         player.move(mapTile, 0, keys); // Up
         //     } else if (input.equals("s")) {
-        //         player.move(mapTile, 1); // Down
+        //         player.move(mapTile, 1, keys); // Down
         //     } else if (input.equals("a")) {
-        //         player.move(mapTile, 2); // Left
+        //         player.move(mapTile, 2, keys); // Left
         //     } else if (input.equals("d")) {
-        //         player.move(mapTile, 3); // Right
+        //         player.move(mapTile, 3, keys); // Right
         //     } else {
         //         System.out.println("Input tidak valid!");
         //     }           
         // }
+    }
+
+    public void setKeys(int map[][], ArrayList<Key> keys) {
+        for (int i = 0; i < keys.size(); i++) {
+            keys.get(i).setKey(map);
+        }
     }
     
     public void loadMap(String path) {
