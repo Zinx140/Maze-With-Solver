@@ -89,8 +89,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
 
         //isi list map 
-        maps.add(new Map("Maze-With-Solver/project/src/maps/map1.txt", 1,1));
-        maps.add(new Map("Maze-With-Solver/project/src/maps/map2.txt", 1,1));
+        maps.add(new Map("project/src/maps/map1.txt", 1,1));
+        maps.add(new Map("project/src/maps/map2.txt", 1,1));
 
     }
 
