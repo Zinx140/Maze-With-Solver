@@ -9,6 +9,6 @@ public class Trap {
     }
 
     public void setTrap(int map[][]) {
-        map[trapX][trapY] = 11; // Set tile trap
+        map[trapX][trapY] = 12; // Set tile trap
     }
 }
