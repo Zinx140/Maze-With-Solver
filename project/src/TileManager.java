@@ -20,7 +20,7 @@ public class TileManager {
         tile = new Tile[30];
         mapTile = new int[gp.MAX_WORLD_COL][gp.MAX_WORLD_ROW];
 
-        loadMap("Maze-With-Solver/project/src/map1.txt");
+        loadMap("Maze-With-Solver/project/src/maps/map1.txt");
         getTileImage();
     }
 
