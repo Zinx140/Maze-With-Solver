@@ -58,6 +58,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
+    // gold di game
+    public int MAX_GOLD_PERMAP = 5;    
+
     boolean isSolving = false;
     Thread gameThread;
     TileManager tileM = new TileManager(this);
@@ -191,7 +194,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("=== Path found! ===");
             System.out.println("Path: " + path);
             draw(map);
-            solutions.add(new Solution(map, path)); 
+            solutions.add(new Solution(map, path, player.gold)); 
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4) { // Up
                 Player playerClone = player.clone();
