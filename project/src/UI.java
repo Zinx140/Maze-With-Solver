@@ -22,7 +22,6 @@ public class UI extends JPanel {
     }
     
     public void draw(Graphics2D g2) {
-        // Title
         this.g2 = g2;
         
         if (gp.gamestate == gp.WIN_STATE) {
@@ -30,10 +29,13 @@ public class UI extends JPanel {
             g2.setFont(new Font("Arial", Font.PLAIN, 50));
             String text = "YOU WIN";
             int x = gp.SCREEN_WIDTH / 2 - g2.getFontMetrics().stringWidth(text) / 2;
-            int y = gp.SCREEN_HEIGHT / 2;
+            int y = gp.SCREEN_HEIGHT / 2 + 70;
             g2.drawString(text, x, y);
         } 
         if (gp.gamestate == gp.SOLVING_STATE) {
+
+        }
+        if (gp.gamestate == gp.PLAYER_STATE) {
 
         }
         if (gp.gamestate == gp.LOSE_STATE) {

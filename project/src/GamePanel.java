@@ -4,13 +4,12 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
-
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -68,17 +67,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
     public final int PLAY_STATE = 1;
-    public final int INVENTORY_STATE = 2;
+    public final int PLAYER_STATE = 2;
     public final int SOLVING_STATE = 3;
     public final int WIN_STATE = 4;
     public final int LOSE_STATE = 5;
-    public final int PLAYER_STATE = 6;
 
-    ImageIcon icon;
+    ImageIcon solveIcon;
+    ImageIcon resetIcon;
+    ImageIcon playerStatIcon;
+    ImageIcon nextStageIcon;
+    ImageIcon exitIcon;
+
     boolean isSolving = false;
-    BufferedImage img;
-    BufferedImage imgNext;
+    Image img;
     int gamestate;
+    int[][] mapTemp;
 
     Thread gameThread;
     JProgressBar playerHP;
@@ -99,9 +102,27 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
+        mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         try {
-            img = ImageIO.read(new File("Maze-With-Solver/project/img/Button.png"));
-            icon = new ImageIcon(img);
+            img = ImageIO.read(new File("Maze-With-Solver/project/img/solveBtn.png"));
+            Image scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
+            solveIcon = new ImageIcon(scaledImage);
+
+            img = ImageIO.read(new File("Maze-With-Solver/project/img/resetBtn.png"));
+            scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
+            resetIcon = new ImageIcon(scaledImage);
+            
+            img = ImageIO.read(new File("Maze-With-Solver/project/img/statusBtn.png"));
+            scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
+            playerStatIcon = new ImageIcon(scaledImage);
+
+            img = ImageIO.read(new File("Maze-With-Solver/project/img/nextBtn.png"));
+            scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
+            nextStageIcon = new ImageIcon(scaledImage);
+            
+            img = ImageIO.read(new File("Maze-With-Solver/project/img/exit.png"));
+            scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
+            exitIcon = new ImageIcon(scaledImage);
         } catch (IOException e) {
             // TODO: handle exception
             e.printStackTrace();
@@ -120,6 +141,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         keys.add(new Plate(3, 2, 7, 12)); // Tambahkan kunci ke list
         setKeys(tileM.mapTile, keys); // Set kunci di peta
         tileM.mapTile[player.playerX][player.playerY] = 3; // Set tile player
+        copyMap(mapTemp, tileM.mapTile); // Copy map ke mapTemp
 
         while (gameThread != null) {
             currentTime = System.nanoTime();
@@ -185,68 +207,68 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerHP.setBackground(Color.black);
         this.add(playerHP);
 
-        JButton solution = new JButton(icon);
+        JButton solution = new JButton(solveIcon);
+        solution.setIcon(solveIcon);
         solution.setBorderPainted(false);
         solution.setContentAreaFilled(false);
         solution.setFocusPainted(false);
-        solution.setBounds(200, 110, 100, 70);
+        solution.setBounds(170, 120, 100, 43);
         solution.addActionListener(e -> {
             solve(tileM.mapTile, player, keys, 0); // Panggil fungsi solve
             isSolving = true;
         });
         this.add(solution);
-        JButton playerstat = new JButton("Player Stat");
-        playerstat.setBounds(330, 110, 100, 70);
+
+        JButton playerstat = new JButton();
+        playerstat.setBorderPainted(false);
+        playerstat.setContentAreaFilled(false);
+        playerstat.setFocusPainted(false);
+        playerstat.setFocusable(false);
+        playerstat.setIcon(playerStatIcon);
+        playerstat.setBounds(290, 120, 100, 43);
         playerstat.addActionListener(e -> {
             System.out.println("Reset");
         });
         this.add(playerstat);
-        JButton reset = new JButton("Reset");
-        reset.setBounds(460, 110, 100, 70);
+
+        JButton reset = new JButton();
+        reset.setBorderPainted(false);
+        reset.setContentAreaFilled(false);
+        reset.setFocusPainted(false);
+        reset.setFocusable(false);
+        reset.setIcon(resetIcon);
+        reset.setBounds(400, 120, 100, 43);
         reset.addActionListener(e -> {
-            System.out.println("Reset");
+            reset();
         });
         this.add(reset);
-        JButton nextStage = new JButton("Next Stage");
-        nextStage.setBounds(480, 120, 50, 50);
+        
+        JButton nextStage = new JButton();
+        nextStage.setBorderPainted(false);
+        nextStage.setContentAreaFilled(false);
+        nextStage.setFocusPainted(false);
+        nextStage.setFocusable(false);
+        nextStage.setIcon(nextStageIcon);
+        nextStage.setBounds(510, 120, 43, 43);
         nextStage.addActionListener(e -> {
             System.out.println("Next Stage");
         });
         this.add(nextStage);
+
+        JButton exit = new JButton();
+        exit.setBorderPainted(false);
+        exit.setContentAreaFilled(false);
+        exit.setFocusPainted(false);
+        exit.setFocusable(false);
+        exit.setIcon(exitIcon);
+        exit.setBounds(570, 120, 43, 43);
+        exit.addActionListener(e -> {
+            System.exit(0);
+        });
+        this.add(exit);
     }
     
-    public void draw(int map[][]) {
-        for (int i = 0; i < MAX_WORLD_ROW; i++) {
-            for (int j = 0; j < MAX_WORLD_COL; j++) {
-                switch (map[j][i]) {
-                    case 0:
-                        System.out.print("  "); // Tile kosong
-                        break;
-                    case 1:
-                        System.out.print("# "); // Tile dinding
-                        break;
-                    case 2:
-                        System.out.print("F "); // Tile jalan
-                        break;
-                    case 3:
-                        System.out.print("P "); // Tile player
-                        break;
-                    case 4:
-                        System.out.print(". "); // Tile enemy
-                        break;
-                    case 5:
-                        System.out.print("X "); // Tile kunci
-                        break;
-                    case 6:
-                        System.out.print(". "); // Tile pintu
-                        break;
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
-    }
-
+    
     public void copyMap(int[][] map, int[][] mapTile) {
         for (int i = 0; i < MAX_WORLD_ROW; i++) {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
@@ -304,6 +326,52 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
+    public void reset() {
+        player.playerX = 1;
+        player.playerY = 1;
+        player.hp = player.maxHp;
+        copyMap(tileM.mapTile, mapTemp);
+        tileM.mapTile[player.playerX][player.playerY] = 3; 
+    }
+    
+    public void setKeys(int map[][], ArrayList<Plate> keys) {
+        for (int i = 0; i < keys.size(); i++) {
+            keys.get(i).setKey(map);
+        }
+    }
+    
+    public void draw(int map[][]) {
+        for (int i = 0; i < MAX_WORLD_ROW; i++) {
+            for (int j = 0; j < MAX_WORLD_COL; j++) {
+                switch (map[j][i]) {
+                    case 0:
+                        System.out.print("  "); // Tile kosong
+                        break;
+                    case 1:
+                        System.out.print("# "); // Tile dinding
+                        break;
+                    case 2:
+                        System.out.print("F "); // Tile jalan
+                        break;
+                    case 3:
+                        System.out.print("P "); // Tile player
+                        break;
+                    case 4:
+                        System.out.print(". "); // Tile enemy
+                        break;
+                    case 5:
+                        System.out.print("X "); // Tile kunci
+                        break;
+                    case 6:
+                        System.out.print(". "); // Tile pintu
+                        break;
+                }
+            }
+            System.out.println();
+        }
+        System.out.println();
+    }
+
     // public void Play() {
     //     mapTile = new int[MAX_WORLD_ROW][MAX_WORLD_COL]; // Inisialisasi peta
     //     Player player = new Player(1, 1, this); // Inisialisasi posisi awal player
@@ -329,11 +397,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         //     }           
         // }
     // }
-
-    public void setKeys(int map[][], ArrayList<Plate> keys) {
-        for (int i = 0; i < keys.size(); i++) {
-            keys.get(i).setKey(map);
-        }
-    }
     
 }
