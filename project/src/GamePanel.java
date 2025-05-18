@@ -79,8 +79,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // gold di game
     public int MAX_GOLD_PERMAP = 5;    
 
+    int playerXTemp = 1;
+    int playerYTemp = 1;
+    int hpTemp = 0;
     boolean isSolving = false;
     Image img;
+    int goldTemp = 0;
     int gamestate;
     int[][] mapTemp;
 
@@ -208,6 +212,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void initMenuBtn() {
+        goldTemp = player.gold;
+        hpTemp = player.playerHp;
+        playerXTemp = player.playerX;
+        playerYTemp = player.playerY;
+        gamestate = PLAY_STATE;
+
         playerHP = new JProgressBar(0 , player.maxHp);
         playerHP.setValue(player.playerHp);
         playerHP.setStringPainted(true);
@@ -238,7 +248,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerstat.setIcon(playerStatIcon);
         playerstat.setBounds(290, 120, 100, 43);
         playerstat.addActionListener(e -> {
-            gamestate = PLAYER_STATE;
+            if (gamestate == PLAYER_STATE) {
+                gamestate = PLAY_STATE;
+            } else if (gamestate == PLAY_STATE) {
+                gamestate = PLAYER_STATE;
+            }
         });
         this.add(playerstat);
 
@@ -302,7 +316,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
-        if (map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
+        if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
             System.out.println("Path: " + path);
             draw(map);
@@ -352,9 +366,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void reset() {
-        player.playerX = 1;
-        player.playerY = 1;
+        player.playerX = playerXTemp;
+        player.playerY = playerYTemp;
         player.playerHp = player.maxHp;
+        player.gold = goldTemp;
         copyMap(tileM.mapTile, mapTemp);
         tileM.mapTile[player.playerX][player.playerY] = 3; 
     }

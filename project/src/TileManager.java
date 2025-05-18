@@ -24,7 +24,11 @@ public class TileManager {
     }
 
     public void changeMap(Player player) {
-        gp.currentMap++;
+        if (gp.currentMap < gp.maps.size() - 1) {
+            gp.currentMap++;
+            gp.goldTemp = player.gold;
+            gp.hpTemp = player.playerHp;
+        } 
         loadMap(gp.maps.get(gp.currentMap).path);
         player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;
         player.playerY = gp.maps.get(gp.currentMap).PlayerStartY;
