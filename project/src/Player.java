@@ -48,7 +48,7 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex); 
                     }
                     clearTrace(map);
-                } else if(map[playerX][playerY - 1] == 7) {
+                } else if(map[playerX][playerY - 1] == 9) {
                     map[playerX][playerY] = trace; 
                     playerY--;
                     map[playerX][playerY] = 3; 
@@ -57,6 +57,8 @@ public class Player implements Cloneable {
                     System.out.println("Gold: " + gold);
 
                     clearTrace(map);
+                }else if(map[playerX][playerY - 1] == 10) {
+                    gp.tileM.changeMap(this);
                 }else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4 && map[playerX][playerY - 1] != 2) {
                     map[playerX][playerY] = trace; 
                     playerY--;
@@ -76,7 +78,7 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex);
                     }
                     clearTrace(map);
-                } else if(map[playerX][playerY + 1] == 7) {
+                } else if(map[playerX][playerY + 1] == 9) {
                        map[playerX][playerY] = trace; 
                        playerY++;
                        map[playerX][playerY] = 3; 
@@ -85,7 +87,9 @@ public class Player implements Cloneable {
                        System.out.println("Gold: " + gold);
    
                        clearTrace(map);
-                   }else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4 && map[playerX][playerY + 1] != 2) {
+                   }else if(map[playerX][playerY + 1] == 10) {
+                    gp.tileM.changeMap(this);
+                    }else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4 && map[playerX][playerY + 1] != 2) {
                     map[playerX][playerY] = trace; 
                     playerY++;
                     map[playerX][playerY] = 3; 
@@ -104,7 +108,7 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex); 
                     }
                     clearTrace(map);
-                } else if(map[playerX - 1][playerY] == 7) {
+                } else if(map[playerX - 1][playerY] == 9) {
                     map[playerX][playerY] = trace; 
                     playerX--;
                     map[playerX][playerY] = 3; 
@@ -112,6 +116,8 @@ public class Player implements Cloneable {
                     System.out.println("+1 Gold");
                     System.out.println("Gold: " + gold);
                     clearTrace(map);
+                }else if(map[playerX - 1][playerY] == 10) {
+                    gp.tileM.changeMap(this);
                 }else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4 && map[playerX - 1][playerY] != 2) {
                     map[playerX][playerY] = trace; 
                     playerX--;
@@ -131,7 +137,7 @@ public class Player implements Cloneable {
                         keys.remove(keyIndex); 
                     }
                     clearTrace(map);
-                } else if(map[playerX + 1][playerY] == 7) { //gold
+                } else if(map[playerX + 1][playerY] == 9) { //gold
                     map[playerX][playerY] = trace; 
                     playerX++;
                     map[playerX][playerY] = 3; 
@@ -139,6 +145,8 @@ public class Player implements Cloneable {
                     System.out.println("+1 Gold");
                     System.out.println("Gold: " + gold);
                     clearTrace(map);
+                }else if(map[playerX + 1][playerY] == 10) {
+                    gp.tileM.changeMap(this);
                 }else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4 && map[playerX + 1][playerY] != 2) {
                     map[playerX][playerY] = trace; 
                     playerX++;

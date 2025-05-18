@@ -28,7 +28,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("=== End of Path ===");
         } else if (keyCode == KeyEvent.VK_ESCAPE) {
             System.exit(0);
+        } else if(keyCode == KeyEvent.VK_E) {  //cheat next Stage
+            tileM.changeMap(player);
         }
+        
     }
 
     @Override
@@ -58,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
+    public int currentMap = 0; // Map yang sedang dimainkan
+
     // gold di game
     public int MAX_GOLD_PERMAP = 5;    
 
@@ -69,6 +74,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ArrayList<Plate> keys = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
 
+    ArrayList<Map> maps = new ArrayList<>();
+
     Scanner getString = new Scanner(System.in);
     Scanner getInt = new Scanner(System.in);
 
@@ -79,6 +86,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
+
+
+        //isi list map 
+        maps.add(new Map("project/src/maps/map1.txt", 1,1));
+        maps.add(new Map("project/src/maps/map2.txt", 1,1));
+
     }
 
     @Override

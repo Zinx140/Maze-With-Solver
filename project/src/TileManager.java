@@ -24,6 +24,15 @@ public class TileManager {
         getTileImage();
     }
 
+    public void changeMap(Player player) {
+        gp.currentMap++;
+        loadMap(gp.maps.get(gp.currentMap).path);
+        player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;
+        player.playerY = gp.maps.get(gp.currentMap).PlayerStartY;
+        mapTile[player.playerX][player.playerY] = 3;
+
+    }
+
     public void getTileImage() {
         try {
             
@@ -55,9 +64,13 @@ public class TileManager {
             tile[6].image = ImageIO.read(new File("project/img/path.png"));
             tile[6].collison = false;
 
-            tile[7] = new Tile();
-            tile[7].image = ImageIO.read(new File("project/img/gold.png"));
-            tile[7].collison = false;
+            tile[9] = new Tile();
+            tile[9].image = ImageIO.read(new File("project/img/gold.png"));
+            tile[9].collison = false;
+
+            tile[10] = new Tile();
+            tile[10].image = ImageIO.read(new File("project/img/stair.png"));
+            tile[10].collison = false;
 
 
         } catch (IOException e) {
@@ -71,7 +84,7 @@ public class TileManager {
             int x = (int) (Math.random() * gp.MAX_WORLD_COL);
             int y = (int) (Math.random() * gp.MAX_WORLD_ROW);
             if(map[x][y] == 0){
-                map[x][y] = 7;
+                map[x][y] = 9;
             }else{
                 i--;
             }
