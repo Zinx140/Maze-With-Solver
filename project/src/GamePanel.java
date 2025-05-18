@@ -32,6 +32,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             tileM.changeMap(player);
         }
         
+        
     }
 
     @Override
@@ -91,6 +92,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         //isi list map 
         maps.add(new Map("project/src/maps/map1.txt", 1,1));
         maps.add(new Map("project/src/maps/map2.txt", 1,1));
+        maps.add(new Map("project/src/maps/map3.txt", 9,1));
+        maps.add(new Map("project/src/maps/map4.txt", 1,1));
+        maps.add(new Map("project/src/maps/map5.txt", 13,1));
 
     }
 
