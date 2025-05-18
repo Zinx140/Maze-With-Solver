@@ -1,12 +1,21 @@
 import java.util.ArrayList;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
@@ -58,10 +67,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int WORLD_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
 
+    public final int PLAY_STATE = 1;
+    public final int INVENTORY_STATE = 2;
+    public final int SOLVING_STATE = 3;
+    public final int WIN_STATE = 4;
+    public final int LOSE_STATE = 5;
+    public final int PLAYER_STATE = 6;
+
+    ImageIcon icon;
     boolean isSolving = false;
+    BufferedImage img;
+    int gamestate;
+
     Thread gameThread;
+    JProgressBar playerHP;
     TileManager tileM = new TileManager(this);
     Player player = new Player(1, 1, this);
+    UI ui = new UI(this);
 
     ArrayList<Plate> keys = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
@@ -76,6 +98,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
+        try {
+            img = ImageIO.read(new File("Maze-With-Solver/project/img/Button.png"));
+            icon = new ImageIcon(img);
+        } catch (IOException e) {
+            // TODO: handle exception
+            e.printStackTrace();
+        }
+        initMenuBtn();
     }
 
     @Override
@@ -99,8 +129,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             lastTime = currentTime;
 
             if (delta >= 1) {
+                playerHP.setValue(player.hp);
+                playerHP.setString("Player HP: " + player.hp);
                 if (tileM.mapTile[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
                     System.out.println("You Win");
+                    gamestate = WIN_STATE;
                     gameThread = null;
                 } 
                 repaint();
@@ -131,12 +164,54 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             isSolving = false;
         } else {
             tileM.draw(g2);
+            ui.draw(g2);
         }
     }
 
     public void startgameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void initMenuBtn() {
+        playerHP = new JProgressBar(0 , player.maxHp);
+        playerHP.setValue(player.hp);
+        playerHP.setStringPainted(true);
+        playerHP.setForeground(Color.red);
+        playerHP.setBounds(30, 20, 600, 70);
+        playerHP.setFont(new Font("Arial", Font.PLAIN, 20));
+        playerHP.setString("Player HP: " + player.hp);
+        playerHP.setBackground(Color.black);
+        this.add(playerHP);
+
+        JButton solution = new JButton(icon);
+        solution.setBorderPainted(false);
+        solution.setContentAreaFilled(false);
+        solution.setFocusPainted(false);
+        solution.setBounds(200, 110, 100, 70);
+        solution.addActionListener(e -> {
+            solve(tileM.mapTile, player, keys, 0); // Panggil fungsi solve
+            isSolving = true;
+        });
+        this.add(solution);
+        JButton reset = new JButton("Reset");
+        reset.setBounds(350, 110, 100, 70);
+        reset.addActionListener(e -> {
+            System.out.println("Reset");
+        });
+        this.add(reset);
+        JButton nextStage = new JButton("Next Stage");
+        nextStage.setBounds(480, 120, 50, 50);
+        nextStage.addActionListener(e -> {
+            System.out.println("Next Stage");
+        });
+        this.add(nextStage);
+        JButton prevStage = new JButton("Prev Stage");
+        prevStage.setBounds(550, 120, 50, 50);
+        prevStage.addActionListener(e -> {
+            System.out.println("Prev Stage");
+        });
+        this.add(prevStage);
     }
     
     public void draw(int map[][]) {

@@ -3,16 +3,19 @@ import java.util.ArrayList;
 public class Player implements Cloneable {
     int playerX;
     int playerY;
+    int hp;
+    int maxHp;
     GamePanel gp;
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.playerX = playerX;
         this.playerY = playerY;
         this.gp = gp;
+        this.hp = 100; // Set initial HP
+        this.maxHp = 100; // Set maximum HP
     }
 
     public int searchKey(ArrayList<Plate> keys) {
-        System.out.println(keys.size());
         for (int i = 0; i < keys.size(); i++) {
             if (playerX == keys.get(i).keyX && playerY == keys.get(i).keyY) {
                 return i; // Mengembalikan index kunci yang ditemukan
@@ -33,16 +36,17 @@ public class Player implements Cloneable {
 
     public void move(int map[][], int direction, ArrayList<Plate> keys, boolean isSolving) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
+        hp--;
         switch (direction) {
             case 0: // up
-                if (map[playerX][playerY - 1] == 2) {
-                    playerY--;  
-                } else if (map[playerX][playerY - 1] == 5) { 
-                    map[playerX][playerY] = trace; 
-                    playerY--;
-                    map[playerX][playerY] = 3; 
-                    int keyIndex = searchKey(keys);
-                    if (keyIndex != -1) {
+            if (map[playerX][playerY - 1] == 2) {
+                playerY--;  
+            } else if (map[playerX][playerY - 1] == 5) { 
+                map[playerX][playerY] = trace; 
+                playerY--;
+                map[playerX][playerY] = 3; 
+                int keyIndex = searchKey(keys);
+                if (keyIndex != -1) {
                         keys.get(keyIndex).openPath(map);
                         keys.remove(keyIndex); 
                     }
