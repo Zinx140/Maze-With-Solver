@@ -12,6 +12,7 @@ public class GamePanel {
     int[][] mapTile;  // 3d buat [map-ke?][y][x]
     final int MAX_WORLD_COL = 15; // Jumlah kolom peta
     final int MAX_WORLD_ROW = 15; // Jumlah baris peta
+    ArrayList<SolvedRoute> hasil = new ArrayList<>();
 
     Scanner getString = new Scanner(System.in);
     Scanner getInt = new Scanner(System.in);
@@ -68,6 +69,9 @@ public class GamePanel {
             System.out.println("=== Path found! ===");
             System.out.println("Path: " + path);
             draw(map);
+            int copyMap[][] = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
+            copyMap(copyMap, map);
+            hasil.add(new SolvedRoute(copyMap,path));
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4) { // Up
                 Player playerClone = player.clone();
@@ -106,7 +110,7 @@ public class GamePanel {
 
     public void Play() {
         mapTile = new int[MAX_WORLD_ROW][MAX_WORLD_COL]; // Inisialisasi peta
-        loadMap("Maze-With-Solver/project/src/map1.txt"); // baca listmap.txt
+        loadMap("project/src/map1.txt"); // baca listmap.txt
         Player player = new Player(1, 1, this); // Inisialisasi posisi awal player
         ArrayList<Key> keys = new ArrayList<>(); // Inisialisasi list kunci
         keys.add(new Key(3, 2, 7, 12)); // Tambahkan kunci ke list
@@ -129,6 +133,13 @@ public class GamePanel {
         //         System.out.println("Input tidak valid!");
         //     }           
         // }
+
+
+        System.out.println("=== Hasil Solusi ===");
+        for (int i = 0; i < hasil.size(); i++) {
+            System.out.println("Path: " + hasil.get(i).path);
+            draw(hasil.get(i).map);
+        }
     }
 
     public void setKeys(int map[][], ArrayList<Key> keys) {
