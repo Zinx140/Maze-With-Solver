@@ -34,25 +34,25 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     @Override
     public void keyReleased(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
 
     @Override
     public void keyTyped(KeyEvent e) {
         // TODO Auto-generated method stub
-        
+
     }
-    
+
     final int ORI_TILE_SIZE = 15;
     final int scale = 3;
-    
+
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
     final int MAX_SCREEN_ROW = 15;
     public final int SCREEN_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
     public final int SCREEN_HEIGHT = TILE_SIZE * MAX_SCREEN_ROW;
     final int FPS = 60;
-    
+
     public final int MAX_WORLD_COL = 15;
     public final int MAX_WORLD_ROW = 15;
     public final int WORLD_WIDTH = TILE_SIZE * MAX_SCREEN_COL;
@@ -65,6 +65,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     ArrayList<Plate> keys = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
+    ArrayList<Monster> monsters = new ArrayList<>(); // Inisialisasi list monster
 
     Scanner getString = new Scanner(System.in);
     Scanner getInt = new Scanner(System.in);
@@ -102,7 +103,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 if (tileM.mapTile[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
                     System.out.println("You Win");
                     gameThread = null;
-                } 
+                }
                 repaint();
                 delta--;
             }
@@ -138,7 +139,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         gameThread = new Thread(this);
         gameThread.start();
     }
-    
+
     public void draw(int map[][]) {
         for (int i = 0; i < MAX_WORLD_ROW; i++) {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
@@ -191,7 +192,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("=== Path found! ===");
             System.out.println("Path: " + path);
             draw(map);
-            solutions.add(new Solution(map, path)); 
+            solutions.add(new Solution(map, path));
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4) { // Up
                 Player playerClone = player.clone();
@@ -200,7 +201,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 copyMap(currentMap, map);
                 playerClone.move(currentMap, 0, keysClone, true);
                 solve(currentMap, playerClone, keysClone, path + 1);
-            } 
+            }
             if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4) { // Down
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
@@ -208,7 +209,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 copyArrayList(keysClone, keys);
                 playerClone.move(currentMap, 1, keysClone, true);
                 solve(currentMap, playerClone, keysClone, path + 1);
-            } 
+            }
             if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4) { // Left
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
@@ -216,7 +217,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 copyArrayList(keysClone, keys);
                 playerClone.move(currentMap, 2, keysClone, true);
                 solve(currentMap, playerClone, keysClone, path + 1);
-            } 
+            }
             if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4) { // Right
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
@@ -229,29 +230,30 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     // public void Play() {
-    //     mapTile = new int[MAX_WORLD_ROW][MAX_WORLD_COL]; // Inisialisasi peta
-    //     Player player = new Player(1, 1, this); // Inisialisasi posisi awal player
-    //     ArrayList<Key> keys = new ArrayList<>(); // Inisialisasi list kunci
-    //     keys.add(new Key(3, 2, 7, 12)); // Tambahkan kunci ke list
-    //     setKeys(mapTile, keys); // Set kunci di peta
-    //     mapTile[player.playerX][player.playerY] = 3; // Set tile player
-    //     solve(mapTile, player, keys, 0); // Panggil fungsi solve
-        // while (mapTile[player.playerX][player.playerY] != 2) { // Selama player belum sampai tujuan
-        //     draw(mapTile);
-        //     System.out.print("Input move (w/a/s/d): ");
-        //     String input = getString.nextLine();
-        //     if (input.equals("w")) {
-        //         player.move(mapTile, 0, keys); // Up
-        //     } else if (input.equals("s")) {
-        //         player.move(mapTile, 1, keys); // Down
-        //     } else if (input.equals("a")) {
-        //         player.move(mapTile, 2, keys); // Left
-        //     } else if (input.equals("d")) {
-        //         player.move(mapTile, 3, keys); // Right
-        //     } else {
-        //         System.out.println("Input tidak valid!");
-        //     }           
-        // }
+    // mapTile = new int[MAX_WORLD_ROW][MAX_WORLD_COL]; // Inisialisasi peta
+    // Player player = new Player(1, 1, this); // Inisialisasi posisi awal player
+    // ArrayList<Key> keys = new ArrayList<>(); // Inisialisasi list kunci
+    // keys.add(new Key(3, 2, 7, 12)); // Tambahkan kunci ke list
+    // setKeys(mapTile, keys); // Set kunci di peta
+    // mapTile[player.playerX][player.playerY] = 3; // Set tile player
+    // solve(mapTile, player, keys, 0); // Panggil fungsi solve
+    // while (mapTile[player.playerX][player.playerY] != 2) { // Selama player belum
+    // sampai tujuan
+    // draw(mapTile);
+    // System.out.print("Input move (w/a/s/d): ");
+    // String input = getString.nextLine();
+    // if (input.equals("w")) {
+    // player.move(mapTile, 0, keys); // Up
+    // } else if (input.equals("s")) {
+    // player.move(mapTile, 1, keys); // Down
+    // } else if (input.equals("a")) {
+    // player.move(mapTile, 2, keys); // Left
+    // } else if (input.equals("d")) {
+    // player.move(mapTile, 3, keys); // Right
+    // } else {
+    // System.out.println("Input tidak valid!");
+    // }
+    // }
     // }
 
     public void setKeys(int map[][], ArrayList<Plate> keys) {
@@ -259,5 +261,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             keys.get(i).setKey(map);
         }
     }
-    
+
 }
