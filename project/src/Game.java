@@ -19,6 +19,7 @@ public class Game {
     ImageIcon exitIcon;
     JFrame window;
     JPanel mainPanel;
+    Sound sfxSound = new Sound();
 
     public Game() {
         window = new JFrame();
@@ -55,6 +56,8 @@ public class Game {
         start.setBorderPainted(false);
         start.setFocusPainted(false);
         start.addActionListener(e -> {
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             GamePanel gamePanel = new GamePanel(this);
             window.setPreferredSize(new Dimension(gamePanel.SCREEN_WIDTH, gamePanel.SCREEN_HEIGHT + 250));
             
@@ -72,6 +75,8 @@ public class Game {
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
         exit.addActionListener(e -> {
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             System.out.println("Exit button clicked");
             System.exit(0);
         });

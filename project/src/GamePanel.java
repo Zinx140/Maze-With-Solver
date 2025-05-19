@@ -264,6 +264,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         solution.setFocusPainted(false);
         solution.setBounds(170, 120, 100, 43);
         solution.addActionListener(e -> {
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             if (!isSolving) {
                 isSolving = true;
                 new Thread(() -> {
@@ -283,6 +285,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerstat.setIcon(playerStatIcon);
         playerstat.setBounds(290, 120, 100, 43);
         playerstat.addActionListener(e -> {
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             if (gamestate == PLAYER_STATE) {
                 gamestate = PLAY_STATE;
             } else if (gamestate == PLAY_STATE) {
@@ -299,6 +303,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         reset.setIcon(resetIcon);
         reset.setBounds(400, 120, 100, 43);
         reset.addActionListener(e -> {
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             reset();
         });
         this.add(reset);
@@ -311,6 +317,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         nextStage.setIcon(nextStageIcon);
         nextStage.setBounds(510, 120, 43, 43);
         nextStage.addActionListener(e -> {
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             tileM.changeMap(player);
         });
         this.add(nextStage);
@@ -323,6 +331,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         exit.setIcon(exitIcon);
         exit.setBounds(570, 120, 43, 43);
         exit.addActionListener(e -> {
+            bgmSound.stop();
+            sfxSound.setFile(8); // assuming index 7 is click.wav
+            sfxSound.playOnce();
             SwingUtilities.invokeLater(() -> game.returnToMenu());
         });
         this.add(exit);

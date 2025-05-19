@@ -53,6 +53,7 @@ public class Player implements Cloneable {
                     playerY--;
                     map[playerX][playerY] = 3;
                     int keyIndex = searchKey(keys);
+                    playMusic(7);
                     if (keyIndex != -1) {
                         keys.get(keyIndex).openPath(map);
                         keys.remove(keyIndex);
@@ -83,6 +84,7 @@ public class Player implements Cloneable {
                 } else if (map[playerX][playerY - 1] == 10) {
                     if (!isSolving) {
                         gp.tileM.changeMap(this);
+                        playMusic(6);
                     } else {
                         map[playerX][playerY] = trace;
                         playerY--;
@@ -125,6 +127,7 @@ public class Player implements Cloneable {
                     playerY++;
                     map[playerX][playerY] = 3;
                     int keyIndex = searchKey(keys);
+                    playMusic(7);
                     if (keyIndex != -1) {
                         keys.get(keyIndex).openPath(map);
                         keys.remove(keyIndex);
@@ -155,6 +158,7 @@ public class Player implements Cloneable {
                 } else if (map[playerX][playerY + 1] == 10) {
                     if (!isSolving) {
                         gp.tileM.changeMap(this);
+                        playMusic(6);
                     } else {
                         map[playerX][playerY] = trace;
                         playerY++;
@@ -197,6 +201,7 @@ public class Player implements Cloneable {
                     playerX--;
                     map[playerX][playerY] = 3;
                     int keyIndex = searchKey(keys);
+                    playMusic(7);
                     if (keyIndex != -1) {
                         keys.get(keyIndex).openPath(map);
                         keys.remove(keyIndex);
@@ -227,6 +232,7 @@ public class Player implements Cloneable {
                 } else if (map[playerX - 1][playerY] == 10) {
                     if (!isSolving) {
                         gp.tileM.changeMap(this);
+                        playMusic(6);
                     } else {
                         map[playerX][playerY] = trace;
                         playerX--;
@@ -269,6 +275,7 @@ public class Player implements Cloneable {
                     playerX++;
                     map[playerX][playerY] = 3;
                     int keyIndex = searchKey(keys);
+                    playMusic(7);
                     if (keyIndex != -1) {
                         keys.get(keyIndex).openPath(map);
                         keys.remove(keyIndex);
@@ -300,6 +307,7 @@ public class Player implements Cloneable {
                 } else if (map[playerX + 1][playerY] == 10 && !isSolving) {
                     if (!isSolving) {
                         gp.tileM.changeMap(this);
+                        playMusic(6);
                     } else {
                         map[playerX][playerY] = trace;
                         playerX++;

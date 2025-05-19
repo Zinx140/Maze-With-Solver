@@ -18,6 +18,9 @@ public class Sound {
             soundURL[4] = new File("project/sound/transform.wav").toURI().toURL();
             soundURL[5] = new File("project/sound/won.wav").toURI().toURL();
             soundURL[6] = new File("project/sound/climb.wav").toURI().toURL();
+            soundURL[7] = new File("project/sound/click.wav").toURI().toURL();
+            soundURL[8] = new File("project/sound/btnpress.wav").toURI().toURL();
+            soundURL[9] = new File("project/sound/lobby.wav").toURI().toURL();
         }  catch (Exception e) {
             e.printStackTrace();
         }
