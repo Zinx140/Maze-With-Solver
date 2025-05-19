@@ -38,7 +38,7 @@ public class Player implements Cloneable {
     }
 
     public void move(int map[][], int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
-            boolean isSolving) {
+        boolean isSolving) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         switch (direction) {
             case 0: // up
@@ -75,8 +75,6 @@ public class Player implements Cloneable {
                     playerY--;
                     map[playerX][playerY] = 3; 
                     gold++;
-                    System.out.println("+1 Gold");
-                    System.out.println("Gold: " + gold);
                     clearTrace(map);
                 } else if (map[playerX][playerY - 1] == 10) {
                     gp.tileM.changeMap(this);
@@ -121,8 +119,6 @@ public class Player implements Cloneable {
                     playerY++;
                     map[playerX][playerY] = 3; 
                     gold++;
-                    System.out.println("+1 Gold");
-                    System.out.println("Gold: " + gold);
                     clearTrace(map);
                 } else if(map[playerX][playerY + 1] == 10) {
                     gp.tileM.changeMap(this);
@@ -171,8 +167,6 @@ public class Player implements Cloneable {
                     playerX--;
                     map[playerX][playerY] = 3; 
                     gold++;
-                    System.out.println("+1 Gold");
-                    System.out.println("Gold: " + gold);
                     clearTrace(map);
                 } else if (map[playerX - 1][playerY] == 10) {
                     gp.tileM.changeMap(this);
@@ -217,8 +211,6 @@ public class Player implements Cloneable {
                     playerX++;
                     map[playerX][playerY] = 3; 
                     gold++;
-                    System.out.println("+1 Gold");
-                    System.out.println("Gold: " + gold);
                     clearTrace(map);
                 } else if(map[playerX + 1][playerY] == 10) {
                     gp.tileM.changeMap(this);

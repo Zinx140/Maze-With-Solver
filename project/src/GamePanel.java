@@ -316,7 +316,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
-        if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
+        if (map[player.playerX][player.playerY] == 10) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
             System.out.println("Path: " + path);
             draw(map);
