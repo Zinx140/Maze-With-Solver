@@ -28,6 +28,7 @@ public class TileManager {
             gp.currentMap++;
             gp.goldTemp = player.gold;
             gp.hpTemp = player.playerHp;
+            gp.solutions.clear();
         } 
         loadMap(gp.maps.get(gp.currentMap).path);
         player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;

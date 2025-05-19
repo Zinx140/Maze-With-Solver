@@ -195,21 +195,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (isSolving) {
-            for (int i = 0; i < solutions.size(); i++) {
-                tileM.mapTile = solutions.get(i).map;
-                tileM.draw(g2);
-                try {
-                    Thread.sleep(1000); // Delay 1 detik
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-            isSolving = false;
-        } else {
-            tileM.draw(g2);
-            ui.draw(g2);
-        }
+        tileM.draw(g2);
+        ui.draw(g2);
+        
     }
 
     public void startgameThread() {
@@ -241,7 +229,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         solution.setFocusPainted(false);
         solution.setBounds(170, 120, 100, 43);
         solution.addActionListener(e -> {
-            solve(tileM.mapTile, player, plates, monsters, 0, player.gold); // Panggil fungsi solve
+            solve(tileM.mapTile, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold); // Panggil fungsi solve
             isSolving = true;
         });
         this.add(solution);
@@ -319,11 +307,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path,
-            int gold) {
+    public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
         if (map[player.playerX][player.playerY] == 10) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
+            System.out.println("Player HP: " + player.playerHp);
+            System.out.println("Player Gold: " + player.gold);
             System.out.println("Path: " + path);
             draw(map);
             solutions.add(new Solution(map, path, gold));
@@ -410,6 +399,21 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         break;
                     case 6:
                         System.out.print(". "); // Tile pintu
+                        break;
+                    case 7:
+                        System.out.print("S "); // Tile monster spider
+                        break;
+                    case 8:
+                        System.out.print("O "); // Tile monster ogre
+                        break;
+                    case 9:
+                        System.out.print("D "); // Tile monster dragon
+                        break;
+                    case 10:
+                        System.out.print("G "); // Tile exit
+                        break;
+                    case 11:
+                        System.out.print("T "); // Tile trap
                         break;
                 }
             }

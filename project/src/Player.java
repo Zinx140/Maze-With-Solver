@@ -77,7 +77,12 @@ public class Player implements Cloneable {
                     clearTrace(map);
                     resetTraps(map);
                 } else if (map[playerX][playerY - 1] == 10) {
-                    gp.tileM.changeMap(this);
+                    if (!isSolving) {
+                        gp.tileM.changeMap(this);
+                    } else {
+                        map[playerX][playerY] = trace;
+                        playerY--;
+                    }
                 } else if (map[playerX][playerY - 1] == 12) {
                     Trap triggered = getIdTrap(gp.traps, playerX, playerY - 1);
                     if (triggered != null && !triggeredTraps.contains(triggered)) {
@@ -88,7 +93,6 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
-                    clearTrace(map);
                 } else if (map[playerX][playerY - 1] == 14) {
                     map[playerX][playerY] = trace;
                     playerY--;
@@ -136,12 +140,15 @@ public class Player implements Cloneable {
                     playerY++;
                     map[playerX][playerY] = 3;
                     gold++;
-                    System.out.println("+1 Gold");
-                    System.out.println("Gold: " + gold);
                     resetTraps(map);
                     clearTrace(map);
                 } else if (map[playerX][playerY + 1] == 10) {
-                    gp.tileM.changeMap(this);
+                    if (!isSolving) {
+                        gp.tileM.changeMap(this);
+                    } else {
+                        map[playerX][playerY] = trace;
+                        playerY++;
+                    }
                 } else if (map[playerX][playerY + 1] == 12) {
                     Trap triggered = getIdTrap(gp.traps, playerX, playerY + 1);
                     if (triggered != null && !triggeredTraps.contains(triggered)) {
@@ -152,7 +159,6 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
-                    clearTrace(map);
                 } else if (map[playerX][playerY + 1] == 14) {
                     map[playerX][playerY] = trace;
                     playerY++;
@@ -203,7 +209,12 @@ public class Player implements Cloneable {
                     clearTrace(map);
                     resetTraps(map);
                 } else if (map[playerX - 1][playerY] == 10) {
-                    gp.tileM.changeMap(this);
+                    if (!isSolving) {
+                        gp.tileM.changeMap(this);
+                    } else {
+                        map[playerX][playerY] = trace;
+                        playerX--;
+                    }
                 } else if (map[playerX - 1][playerY] == 12) {
                     Trap triggered = getIdTrap(gp.traps, playerX - 1, playerY);
                     if (triggered != null && !triggeredTraps.contains(triggered)) {
@@ -214,7 +225,6 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
-                    clearTrace(map);
                 } else if (map[playerX - 1][playerY] == 14) {
                     map[playerX][playerY] = trace;
                     playerX--;
@@ -263,12 +273,15 @@ public class Player implements Cloneable {
                     playerX++;
                     map[playerX][playerY] = 3;
                     gold++;
-                    System.out.println("+1 Gold");
-                    System.out.println("Gold: " + gold);
                     resetTraps(map);
                     clearTrace(map);
-                } else if (map[playerX + 1][playerY] == 10) {
-                    gp.tileM.changeMap(this);
+                } else if (map[playerX + 1][playerY] == 10 && !isSolving) {
+                    if (!isSolving) {
+                        gp.tileM.changeMap(this);
+                    } else {
+                        map[playerX][playerY] = trace;
+                        playerX++;
+                    }
                 } else if (map[playerX + 1][playerY] == 12) {
                     Trap triggered = getIdTrap(gp.traps, playerX + 1, playerY);
                     if (triggered != null && !triggeredTraps.contains(triggered)) {
@@ -279,7 +292,6 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
-                    clearTrace(map);
                 } else if (map[playerX + 1][playerY] == 14) {
                     map[playerX][playerY] = trace;
                     playerX++;
