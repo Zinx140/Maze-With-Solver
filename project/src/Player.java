@@ -8,6 +8,7 @@ public class Player implements Cloneable {
     int maxHp;
     GamePanel gp;
     int gold = 0;
+    boolean isOpenChest = false;
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.playerX = playerX;
@@ -71,15 +72,30 @@ public class Player implements Cloneable {
                         playerY--;
                     }
                 } else if (map[playerX][playerY - 1] == 11) {
-                    map[playerX][playerY] = trace; 
+                    map[playerX][playerY] = trace;
                     playerY--;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
                     System.out.println("+1 Gold");
                     System.out.println("Gold: " + gold);
                     clearTrace(map);
                 } else if (map[playerX][playerY - 1] == 10) {
                     gp.tileM.changeMap(this);
+                } else if (map[playerX][playerY - 1] == 12) {
+                    map[playerX][playerY] = trace;
+                    playerY--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! You lose " + gp.trap.dmg + " HP.");
+                    playerHp -= gp.trap.dmg;
+                    clearTrace(map);
+                } else if (map[playerX][playerY - 1] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerY--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    isOpenChest = true;
+                    gp.tileM.transform();
+                    clearTrace(map);
                 } else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4
                         && map[playerX][playerY - 1] != 2) {
                     map[playerX][playerY] = trace;
@@ -116,20 +132,36 @@ public class Player implements Cloneable {
                         monsters.remove(x);
                         playerY++;
                     }
-                } else if(map[playerX][playerY + 1] == 11) {
-                    map[playerX][playerY] = trace; 
+                } else if (map[playerX][playerY + 1] == 11) {
+                    map[playerX][playerY] = trace;
                     playerY++;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
                     System.out.println("+1 Gold");
                     System.out.println("Gold: " + gold);
                     clearTrace(map);
-                } else if(map[playerX][playerY + 1] == 10) {
+                } else if (map[playerX][playerY + 1] == 10) {
                     gp.tileM.changeMap(this);
-                } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4 && map[playerX][playerY + 1] != 2) {
-                    map[playerX][playerY] = trace; 
+                } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4
+                        && map[playerX][playerY + 1] != 2) {
+                    map[playerX][playerY] = trace;
                     playerY++;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
+                } else if (map[playerX][playerY + 1] == 12) {
+                    map[playerX][playerY] = trace;
+                    playerY++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! You lose " + gp.trap.dmg + " HP.");
+                    playerHp -= gp.trap.dmg;
+                    clearTrace(map);
+                } else if (map[playerX][playerY + 1] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerY++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    gp.tileM.transform();
+                    isOpenChest = true;
+                    clearTrace(map);
                 } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4
                         && map[playerX][playerY + 1] != 2) {
                     map[playerX][playerY] = trace;
@@ -167,15 +199,30 @@ public class Player implements Cloneable {
                         playerX--;
                     }
                 } else if (map[playerX - 1][playerY] == 11) {
-                    map[playerX][playerY] = trace; 
+                    map[playerX][playerY] = trace;
                     playerX--;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
                     System.out.println("+1 Gold");
                     System.out.println("Gold: " + gold);
                     clearTrace(map);
                 } else if (map[playerX - 1][playerY] == 10) {
                     gp.tileM.changeMap(this);
+                } else if (map[playerX - 1][playerY] == 12) {
+                    map[playerX][playerY] = trace;
+                    playerX--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! You lose " + gp.trap.dmg + " HP.");
+                    playerHp -= gp.trap.dmg;
+                    clearTrace(map);
+                } else if (map[playerX - 1][playerY] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerX--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    isOpenChest = true;
+                    gp.tileM.transform();
+                    clearTrace(map);
                 } else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4
                         && map[playerX - 1][playerY] != 2) {
                     map[playerX][playerY] = trace;
@@ -212,16 +259,31 @@ public class Player implements Cloneable {
                         monsters.remove(x);
                         playerX++;
                     }
-                } else if (map[playerX + 1][playerY] == 11) { //gold
-                    map[playerX][playerY] = trace; 
+                } else if (map[playerX + 1][playerY] == 11) { // gold
+                    map[playerX][playerY] = trace;
                     playerX++;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
                     System.out.println("+1 Gold");
                     System.out.println("Gold: " + gold);
                     clearTrace(map);
-                } else if(map[playerX + 1][playerY] == 10) {
+                } else if (map[playerX + 1][playerY] == 10) {
                     gp.tileM.changeMap(this);
+                } else if (map[playerX + 1][playerY] == 12) {
+                    map[playerX][playerY] = trace;
+                    playerX++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! You lose " + gp.trap.dmg + " HP.");
+                    playerHp -= gp.trap.dmg;
+                    clearTrace(map);
+                } else if (map[playerX + 1][playerY] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerX++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    isOpenChest = true;
+                    gp.tileM.transform();
+                    clearTrace(map);
                 } else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4
                         && map[playerX + 1][playerY] != 2) {
                     map[playerX][playerY] = trace;
