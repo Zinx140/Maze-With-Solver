@@ -86,22 +86,40 @@ public class TileManager {
             tile[11].image = ImageIO.read(new File("project/img/gold.png"));
             tile[11].collison = false;
 
+            tile[12] = new Tile();
+            tile[12].image = ImageIO.read(new File("project/img/trap.png"));
+            tile[12].collison = false;
+
+            tile[14] = new Tile();
+            tile[14].image = ImageIO.read(new File("project/img/chest.png"));
+            tile[14].collison = false;
+
         } catch (IOException e) {
             e.getStackTrace();
         }
     }
 
+    public void transform() {
+        try {
+            tile[3].image = ImageIO.read(new File("project/img/armoredPrince.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        gp.player.playerHp += 10;
+        gp.player.playerAtk += 10;
+    }
 
     public void randomGold(int[][] map) {
-       for(int i=0;i<gp.MAX_GOLD_PERMAP;i++){
+        for (int i = 0; i < gp.MAX_GOLD_PERMAP; i++) {
             int x = (int) (Math.random() * gp.MAX_WORLD_COL);
             int y = (int) (Math.random() * gp.MAX_WORLD_ROW);
-            if(map[x][y] == 0){
+            if (map[x][y] == 0) {
                 map[x][y] = 11;
-            }else{
+            } else {
                 i--;
             }
-       }
+        }
     }
 
     public void loadMap(String path) {
@@ -154,9 +172,89 @@ public class TileManager {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
-
-        //pas load random posisi gold
+        // set monster
+        setMonsterMap(mapTile, gp.currentMap);
+        // set trap
+        setTrapMap(mapTile, gp.currentMap);
+        // pas load random posisi gold
         randomGold(mapTile);
+    }
+
+    public void setTrapMap(int[][] map, int currentlvl) {
+        if (currentlvl == 1) {
+            gp.traps.add(new Trap(3, 8));
+            gp.traps.add(new Trap(2, 13));
+            gp.traps.add(new Trap(9, 10));
+            gp.traps.add(new Trap(13, 6));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+        if (currentlvl == 2) {
+            gp.traps.clear();
+            gp.traps.add(new Trap(5, 13));
+            gp.traps.add(new Trap(7, 5));
+            gp.traps.add(new Trap(11, 10));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+        if (currentlvl == 3) {
+            gp.traps.clear();
+            gp.traps.add(new Trap(13, 11));
+            gp.traps.add(new Trap(3, 5));
+            gp.traps.add(new Trap(13, 2));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+        if (currentlvl == 4) {
+            gp.traps.clear();
+            gp.traps.add(new Trap(11, 7));
+            gp.traps.add(new Trap(13, 5));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+    }
+
+    public void setMonsterMap(int[][] map, int currentlvl) {
+        if (currentlvl == 2) {
+            gp.monsters.add(new Monster(1, 8));
+            gp.monsters.add(new Monster(11, 5));
+            gp.monsters.add(new Monster(13, 9));
+            for (int i = 0; i < gp.monsters.size(); i++) {
+                gp.monsters.get(i).setSpider(map);
+            }
+        } else if (currentlvl == 3) {
+            gp.monsters.clear();
+            gp.monsters.add(new Monster(1, 6));
+            gp.monsters.add(new Monster(5, 11));
+            gp.monsters.add(new Monster(1, 13));
+            for (int i = 0; i < gp.monsters.size(); i++) {
+                gp.monsters.get(i).setSpider(map);
+            }
+            gp.monsters.add(new Monster(13, 5));
+            gp.monsters.add(new Monster(9, 9));
+            gp.monsters.get(3).setOgre(map);
+            gp.monsters.get(4).setOgre(map);
+
+        } else if (currentlvl == 4) {
+            gp.monsters.clear();
+            gp.monsters.add(new Monster(1, 12));
+            gp.monsters.get(0).setDragon(map);
+            gp.monsters.add(new Monster(1, 3));
+            gp.monsters.add(new Monster(1, 7));
+            gp.monsters.get(1).setSpider(map);
+            gp.monsters.get(2).setSpider(map);
+            gp.monsters.add(new Monster(13, 9));
+            gp.monsters.add(new Monster(13, 13));
+            gp.monsters.add(new Monster(2, 13));
+            gp.monsters.get(3).setOgre(map);
+            gp.monsters.get(4).setOgre(map);
+            gp.monsters.get(5).setOgre(map);
+
+        }
     }
 
     public void draw(Graphics2D g2) {

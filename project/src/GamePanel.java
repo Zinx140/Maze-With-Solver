@@ -30,7 +30,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             player.move(tileM.mapTile, 2, plates, monsters, false); // Left
         } else if (keyCode == KeyEvent.VK_D) {
             player.move(tileM.mapTile, 3, plates, monsters, false); // Right
-        } 
+        }
         if (keyCode == KeyEvent.VK_X && gamestate == PLAYER_STATE) {
             gamestate = PLAY_STATE;
         }
@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public int currentMap = 0; // Map yang sedang dimainkan
 
     // gold di game
-    public int MAX_GOLD_PERMAP = 5;    
+    public int MAX_GOLD_PERMAP = 5;
 
     int playerXTemp = 1;
     int playerYTemp = 1;
@@ -97,6 +97,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ArrayList<Plate> plates = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
     ArrayList<Monster> monsters = new ArrayList<>(); // Inisialisasi list monster
+    ArrayList<Trap> traps = new ArrayList<>(); // Inisialisasi list trap
 
     ArrayList<Map> maps = new ArrayList<>();
 
@@ -119,7 +120,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             img = ImageIO.read(new File("project/img/resetBtn.png"));
             scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
             resetIcon = new ImageIcon(scaledImage);
-            
+
             img = ImageIO.read(new File("project/img/statusBtn.png"));
             scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
             playerStatIcon = new ImageIcon(scaledImage);
@@ -127,7 +128,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             img = ImageIO.read(new File("project/img/nextBtn.png"));
             scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
             nextStageIcon = new ImageIcon(scaledImage);
-            
+
             img = ImageIO.read(new File("project/img/exit.png"));
             scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
             exitIcon = new ImageIcon(scaledImage);
@@ -137,12 +138,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         initMenuBtn();
 
-        //isi list map 
-        maps.add(new Map("project/src/maps/map1.txt", 1,1));
-        maps.add(new Map("project/src/maps/map2.txt", 1,1));
-        maps.add(new Map("project/src/maps/map3.txt", 9,1));
-        maps.add(new Map("project/src/maps/map4.txt", 1,1));
-        maps.add(new Map("project/src/maps/map5.txt", 13,1));
+        // isi list map
+        maps.add(new Map("project/src/maps/map1.txt", 1, 1));
+        maps.add(new Map("project/src/maps/map2.txt", 1, 1));
+        maps.add(new Map("project/src/maps/map3.txt", 9, 1));
+        maps.add(new Map("project/src/maps/map4.txt", 1, 1));
+        maps.add(new Map("project/src/maps/map5.txt", 13, 1));
     }
 
     @Override
@@ -172,6 +173,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 if (tileM.mapTile[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
                     System.out.println("You Win");
                     gamestate = WIN_STATE;
+                    gameThread = null;
+                }
+                if (player.playerHp <= 0) { // Jika player mati
+                    System.out.println("You Lose");
+                    gamestate = LOSE_STATE;
                     gameThread = null;
                 }
                 repaint();
@@ -267,7 +273,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             reset();
         });
         this.add(reset);
-        
+
         JButton nextStage = new JButton();
         nextStage.setBorderPainted(false);
         nextStage.setContentAreaFilled(false);
@@ -292,8 +298,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         });
         this.add(exit);
     }
-    
-    
+
     public void copyMap(int[][] map, int[][] mapTile) {
         for (int i = 0; i < MAX_WORLD_ROW; i++) {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
@@ -314,7 +319,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
+    public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path,
+            int gold) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
         if (map[player.playerX][player.playerY] == 10) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
@@ -371,15 +377,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.playerHp = player.maxHp;
         player.gold = goldTemp;
         copyMap(tileM.mapTile, mapTemp);
-        tileM.mapTile[player.playerX][player.playerY] = 3; 
+        tileM.mapTile[player.playerX][player.playerY] = 3;
     }
-    
+
     public void setPlates(int map[][], ArrayList<Plate> Plates) {
         for (int i = 0; i < Plates.size(); i++) {
             Plates.get(i).setKey(map);
         }
     }
-    
+
     public void draw(int map[][]) {
         for (int i = 0; i < MAX_WORLD_ROW; i++) {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
@@ -438,5 +444,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     // }
     // }
     // }
-    
+
 }

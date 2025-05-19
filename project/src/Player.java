@@ -8,6 +8,9 @@ public class Player implements Cloneable {
     int maxHp;
     GamePanel gp;
     int gold = 0;
+    boolean isOpenChest = false;
+    int trapDmg = 3;
+    ArrayList<Trap> triggeredTraps = new ArrayList<>();
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.playerX = playerX;
@@ -56,33 +59,51 @@ public class Player implements Cloneable {
                     clearTrace(map);
                 } else if (map[playerX][playerY - 1] == 7 || map[playerX][playerY - 1] == 8
                         || map[playerX][playerY - 1] == 9) { // lek ketemu monster gaiso lewat kecuali matek
-                    Monster x = null;
-                    for (Monster monster : monsters) {
-                        if (monster.monsterX == playerX && monster.monsterY == playerY - 1) {
-                            x = monster;
-                        }
-                    }
+                    Monster x = getId(monsters, playerX, playerY - 1);
                     if (x.hp > 0) {
                         x.hp -= (playerAtk - x.def); // nunggu atk nya bang
                         playerHp -= x.atk;
                     } else {
-                        map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
-                        monsters.remove(x);
+                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerY--;
+                        map[playerX][playerY] = 3;
+                        resetTraps(map);
                     }
                 } else if (map[playerX][playerY - 1] == 11) {
-                    map[playerX][playerY] = trace; 
+                    map[playerX][playerY] = trace;
                     playerY--;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
                     clearTrace(map);
+                    resetTraps(map);
                 } else if (map[playerX][playerY - 1] == 10) {
                     gp.tileM.changeMap(this);
+                } else if (map[playerX][playerY - 1] == 12) {
+                    Trap triggered = getIdTrap(gp.traps, playerX, playerY - 1);
+                    if (triggered != null && !triggeredTraps.contains(triggered)) {
+                        triggeredTraps.add(triggered);
+                    }
+                    map[playerX][playerY] = trace;
+                    playerY--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+                    playerHp -= trapDmg;
+                    clearTrace(map);
+                } else if (map[playerX][playerY - 1] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerY--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    isOpenChest = true;
+                    gp.tileM.transform();
+                    clearTrace(map);
+                    resetTraps(map);
                 } else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4
                         && map[playerX][playerY - 1] != 2) {
                     map[playerX][playerY] = trace;
                     playerY--;
                     map[playerX][playerY] = 3;
+                    resetTraps(map);
                 }
                 break;
             case 1: // down
@@ -100,37 +121,53 @@ public class Player implements Cloneable {
                     clearTrace(map);
                 } else if (map[playerX][playerY + 1] == 7 || map[playerX][playerY + 1] == 8
                         || map[playerX][playerY + 1] == 9) {
-                    Monster x = null;
-                    for (Monster monster : monsters) {
-                        if (monster.monsterX == playerX && monster.monsterY == playerY + 1) {
-                            x = monster;
-                        }
-                    }
+                    Monster x = getId(monsters, playerX, playerY + 1);
                     if (x.hp > 0) {
                         x.hp -= (playerAtk - x.def); // nunggu atk nya bang
                         playerHp -= x.atk;
                     } else {
-                        map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
-                        monsters.remove(x);
+                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerY++;
+                        map[playerX][playerY] = 3;
+                        resetTraps(map);
                     }
-                } else if(map[playerX][playerY + 1] == 11) {
-                    map[playerX][playerY] = trace; 
+                } else if (map[playerX][playerY + 1] == 11) {
+                    map[playerX][playerY] = trace;
                     playerY++;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
+                    System.out.println("+1 Gold");
+                    System.out.println("Gold: " + gold);
+                    resetTraps(map);
                     clearTrace(map);
-                } else if(map[playerX][playerY + 1] == 10) {
+                } else if (map[playerX][playerY + 1] == 10) {
                     gp.tileM.changeMap(this);
-                } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4 && map[playerX][playerY + 1] != 2) {
-                    map[playerX][playerY] = trace; 
+                } else if (map[playerX][playerY + 1] == 12) {
+                    Trap triggered = getIdTrap(gp.traps, playerX, playerY + 1);
+                    if (triggered != null && !triggeredTraps.contains(triggered)) {
+                        triggeredTraps.add(triggered);
+                    }
+                    map[playerX][playerY] = trace;
                     playerY++;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+                    playerHp -= trapDmg;
+                    clearTrace(map);
+                } else if (map[playerX][playerY + 1] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerY++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    gp.tileM.transform();
+                    isOpenChest = true;
+                    clearTrace(map);
+                    resetTraps(map);
                 } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4
                         && map[playerX][playerY + 1] != 2) {
                     map[playerX][playerY] = trace;
                     playerY++;
                     map[playerX][playerY] = 3;
+                    resetTraps(map);
                 }
                 break;
             case 2: // left
@@ -148,33 +185,51 @@ public class Player implements Cloneable {
                     clearTrace(map);
                 } else if (map[playerX - 1][playerY] == 7 || map[playerX - 1][playerY] == 8
                         || map[playerX - 1][playerY] == 9) {
-                    Monster x = null;
-                    for (Monster monster : monsters) {
-                        if (monster.monsterX == playerX - 1 && monster.monsterY == playerY) {
-                            x = monster;
-                        }
-                    }
+                    Monster x = getId(monsters, playerX - 1, playerY);
                     if (x.hp > 0) {
                         x.hp -= (playerAtk - x.def); // nunggu atk nya bang
                         playerHp -= x.atk;
                     } else {
-                        map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
-                        monsters.remove(x);
+                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerX--;
+                        map[playerX][playerY] = 3;
+                        resetTraps(map);
                     }
                 } else if (map[playerX - 1][playerY] == 11) {
-                    map[playerX][playerY] = trace; 
+                    map[playerX][playerY] = trace;
                     playerX--;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
                     clearTrace(map);
+                    resetTraps(map);
                 } else if (map[playerX - 1][playerY] == 10) {
                     gp.tileM.changeMap(this);
+                } else if (map[playerX - 1][playerY] == 12) {
+                    Trap triggered = getIdTrap(gp.traps, playerX - 1, playerY);
+                    if (triggered != null && !triggeredTraps.contains(triggered)) {
+                        triggeredTraps.add(triggered);
+                    }
+                    map[playerX][playerY] = trace;
+                    playerX--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+                    playerHp -= trapDmg;
+                    clearTrace(map);
+                } else if (map[playerX - 1][playerY] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerX--;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    isOpenChest = true;
+                    gp.tileM.transform();
+                    resetTraps(map);
+                    clearTrace(map);
                 } else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4
                         && map[playerX - 1][playerY] != 2) {
                     map[playerX][playerY] = trace;
                     playerX--;
                     map[playerX][playerY] = 3;
+                    resetTraps(map);
                 }
                 break;
             case 3: // right
@@ -192,36 +247,82 @@ public class Player implements Cloneable {
                     clearTrace(map);
                 } else if (map[playerX + 1][playerY] == 7 || map[playerX + 1][playerY] == 8
                         || map[playerX + 1][playerY] == 9) {
-                    Monster x = null;
-                    for (Monster monster : monsters) {
-                        if (monster.monsterX == playerX + 1 && monster.monsterY == playerY) {
-                            x = monster;
-                        }
-                    }
+                    Monster x = getId(monsters, playerX + 1, playerY);
+
                     if (x.hp > 0) {
                         x.hp -= (playerAtk - x.def); // nunggu atk nya bang
                         playerHp -= x.atk;
                     } else {
-                        map[x.monsterX][x.monsterY] = trace; // kalo udah mati jadiin trace
-                        monsters.remove(x);
+                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerX++;
+                        map[playerX][playerY] = 3;
+                        resetTraps(map);
                     }
-                } else if (map[playerX + 1][playerY] == 11) { //gold
-                    map[playerX][playerY] = trace; 
+                } else if (map[playerX + 1][playerY] == 11) { // gold
+                    map[playerX][playerY] = trace;
                     playerX++;
-                    map[playerX][playerY] = 3; 
+                    map[playerX][playerY] = 3;
                     gold++;
+                    System.out.println("+1 Gold");
+                    System.out.println("Gold: " + gold);
+                    resetTraps(map);
                     clearTrace(map);
-                } else if(map[playerX + 1][playerY] == 10) {
+                } else if (map[playerX + 1][playerY] == 10) {
                     gp.tileM.changeMap(this);
+                } else if (map[playerX + 1][playerY] == 12) {
+                    Trap triggered = getIdTrap(gp.traps, playerX + 1, playerY);
+                    if (triggered != null && !triggeredTraps.contains(triggered)) {
+                        triggeredTraps.add(triggered);
+                    }
+                    map[playerX][playerY] = trace;
+                    playerX++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+                    playerHp -= trapDmg;
+                    clearTrace(map);
+                } else if (map[playerX + 1][playerY] == 14) {
+                    map[playerX][playerY] = trace;
+                    playerX++;
+                    map[playerX][playerY] = 3;
+                    System.out.println("You found a chest ! ");
+                    isOpenChest = true;
+                    resetTraps(map);
+                    gp.tileM.transform();
+                    clearTrace(map);
                 } else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4
                         && map[playerX + 1][playerY] != 2) {
                     map[playerX][playerY] = trace;
                     playerX++;
                     map[playerX][playerY] = 3;
+                    resetTraps(map);
                 }
                 break;
         }
+    }
+
+    public Monster getId(ArrayList<Monster> monster, int x, int y) {
+        for (Monster monster2 : monster) {
+            if (monster2.monsterX == x && monster2.monsterY == y) {
+                return monster2;
+            }
+        }
+        return null;
+    }
+
+    public Trap getIdTrap(ArrayList<Trap> trap, int x, int y) {
+        for (Trap trap2 : trap) {
+            if (trap2.trapX == x && trap2.trapY == y) {
+                return trap2;
+            }
+        }
+        return null;
+    }
+
+    public void resetTraps(int[][] map) { // reset trap
+        for (Trap t : triggeredTraps) {
+            map[t.trapX][t.trapY] = 12;
+        }
+        triggeredTraps.clear();
     }
 
     public Player clone() {
