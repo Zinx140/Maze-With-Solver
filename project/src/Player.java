@@ -67,7 +67,7 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = 3;
                         resetTraps(map);
                     } else {
-                        System.out.println("You lose");
+                        // kasi game exit
                     }
                 } else if (map[playerX][playerY - 1] == 11) {
                     map[playerX][playerY] = trace;
@@ -133,7 +133,7 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = 3;
                         resetTraps(map);
                     } else {
-                        System.out.println("You lose");
+                        // kasi game exit
                     }
                 } else if (map[playerX][playerY + 1] == 11) {
                     map[playerX][playerY] = trace;
@@ -199,7 +199,7 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = 3;
                         resetTraps(map);
                     } else {
-                        System.out.println("You lose");
+                        // kasi game exit
                     }
                 } else if (map[playerX - 1][playerY] == 11) {
                     map[playerX][playerY] = trace;
@@ -266,7 +266,7 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = 3;
                         resetTraps(map);
                     } else {
-                        System.out.println("You lose");
+                        // kasi game exit
                     }
                 } else if (map[playerX + 1][playerY] == 11) { // gold
                     map[playerX][playerY] = trace;
@@ -347,8 +347,10 @@ public class Player implements Cloneable {
         }
 
         if (x.hp <= 0) {
+            System.out.println("You win");
             return true; // Player menang
         } else {
+            System.out.println("You lose");
             return false; // Player kalah
         }
 
