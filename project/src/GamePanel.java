@@ -15,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
 
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
@@ -93,6 +94,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     TileManager tileM = new TileManager(this);
     Player player = new Player(1, 1, this);
     UI ui = new UI(this);
+    Game game;
+    Sound bgmSound = new Sound();  // for looping music
+    Sound sfxSound = new Sound();  // for one-time effects
 
     ArrayList<Plate> plates = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
@@ -104,13 +108,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     Scanner getString = new Scanner(System.in);
     Scanner getInt = new Scanner(System.in);
 
-    public GamePanel() {
+    public GamePanel(Game game) {
+        this.game = game;
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
         this.setBackground(Color.black);
         this.setDoubleBuffered(true);
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
+        bgmSound.setFile(0);  // assuming index 0 is mainTheme.wav
+        bgmSound.play();
+        bgmSound.loop();
         mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         try {
             img = ImageIO.read(new File("project/img/solveBtn.png"));
@@ -166,20 +174,47 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             lastTime = currentTime;
 
             lastTime = currentTime;
-
+            
             if (delta >= 1) {
-                playerHP.setValue(player.playerHp);
-                playerHP.setString("Player HP: " + player.playerHp);
-                if (tileM.mapTile[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
-                    System.out.println("You Win");
-                    gamestate = WIN_STATE;
-                    gameThread = null;
-                }
                 if (player.playerHp <= 0) { // Jika player mati
+                    player.playerHp = 0;
+                    playerHP.setValue(player.playerHp);
+                    playerHP.setString("Player HP: " + player.playerHp);
                     System.out.println("You Lose");
                     gamestate = LOSE_STATE;
+                    bgmSound.stop();
+                    sfxSound.setFile(3); // assuming index 3 is death.wav
+                    sfxSound.playOnce();
                     gameThread = null;
+                    try {
+                        repaint();
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    SwingUtilities.invokeLater(() -> game.returnToMenu());
                 }
+                if (tileM.mapTile[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
+                    System.out.println("You Win");
+                    playerHP.setValue(player.playerHp);
+                    playerHP.setString("Player HP: " + player.playerHp);
+                    gamestate = WIN_STATE;
+                    bgmSound.stop();
+                    sfxSound.setFile(5); // assuming index 5 is won.wav
+                    sfxSound.playOnce();
+                    gameThread = null;
+                    try {
+                        repaint();
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
+                    }
+                    SwingUtilities.invokeLater(() -> game.returnToMenu());
+                }
+                playerHP.setValue(player.playerHp);
+                playerHP.setString("Player HP: " + player.playerHp);
                 repaint();
                 delta--;
             }
@@ -229,8 +264,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         solution.setFocusPainted(false);
         solution.setBounds(170, 120, 100, 43);
         solution.addActionListener(e -> {
-            solve(tileM.mapTile, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold); // Panggil fungsi solve
-            isSolving = true;
+            if (!isSolving) {
+                isSolving = true;
+                new Thread(() -> {
+                    solve(tileM.mapTile, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold);
+                    isSolving = false;
+                    SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
+                }).start();
+            }
         });
         this.add(solution);
 
@@ -282,7 +323,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         exit.setIcon(exitIcon);
         exit.setBounds(570, 120, 43, 43);
         exit.addActionListener(e -> {
-            System.exit(0);
+            SwingUtilities.invokeLater(() -> game.returnToMenu());
         });
         this.add(exit);
     }
@@ -414,6 +455,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         break;
                     case 11:
                         System.out.print("T "); // Tile trap
+                        break;
+                    case 12:
+                        System.out.print("K "); // Tile plate
+                        break;
+                    case 13:
+                        System.out.print("E "); // Tile enemy
+                        break;
+                    case 14:
+                        System.out.print("C "); // Tile chest
                         break;
                 }
             }

@@ -40,6 +40,8 @@ public class UI extends JPanel {
             drawStats();
         }
         if (gp.gamestate == gp.LOSE_STATE) {
+            g2.setColor(Color.white);
+            g2.setFont(new Font("Arial", Font.PLAIN, 50));
             String text = "YOU LOSE";
             int x = gp.SCREEN_WIDTH / 2 - g2.getFontMetrics().stringWidth(text) / 2;
             int y = gp.SCREEN_HEIGHT / 2;

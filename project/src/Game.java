@@ -17,9 +17,11 @@ public class Game {
     BufferedImage img;
     ImageIcon startIcon;
     ImageIcon exitIcon;
+    JFrame window;
+    JPanel mainPanel;
 
     public Game() {
-        JFrame window = new JFrame();
+        window = new JFrame();
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Maze");
@@ -53,7 +55,7 @@ public class Game {
         start.setBorderPainted(false);
         start.setFocusPainted(false);
         start.addActionListener(e -> {
-            GamePanel gamePanel = new GamePanel();
+            GamePanel gamePanel = new GamePanel(this);
             window.setPreferredSize(new Dimension(gamePanel.SCREEN_WIDTH, gamePanel.SCREEN_HEIGHT + 250));
             
             window.setContentPane(gamePanel); // Ganti mainPanel dengan gamePanel
@@ -74,7 +76,7 @@ public class Game {
             System.exit(0);
         });
         
-        JPanel mainPanel = new JPanel() {
+        mainPanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
@@ -97,5 +99,11 @@ public class Game {
         window.setLocationRelativeTo(null);
         window.setVisible(true);
 
+    }
+
+    public void returnToMenu() {
+        window.setContentPane(mainPanel);
+        window.revalidate();
+        window.repaint();
     }
 }

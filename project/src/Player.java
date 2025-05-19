@@ -11,6 +11,7 @@ public class Player implements Cloneable {
     boolean isOpenChest = false;
     int trapDmg = 3;
     ArrayList<Trap> triggeredTraps = new ArrayList<>();
+    Sound sound = new Sound();
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.playerX = playerX;
@@ -67,13 +68,16 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerY--;
                         map[playerX][playerY] = 3;
-                        resetTraps(map);
+                        if (!isSolving) {
+                            resetTraps(map);
+                        }
                     }
                 } else if (map[playerX][playerY - 1] == 11) {
                     map[playerX][playerY] = trace;
                     playerY--;
                     map[playerX][playerY] = 3;
                     gold++;
+                    playMusic(1);
                     clearTrace(map);
                     resetTraps(map);
                 } else if (map[playerX][playerY - 1] == 10) {
@@ -93,6 +97,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
+                    playMusic(2);
                 } else if (map[playerX][playerY - 1] == 14) {
                     map[playerX][playerY] = trace;
                     playerY--;
@@ -107,7 +112,9 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerY--;
                     map[playerX][playerY] = 3;
-                    resetTraps(map);
+                    if (!isSolving) {
+                        resetTraps(map);
+                    }
                 }
                 break;
             case 1: // down
@@ -133,13 +140,16 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerY++;
                         map[playerX][playerY] = 3;
-                        resetTraps(map);
+                        if (!isSolving) {
+                            resetTraps(map);
+                        }
                     }
                 } else if (map[playerX][playerY + 1] == 11) {
                     map[playerX][playerY] = trace;
                     playerY++;
                     map[playerX][playerY] = 3;
                     gold++;
+                    playMusic(1);
                     resetTraps(map);
                     clearTrace(map);
                 } else if (map[playerX][playerY + 1] == 10) {
@@ -159,6 +169,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
+                    playMusic(2);
                 } else if (map[playerX][playerY + 1] == 14) {
                     map[playerX][playerY] = trace;
                     playerY++;
@@ -173,7 +184,9 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerY++;
                     map[playerX][playerY] = 3;
-                    resetTraps(map);
+                    if (!isSolving) {
+                        resetTraps(map);
+                    }
                 }
                 break;
             case 2: // left
@@ -199,13 +212,16 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerX--;
                         map[playerX][playerY] = 3;
-                        resetTraps(map);
+                        if (!isSolving) {
+                            resetTraps(map);
+                        }
                     }
                 } else if (map[playerX - 1][playerY] == 11) {
                     map[playerX][playerY] = trace;
                     playerX--;
                     map[playerX][playerY] = 3;
                     gold++;
+                    playMusic(1);
                     clearTrace(map);
                     resetTraps(map);
                 } else if (map[playerX - 1][playerY] == 10) {
@@ -225,6 +241,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
+                    playMusic(2);
                 } else if (map[playerX - 1][playerY] == 14) {
                     map[playerX][playerY] = trace;
                     playerX--;
@@ -239,7 +256,9 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerX--;
                     map[playerX][playerY] = 3;
-                    resetTraps(map);
+                    if (!isSolving) {
+                        resetTraps(map);
+                    }
                 }
                 break;
             case 3: // right
@@ -266,13 +285,16 @@ public class Player implements Cloneable {
                         map[playerX][playerY] = trace; // kalo udah mati jadiin trace
                         playerX++;
                         map[playerX][playerY] = 3;
-                        resetTraps(map);
+                        if (!isSolving) {
+                            resetTraps(map);
+                        }
                     }
                 } else if (map[playerX + 1][playerY] == 11) { // gold
                     map[playerX][playerY] = trace;
                     playerX++;
                     map[playerX][playerY] = 3;
                     gold++;
+                    playMusic(1);
                     resetTraps(map);
                     clearTrace(map);
                 } else if (map[playerX + 1][playerY] == 10 && !isSolving) {
@@ -292,6 +314,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = 3;
                     System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
+                    playMusic(2);
                 } else if (map[playerX + 1][playerY] == 14) {
                     map[playerX][playerY] = trace;
                     playerX++;
@@ -306,7 +329,9 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerX++;
                     map[playerX][playerY] = 3;
-                    resetTraps(map);
+                    if (!isSolving) {
+                        resetTraps(map);
+                    }
                 }
                 break;
         }
@@ -335,6 +360,11 @@ public class Player implements Cloneable {
             map[t.trapX][t.trapY] = 12;
         }
         triggeredTraps.clear();
+    }
+
+    public void playMusic(int i) {
+        sound.setFile(i);
+        sound.play();
     }
 
     public Player clone() {

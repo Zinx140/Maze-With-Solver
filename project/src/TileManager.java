@@ -13,6 +13,7 @@ public class TileManager {
     GamePanel gp;
     Tile[] tile;
     int[][] mapTile;
+    Sound sound = new Sound();
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -109,6 +110,8 @@ public class TileManager {
         }
         gp.player.playerHp += 10;
         gp.player.playerAtk += 10;
+        sound.setFile(4);
+        sound.playOnce();
     }
 
     public void randomGold(int[][] map) {
