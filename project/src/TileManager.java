@@ -30,7 +30,7 @@ public class TileManager {
             gp.goldTemp = player.gold;
             gp.hpTemp = player.playerHp;
             gp.solutions.clear();
-        } 
+        }
         loadMap(gp.maps.get(gp.currentMap).path);
         player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;
         player.playerY = gp.maps.get(gp.currentMap).PlayerStartY;
@@ -256,7 +256,7 @@ public class TileManager {
             gp.monsters.add(new Monster(2, 13));
             gp.monsters.get(3).setOgre(map);
             gp.monsters.get(4).setOgre(map);
-            gp.monsters.get(5).setOgre(map);
+            gp.monsters.get(5).setDragon(map);
 
         }
     }
