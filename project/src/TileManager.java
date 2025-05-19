@@ -195,17 +195,17 @@ public class TileManager {
             gp.monsters.get(3).setOgre(map);
             gp.monsters.get(4).setOgre(map);
 
-        } else if (currentlvl == 3) {
+        } else if (currentlvl == 4) {
             gp.monsters.clear();
-            gp.monsters.add(new Monster(12, 1));
+            gp.monsters.add(new Monster(1, 12));
+            gp.monsters.get(0).setDragon(map);
             gp.monsters.add(new Monster(1, 3));
             gp.monsters.add(new Monster(1, 7));
+            gp.monsters.get(1).setSpider(map);
+            gp.monsters.get(2).setSpider(map);
             gp.monsters.add(new Monster(13, 9));
             gp.monsters.add(new Monster(13, 13));
             gp.monsters.add(new Monster(2, 13));
-            gp.monsters.get(0).setDragon(map);
-            gp.monsters.get(1).setSpider(map);
-            gp.monsters.get(2).setSpider(map);
             gp.monsters.get(3).setOgre(map);
             gp.monsters.get(4).setOgre(map);
             gp.monsters.get(5).setOgre(map);
