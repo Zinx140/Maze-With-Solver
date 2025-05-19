@@ -41,7 +41,7 @@ public class Player implements Cloneable {
     }
 
     public void move(int map[][], int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
-        boolean isSolving) {
+            boolean isSolving) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         switch (direction) {
             case 0: // up
@@ -60,14 +60,14 @@ public class Player implements Cloneable {
                 } else if (map[playerX][playerY - 1] == 7 || map[playerX][playerY - 1] == 8
                         || map[playerX][playerY - 1] == 9) { // lek ketemu monster gaiso lewat kecuali matek
                     Monster x = getId(monsters, playerX, playerY - 1);
-                    if (x.hp > 0) {
-                        x.hp -= (playerAtk - x.def); // nunggu atk nya bang
-                        playerHp -= x.atk;
-                    } else {
-                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
+                    boolean win = winBattle(x);
+                    if (win) {
+                        map[playerX][playerY] = trace;
                         playerY--;
                         map[playerX][playerY] = 3;
                         resetTraps(map);
+                    } else {
+                        System.out.println("You lose");
                     }
                 } else if (map[playerX][playerY - 1] == 11) {
                     map[playerX][playerY] = trace;
@@ -126,14 +126,14 @@ public class Player implements Cloneable {
                 } else if (map[playerX][playerY + 1] == 7 || map[playerX][playerY + 1] == 8
                         || map[playerX][playerY + 1] == 9) {
                     Monster x = getId(monsters, playerX, playerY + 1);
-                    if (x.hp > 0) {
-                        x.hp -= (playerAtk - x.def); // nunggu atk nya bang
-                        playerHp -= x.atk;
-                    } else {
-                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
+                    boolean win = winBattle(x);
+                    if (win) {
+                        map[playerX][playerY] = trace;
                         playerY++;
                         map[playerX][playerY] = 3;
                         resetTraps(map);
+                    } else {
+                        System.out.println("You lose");
                     }
                 } else if (map[playerX][playerY + 1] == 11) {
                     map[playerX][playerY] = trace;
@@ -192,14 +192,14 @@ public class Player implements Cloneable {
                 } else if (map[playerX - 1][playerY] == 7 || map[playerX - 1][playerY] == 8
                         || map[playerX - 1][playerY] == 9) {
                     Monster x = getId(monsters, playerX - 1, playerY);
-                    if (x.hp > 0) {
-                        x.hp -= (playerAtk - x.def); // nunggu atk nya bang
-                        playerHp -= x.atk;
-                    } else {
-                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
+                    boolean win = winBattle(x);
+                    if (win) {
+                        map[playerX][playerY] = trace;
                         playerX--;
                         map[playerX][playerY] = 3;
                         resetTraps(map);
+                    } else {
+                        System.out.println("You lose");
                     }
                 } else if (map[playerX - 1][playerY] == 11) {
                     map[playerX][playerY] = trace;
@@ -259,14 +259,14 @@ public class Player implements Cloneable {
                         || map[playerX + 1][playerY] == 9) {
                     Monster x = getId(monsters, playerX + 1, playerY);
 
-                    if (x.hp > 0) {
-                        x.hp -= (playerAtk - x.def); // nunggu atk nya bang
-                        playerHp -= x.atk;
-                    } else {
-                        map[playerX][playerY] = trace; // kalo udah mati jadiin trace
+                    boolean win = winBattle(x);
+                    if (win) {
+                        map[playerX][playerY] = trace;
                         playerX++;
                         map[playerX][playerY] = 3;
                         resetTraps(map);
+                    } else {
+                        System.out.println("You lose");
                     }
                 } else if (map[playerX + 1][playerY] == 11) { // gold
                     map[playerX][playerY] = trace;
@@ -335,6 +335,23 @@ public class Player implements Cloneable {
             map[t.trapX][t.trapY] = 12;
         }
         triggeredTraps.clear();
+    }
+
+    public boolean winBattle(Monster x) {
+        while (playerHp > 0 && x.hp > 0) {
+            x.hp -= (playerAtk - x.def);
+            playerHp -= x.atk;
+            if (playerHp < 0) {
+                playerHp = 0;
+            }
+        }
+
+        if (x.hp <= 0) {
+            return true; // Player menang
+        } else {
+            return false; // Player kalah
+        }
+
     }
 
     public Player clone() {
