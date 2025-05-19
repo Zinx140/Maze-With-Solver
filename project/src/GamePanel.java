@@ -93,7 +93,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ArrayList<Plate> plates = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
     ArrayList<Monster> monsters = new ArrayList<>(); // Inisialisasi list monster
-    Trap trap = new Trap(0, 0); // cuma buat damage bang
+    ArrayList<Trap> traps = new ArrayList<>(); // Inisialisasi list trap
 
     ArrayList<Map> maps = new ArrayList<>();
 
@@ -140,10 +140,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         maps.add(new Map("project/src/maps/map3.txt", 9, 1));
         maps.add(new Map("project/src/maps/map4.txt", 1, 1));
         maps.add(new Map("project/src/maps/map5.txt", 13, 1));
-
-        // isi list monster
-        // monsters.add(new Monster(8, 1));
-        // monsters.get(0).setSpider(maps.get(1));
     }
 
     @Override

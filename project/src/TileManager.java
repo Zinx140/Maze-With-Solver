@@ -169,12 +169,52 @@ public class TileManager {
             System.err.println(e.getMessage());
         }
         // set monster
-        setMonster(mapTile, gp.currentMap);
+        setMonsterMap(mapTile, gp.currentMap);
+        // set trap
+        setTrapMap(mapTile, gp.currentMap);
         // pas load random posisi gold
         randomGold(mapTile);
     }
 
-    public void setMonster(int[][] map, int currentlvl) {
+    public void setTrapMap(int[][] map, int currentlvl) {
+        if (currentlvl == 1) {
+            gp.traps.add(new Trap(3, 8));
+            gp.traps.add(new Trap(2, 13));
+            gp.traps.add(new Trap(9, 10));
+            gp.traps.add(new Trap(13, 6));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+        if (currentlvl == 2) {
+            gp.traps.clear();
+            gp.traps.add(new Trap(5, 13));
+            gp.traps.add(new Trap(7, 5));
+            gp.traps.add(new Trap(11, 10));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+        if (currentlvl == 3) {
+            gp.traps.clear();
+            gp.traps.add(new Trap(13, 11));
+            gp.traps.add(new Trap(3, 5));
+            gp.traps.add(new Trap(13, 2));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+        if (currentlvl == 4) {
+            gp.traps.clear();
+            gp.traps.add(new Trap(11, 7));
+            gp.traps.add(new Trap(13, 5));
+            for (int i = 0; i < gp.traps.size(); i++) {
+                gp.traps.get(i).setTrap(map);
+            }
+        }
+    }
+
+    public void setMonsterMap(int[][] map, int currentlvl) {
         if (currentlvl == 2) {
             gp.monsters.add(new Monster(1, 8));
             gp.monsters.add(new Monster(11, 5));

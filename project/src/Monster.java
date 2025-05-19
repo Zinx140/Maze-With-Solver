@@ -8,7 +8,7 @@ public class Monster {
     }
 
     public void setSpider(int map[][]) {
-        hp = 10;
+        hp = 5;
         atk = 3;
         def = 2;
         map[monsterX][monsterY] = 7; // set tile monster spider
