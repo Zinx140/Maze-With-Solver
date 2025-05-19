@@ -88,7 +88,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerY--;
                     map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! You lose " + trapDmg + " HP.");
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
                     clearTrace(map);
                 } else if (map[playerX][playerY - 1] == 14) {
@@ -152,7 +152,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerY++;
                     map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! You lose " + trapDmg + " HP.");
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
                     clearTrace(map);
                 } else if (map[playerX][playerY + 1] == 14) {
@@ -216,7 +216,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerX--;
                     map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! You lose " + trapDmg + " HP.");
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
                     clearTrace(map);
                 } else if (map[playerX - 1][playerY] == 14) {
@@ -281,7 +281,7 @@ public class Player implements Cloneable {
                     map[playerX][playerY] = trace;
                     playerX++;
                     map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! You lose " + trapDmg + " HP.");
+                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
                     playerHp -= trapDmg;
                     clearTrace(map);
                 } else if (map[playerX + 1][playerY] == 14) {
