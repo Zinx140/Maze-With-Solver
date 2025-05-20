@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     final int ORI_TILE_SIZE = 15;
-    final int scale = 2;
+    final int scale = 3;
 
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
@@ -277,11 +277,26 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 new Thread(() -> {
                     solve(solutionMap, player.clone(), plates, monsters, 0, player.gold);
                     isSolving = false;
-                    SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
-                    System.out.println("Solution found: " + solutions.size());
+                    SwingUtilities.invokeLater(() -> {
+                        SolutionPanel solutionPanel = new SolutionPanel(this);
+                        this.add(solutionPanel);
+                        this.setComponentZOrder(solutionPanel, 0);
+                        this.requestFocusInWindow();
+                        this.revalidate();
+                        this.repaint();
+
+                    });
+
+
+                            // JPanel panel = new JPanel();
+                            // panel.setSize(100, 100);
+                            // panel.setBackground(Color.MAGENTA);
+                            // panel.setBounds(10, 350, 100, 100);
+                            // add(panel);                    
                 }).start();
-                }
-            });
+            }
+
+        });
         this.add(solution);
 
         JButton playerstat = new JButton();
