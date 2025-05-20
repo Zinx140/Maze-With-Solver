@@ -1,11 +1,11 @@
 public class Solution {
     int[][] map;
     int path;
-    int gold;
+    Player player;
 
-    public Solution(int[][] map, int path, int gold) {
+    public Solution(int[][] map, int path, Player player) {
         this.map = map;
         this.path = path;
-        this.gold = gold;
+        this.player = player;
     }
 }

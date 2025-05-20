@@ -123,9 +123,9 @@ public class Player implements Cloneable {
             playMusic(2);
         } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
             map[player.playerX][player.playerY] = trace;
+            map[player.playerX + dx][player.playerY + dy] = 3;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
             System.out.println("You found a chest ! ");
             isOpenChest = true;
             gp.tileM.transform(player);
@@ -141,6 +141,8 @@ public class Player implements Cloneable {
                 resetTraps(map);
             }
         }
+
+        System.out.println("Current HP : " + player.playerHp);
     }
 
     public Monster getId(ArrayList<Monster> monster, int x, int y) {
@@ -185,7 +187,7 @@ public class Player implements Cloneable {
         }
 
         if (x.hp <= 0) {
-            System.out.println("You win");
+            // System.out.println("You win");
             return true; // Player menang
         } else {
             System.out.println("You lose");

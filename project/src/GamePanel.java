@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     final int ORI_TILE_SIZE = 15;
-    final int scale = 3;
+    final int scale = 2;
 
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
@@ -271,13 +271,17 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 int [][] solutionMap = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
                 copyMap(solutionMap, mapTemp);
                 draw(solutionMap);
+                solutions.clear();
+                player.clearTrace(solutionMap);
+                
                 new Thread(() -> {
-                    solve(solutionMap, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold);
+                    solve(solutionMap, player.clone(), plates, monsters, 0, player.gold);
                     isSolving = false;
                     SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
+                    System.out.println("Solution found: " + solutions.size());
                 }).start();
-            }
-        });
+                }
+            });
         this.add(solution);
 
         JButton playerstat = new JButton();
@@ -363,6 +367,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
+
+    System.out.println("posisi : (" + player.playerX + "," + player.playerY + 
+                     ") value map : " + map[player.playerX][player.playerY] + 
+                     ", HP: " + player.playerHp);
+
         int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
         if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
@@ -371,7 +380,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("Player Gold: " + player.gold);
             System.out.println("Path: " + path);
             draw(map);
-            solutions.add(new Solution(map, path, gold));
+            copyMap(currentMapArr, map);
+            solutions.add(new Solution(currentMapArr, path, player.clone()));
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4 && player.playerHp > 0) { // Up
                 Player playerClone = player.clone();
@@ -421,6 +431,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.playerY = playerYTemp;
         player.playerHp = player.maxHp;
         player.gold = goldTemp;
+        player.isOpenChest = false; // Reset status chest
         copyMap(tileM.mapTile, mapTemp);
         tileM.mapTile[player.playerX][player.playerY] = 3;
         try {
