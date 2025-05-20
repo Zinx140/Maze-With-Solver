@@ -322,7 +322,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         nextStage.addActionListener(e -> {
             sfxSound.setFile(8); // assuming index 7 is click.wav
             sfxSound.playOnce();
-            tileM.changeMap(player);
+            if (currentMap < maps.size() - 1) {
+                tileM.changeMap(player);
+            } 
         });
         this.add(nextStage);
 
@@ -420,8 +422,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.playerY = playerYTemp;
         player.playerHp = player.maxHp;
         player.gold = goldTemp;
+        player.playerAtk = 100;
         copyMap(tileM.mapTile, mapTemp);
         tileM.mapTile[player.playerX][player.playerY] = 3;
+        player.isArmored = false;
         try {
             tileM.tile[3].image = ImageIO.read(new File("project/img/prince.png"));
         } catch (IOException e) {

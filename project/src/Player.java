@@ -9,6 +9,7 @@ public class Player implements Cloneable {
     GamePanel gp;
     int gold = 0;
     boolean isOpenChest = false;
+    boolean isArmored = false;
     int trapDmg = 3;
     ArrayList<Trap> triggeredTraps = new ArrayList<>();
     Sound sound = new Sound();
@@ -185,10 +186,8 @@ public class Player implements Cloneable {
         }
 
         if (x.hp <= 0) {
-            System.out.println("You win");
             return true; // Player menang
         } else {
-            System.out.println("You lose");
             return false; // Player kalah
         }
 

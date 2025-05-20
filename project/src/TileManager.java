@@ -114,8 +114,11 @@ public class TileManager {
         }
         player.playerHp = 2000;
         player.playerAtk = 2000;
-        sound.setFile(4);
-        sound.playOnce();
+        player.isArmored = true;
+        if (!gp.isSolving) {
+            sound.setFile(4);
+            sound.playOnce();
+        }
     }
 
     public void randomGold(int[][] map) {
