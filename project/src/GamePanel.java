@@ -363,9 +363,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
-        int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
+        int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
         if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
+            System.out.println("Current Map: " + currentMap);
             System.out.println("Player HP: " + player.playerHp);
             System.out.println("Player Gold: " + player.gold);
             System.out.println("Path: " + path);
@@ -378,39 +379,39 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                copyMap(currentMap, map);
-                playerClone.move(currentMap, playerClone, 0, PlatesClone, monstersClone, true);
-                solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+                copyMap(currentMapArr, map);
+                playerClone.move(currentMapArr, playerClone, 0, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
             if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4 && player.playerHp > 0) { // Down
                 Player playerClone = player.clone();
-                copyMap(currentMap, map);
+                copyMap(currentMapArr, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                playerClone.move(currentMap, playerClone, 1, PlatesClone, monstersClone, true);
-                solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+                playerClone.move(currentMapArr, playerClone, 1, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
             if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4 && player.playerHp > 0) { // Left
                 Player playerClone = player.clone();
-                copyMap(currentMap, map);
+                copyMap(currentMapArr, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                playerClone.move(currentMap, playerClone, 2, PlatesClone, monstersClone, true);
-                solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+                playerClone.move(currentMapArr, playerClone, 2, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
             if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4 && player.playerHp > 0) { // Right
                 Player playerClone = player.clone();
-                copyMap(currentMap, map);
+                copyMap(currentMapArr, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                playerClone.move(currentMap, playerClone, 3, PlatesClone, monstersClone, true);
-                solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+                playerClone.move(currentMapArr, playerClone, 3, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
         }
     }
@@ -447,19 +448,19 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         System.out.print("# "); // Tile dinding
                         break;
                     case 2:
-                        System.out.print("F "); // Tile jalan
+                        System.out.print("F "); // Tile princess
                         break;
                     case 3:
                         System.out.print("P "); // Tile player
                         break;
                     case 4:
-                        System.out.print(". "); // Tile enemy
+                        System.out.print(". "); // Tile path
                         break;
                     case 5:
-                        System.out.print("X "); // Tile kunci
+                        System.out.print("_ "); // Tile plate
                         break;
                     case 6:
-                        System.out.print(". "); // Tile pintu
+                        System.out.print(". "); // Tile paath
                         break;
                     case 7:
                         System.out.print("S "); // Tile monster spider
@@ -474,14 +475,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         System.out.print("G "); // Tile exit
                         break;
                     case 11:
-                        System.out.print("T "); // Tile trap
+                        System.out.print("g "); // Tile gold
                         break;
                     case 12:
-                        System.out.print("K "); // Tile plate
+                        System.out.print("T "); // Tile trap
                         break;
-                    case 13:
-                        System.out.print("E "); // Tile enemy
-                        break;
+                    // case 13:
+                    //     System.out.print("E "); // Tile enemy
+                    //     break;
                     case 14:
                         System.out.print("C "); // Tile chest
                         break;
