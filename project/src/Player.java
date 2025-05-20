@@ -41,302 +41,105 @@ public class Player implements Cloneable {
         }
     }
 
-    public void move(int map[][], int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
-            boolean isSolving) {
-        int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
+    public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving) {
         switch (direction) {
             case 0: // up
-                if (map[playerX][playerY - 1] == 2) {
-                    playerY--;
-                } else if (map[playerX][playerY - 1] == 5) {
-                    map[playerX][playerY] = trace;
-                    playerY--;
-                    map[playerX][playerY] = 3;
-                    int keyIndex = searchKey(keys);
-                    playMusic(7);
-                    if (keyIndex != -1) {
-                        keys.get(keyIndex).openPath(map);
-                        keys.remove(keyIndex);
-                    }
-                    clearTrace(map);
-                } else if (map[playerX][playerY - 1] == 7 || map[playerX][playerY - 1] == 8
-                        || map[playerX][playerY - 1] == 9) { // lek ketemu monster gaiso lewat kecuali matek
-                    Monster x = getId(monsters, playerX, playerY - 1);
-                    boolean win = winBattle(x);
-                    if (win) {
-                        map[playerX][playerY] = trace;
-                        playerY--;
-                        map[playerX][playerY] = 3;
-                        if (!isSolving) {
-                            resetTraps(map);
-                        }
-                        clearTrace(map);
-                    }
-                } else if (map[playerX][playerY - 1] == 11) {
-                    map[playerX][playerY] = trace;
-                    playerY--;
-                    map[playerX][playerY] = 3;
-                    gold++;
-                    playMusic(1);
-                    clearTrace(map);
-                    resetTraps(map);
-                } else if (map[playerX][playerY - 1] == 10) {
-                    if (!isSolving) {
-                        gp.tileM.changeMap(this);
-                        playMusic(6);
-                    } else {
-                        map[playerX][playerY] = trace;
-                        playerY--;
-                    }
-                } else if (map[playerX][playerY - 1] == 12) {
-                    Trap triggered = getIdTrap(gp.traps, playerX, playerY - 1);
-                    if (triggered != null && !triggeredTraps.contains(triggered)) {
-                        triggeredTraps.add(triggered);
-                    }
-                    map[playerX][playerY] = trace;
-                    playerY--;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
-                    playerHp -= trapDmg;
-                    playMusic(2);
-                } else if (map[playerX][playerY - 1] == 14) {
-                    map[playerX][playerY] = trace;
-                    playerY--;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You found a chest ! ");
-                    isOpenChest = true;
-                    gp.tileM.transform();
-                    clearTrace(map);
-                    resetTraps(map);
-                } else if (map[playerX][playerY - 1] != 1 && map[playerX][playerY - 1] != 4
-                        && map[playerX][playerY - 1] != 2) {
-                    map[playerX][playerY] = trace;
-                    playerY--;
-                    map[playerX][playerY] = 3;
-                    if (!isSolving) {
-                        resetTraps(map);
-                    }
-                }
+                movePlayer(map, player, keys, monsters, isSolving, 0, -1);
                 break;
             case 1: // down
-                if (map[playerX][playerY + 1] == 2) {
-                    playerY++;
-                } else if (map[playerX][playerY + 1] == 5) {
-                    map[playerX][playerY] = trace;
-                    playerY++;
-                    map[playerX][playerY] = 3;
-                    int keyIndex = searchKey(keys);
-                    playMusic(7);
-                    if (keyIndex != -1) {
-                        keys.get(keyIndex).openPath(map);
-                        keys.remove(keyIndex);
-                    }
-                    clearTrace(map);
-                } else if (map[playerX][playerY + 1] == 7 || map[playerX][playerY + 1] == 8
-                        || map[playerX][playerY + 1] == 9) {
-                    Monster x = getId(monsters, playerX, playerY + 1);
-                    boolean win = winBattle(x);
-                    if (win) {
-                        map[playerX][playerY] = trace;
-                        playerY++;
-                        map[playerX][playerY] = 3;
-                        if (!isSolving) {
-                            resetTraps(map);
-                        }
-                        clearTrace(map);
-                    }
-                } else if (map[playerX][playerY + 1] == 11) {
-                    map[playerX][playerY] = trace;
-                    playerY++;
-                    map[playerX][playerY] = 3;
-                    gold++;
-                    playMusic(1);
-                    clearTrace(map);
-                    resetTraps(map);
-                } else if (map[playerX][playerY + 1] == 10) {
-                    if (!isSolving) {
-                        gp.tileM.changeMap(this);
-                        playMusic(6);
-                    } else {
-                        map[playerX][playerY] = trace;
-                        playerY++;
-                    }
-                } else if (map[playerX][playerY + 1] == 12) {
-                    Trap triggered = getIdTrap(gp.traps, playerX, playerY + 1);
-                    if (triggered != null && !triggeredTraps.contains(triggered)) {
-                        triggeredTraps.add(triggered);
-                    }
-                    map[playerX][playerY] = trace;
-                    playerY++;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
-                    playerHp -= trapDmg;
-                    playMusic(2);
-                } else if (map[playerX][playerY + 1] == 14) {
-                    map[playerX][playerY] = trace;
-                    playerY++;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You found a chest ! ");
-                    gp.tileM.transform();
-                    isOpenChest = true;
-                    clearTrace(map);
-                    resetTraps(map);
-                } else if (map[playerX][playerY + 1] != 1 && map[playerX][playerY + 1] != 4
-                        && map[playerX][playerY + 1] != 2) {
-                    map[playerX][playerY] = trace;
-                    playerY++;
-                    map[playerX][playerY] = 3;
-                    if (!isSolving) {
-                        resetTraps(map);
-                    }
-                }
+                movePlayer(map, player, keys, monsters, isSolving, 0, 1);
                 break;
             case 2: // left
-                if (map[playerX - 1][playerY] == 2) {
-                    playerX--;
-                } else if (map[playerX - 1][playerY] == 5) {
-                    map[playerX][playerY] = trace;
-                    playerX--;
-                    map[playerX][playerY] = 3;
-                    int keyIndex = searchKey(keys);
-                    playMusic(7);
-                    if (keyIndex != -1) {
-                        keys.get(keyIndex).openPath(map);
-                        keys.remove(keyIndex);
-                    }
-                    clearTrace(map);
-                } else if (map[playerX - 1][playerY] == 7 || map[playerX - 1][playerY] == 8
-                        || map[playerX - 1][playerY] == 9) {
-                    Monster x = getId(monsters, playerX - 1, playerY);
-                    boolean win = winBattle(x);
-                    if (win) {
-                        map[playerX][playerY] = trace;
-                        playerX--;
-                        map[playerX][playerY] = 3;
-                        if (!isSolving) {
-                            resetTraps(map);
-                        }
-                        clearTrace(map);
-                    }
-                } else if (map[playerX - 1][playerY] == 11) {
-                    map[playerX][playerY] = trace;
-                    playerX--;
-                    map[playerX][playerY] = 3;
-                    gold++;
-                    playMusic(1);
-                    clearTrace(map);
-                    resetTraps(map);
-                } else if (map[playerX - 1][playerY] == 10) {
-                    if (!isSolving) {
-                        gp.tileM.changeMap(this);
-                        playMusic(6);
-                    } else {
-                        map[playerX][playerY] = trace;
-                        playerX--;
-                    }
-                } else if (map[playerX - 1][playerY] == 12) {
-                    Trap triggered = getIdTrap(gp.traps, playerX - 1, playerY);
-                    if (triggered != null && !triggeredTraps.contains(triggered)) {
-                        triggeredTraps.add(triggered);
-                    }
-                    map[playerX][playerY] = trace;
-                    playerX--;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
-                    playerHp -= trapDmg;
-                    playMusic(2);
-                } else if (map[playerX - 1][playerY] == 14) {
-                    map[playerX][playerY] = trace;
-                    playerX--;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You found a chest ! ");
-                    isOpenChest = true;
-                    gp.tileM.transform();
-                    resetTraps(map);
-                    clearTrace(map);
-                } else if (map[playerX - 1][playerY] != 1 && map[playerX - 1][playerY] != 4
-                        && map[playerX - 1][playerY] != 2) {
-                    map[playerX][playerY] = trace;
-                    playerX--;
-                    map[playerX][playerY] = 3;
-                    if (!isSolving) {
-                        resetTraps(map);
-                    }
-                }
+                movePlayer(map, player, keys, monsters, isSolving, -1, 0);
                 break;
             case 3: // right
-                if (map[playerX + 1][playerY] == 2) {
-                    playerX++;
-                } else if (map[playerX + 1][playerY] == 5) {
-                    map[playerX][playerY] = trace;
-                    playerX++;
-                    map[playerX][playerY] = 3;
-                    int keyIndex = searchKey(keys);
-                    playMusic(7);
-                    if (keyIndex != -1) {
-                        keys.get(keyIndex).openPath(map);
-                        keys.remove(keyIndex);
-                    }
-                    clearTrace(map);
-                } else if (map[playerX + 1][playerY] == 7 || map[playerX + 1][playerY] == 8
-                        || map[playerX + 1][playerY] == 9) {
-                    Monster x = getId(monsters, playerX + 1, playerY);
-                    boolean win = winBattle(x);
-                    if (win) {
-                        map[playerX][playerY] = trace;
-                        playerX++;
-                        map[playerX][playerY] = 3;
-                        if (!isSolving) {
-                            resetTraps(map);
-                        }
-                        clearTrace(map);
-                    }
-                } else if (map[playerX + 1][playerY] == 11) { // gold
-                    map[playerX][playerY] = trace;
-                    playerX++;
-                    map[playerX][playerY] = 3;
-                    gold++;
-                    playMusic(1);
-                    resetTraps(map);
-                    clearTrace(map);
-                } else if (map[playerX + 1][playerY] == 10 && !isSolving) {
-                    if (!isSolving) {
-                        gp.tileM.changeMap(this);
-                        playMusic(6);
-                    } else {
-                        map[playerX][playerY] = trace;
-                        playerX++;
-                    }
-                } else if (map[playerX + 1][playerY] == 12) {
-                    Trap triggered = getIdTrap(gp.traps, playerX + 1, playerY);
-                    if (triggered != null && !triggeredTraps.contains(triggered)) {
-                        triggeredTraps.add(triggered);
-                    }
-                    map[playerX][playerY] = trace;
-                    playerX++;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You stepped on a trap! " + trapDmg + " HP.");
-                    playerHp -= trapDmg;
-                    playMusic(2);
-                } else if (map[playerX + 1][playerY] == 14) {
-                    map[playerX][playerY] = trace;
-                    playerX++;
-                    map[playerX][playerY] = 3;
-                    System.out.println("You found a chest ! ");
-                    isOpenChest = true;
-                    resetTraps(map);
-                    gp.tileM.transform();
-                    clearTrace(map);
-                } else if (map[playerX + 1][playerY] != 1 && map[playerX + 1][playerY] != 4
-                        && map[playerX + 1][playerY] != 2) {
-                    map[playerX][playerY] = trace;
-                    playerX++;
-                    map[playerX][playerY] = 3;
-                    if (!isSolving) {
-                        resetTraps(map);
-                    }
-                }
+                movePlayer(map, player, keys, monsters, isSolving, 1, 0);
                 break;
+        }
+    }
+
+    public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving, int dx, int dy) {
+        int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
+        if (map[player.playerX + dx][player.playerY + dy] == 2) {
+            player.playerX += dx;
+            player.playerY += dy;
+        } else if (map[player.playerX + dx][player.playerY + dy] == 5) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = 3;
+            int keyIndex = searchKey(keys);
+            playMusic(7);
+            if (keyIndex != -1) {
+                keys.get(keyIndex).openPath(map);
+                keys.remove(keyIndex);
+            }
+            clearTrace(map);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 7 || map[player.playerX + dx][player.playerY + dy] == 8
+                || map[player.playerX + dx][player.playerY + dy] == 9) {
+            Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
+            boolean win = winBattle(x);
+            if (win) {
+                map[player.playerX][player.playerY] = trace;
+                player.playerX += dx;
+                player.playerY += dy;
+                map[player.playerX][player.playerY] = 3;
+                if (!isSolving) {
+                    resetTraps(map);
+                }
+            } 
+            if (player.playerHp < 0) {
+                player.playerHp = 0;
+            }
+        } else if (map[player.playerX + dx][player.playerY + dy] == 11) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = 3;
+            gold++;
+            playMusic(1);
+            clearTrace(map);
+            resetTraps(map);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 10) {
+            if (!isSolving) {
+                gp.tileM.changeMap(this);
+                playMusic(6);
+            } else {
+                map[player.playerX][player.playerY] = trace;
+                player.playerX += dx;
+                player.playerY += dy;
+            }
+        } else if (map[player.playerX + dx][player.playerY + dy] == 12) {
+            Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);
+            if (triggered != null && !triggeredTraps.contains(triggered)) {
+                triggeredTraps.add(triggered);
+            }
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = 3;
+            System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+            player.playerHp -= trapDmg;
+            playMusic(2);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = 3;
+            System.out.println("You found a chest ! ");
+            isOpenChest = true;
+            gp.tileM.transform(player);
+            resetTraps(map);
+            clearTrace(map);
+        } else if (map[player.playerX + dx][player.playerY + dy] != 1 && map[player.playerX + dx][player.playerY + dy] != 4
+                && map[player.playerX + dx][player.playerY + dy] != 2) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = 3;
+            if (!isSolving) {
+                resetTraps(map);
+            }
         }
     }
 
@@ -366,8 +169,10 @@ public class Player implements Cloneable {
     }
 
     public void playMusic(int i) {
-        sound.setFile(i);
-        sound.play();
+        if (!gp.isSolving) {
+            sound.setFile(i);
+            sound.play();
+        }
     }
     
     public boolean winBattle(Monster x) {

@@ -24,13 +24,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         // TODO Auto-generated method stub
         int keyCode = e.getKeyCode();
         if (keyCode == KeyEvent.VK_W) {
-            player.move(tileM.mapTile, 0, plates, monsters, false); // Up
+            player.move(tileM.mapTile, player, 0, plates, monsters, false); // Up
         } else if (keyCode == KeyEvent.VK_S) {
-            player.move(tileM.mapTile, 1, plates, monsters, false); // Down
+            player.move(tileM.mapTile, player, 1, plates, monsters, false); // Down
         } else if (keyCode == KeyEvent.VK_A) {
-            player.move(tileM.mapTile, 2, plates, monsters, false); // Left
+            player.move(tileM.mapTile, player, 2, plates, monsters, false); // Left
         } else if (keyCode == KeyEvent.VK_D) {
-            player.move(tileM.mapTile, 3, plates, monsters, false); // Right
+            player.move(tileM.mapTile, player, 3, plates, monsters, false); // Right
         }
         if (keyCode == KeyEvent.VK_X && gamestate == PLAYER_STATE) {
             gamestate = PLAY_STATE;
@@ -268,8 +268,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             sfxSound.playOnce();
             if (!isSolving) {
                 isSolving = true;
+                int [][] solutionMap = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
+                copyMap(solutionMap, mapTemp);
+                draw(solutionMap);
                 new Thread(() -> {
-                    solve(tileM.mapTile, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold);
+                    solve(solutionMap, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold);
                     isSolving = false;
                     SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
                 }).start();
@@ -355,13 +358,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     public void copyArrayListMonster(ArrayList<Monster> MonstersClone, ArrayList<Monster> Monsters) {
         for (int i = 0; i < Monsters.size(); i++) {
-            MonstersClone.add(Monsters.get(i));
+            MonstersClone.add(Monsters.get(i).clone());
         }
     }
 
     public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
-        if (map[player.playerX][player.playerY] == 10) { // Jika sudah sampai tujuan
+        if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
             System.out.println("Player HP: " + player.playerHp);
             System.out.println("Player Gold: " + player.gold);
@@ -369,44 +372,44 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             draw(map);
             solutions.add(new Solution(map, path, gold));
         } else {
-            if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4) { // Up
+            if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4 && player.playerHp > 0) { // Up
                 Player playerClone = player.clone();
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
                 copyMap(currentMap, map);
-                playerClone.move(currentMap, 0, PlatesClone, monstersClone, true);
+                playerClone.move(currentMap, playerClone, 0, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
-            if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4) { // Down
+            if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4 && player.playerHp > 0) { // Down
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                playerClone.move(currentMap, 1, PlatesClone, monstersClone, true);
+                playerClone.move(currentMap, playerClone, 1, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
-            if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4) { // Left
+            if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4 && player.playerHp > 0) { // Left
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                playerClone.move(currentMap, 2, PlatesClone, monstersClone, true);
+                playerClone.move(currentMap, playerClone, 2, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
-            if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4) { // Right
+            if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4 && player.playerHp > 0) { // Right
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
                 copyArrayListPlate(PlatesClone, Plates);
                 copyArrayListMonster(monstersClone, monsters);
-                playerClone.move(currentMap, 3, PlatesClone, monstersClone, true);
+                playerClone.move(currentMap, playerClone, 3, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
         }
@@ -419,6 +422,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.gold = goldTemp;
         copyMap(tileM.mapTile, mapTemp);
         tileM.mapTile[player.playerX][player.playerY] = 3;
+        try {
+            tileM.tile[3].image = ImageIO.read(new File("project/img/prince.png"));
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
 
     public void setPlates(int map[][], ArrayList<Plate> Plates) {
@@ -482,32 +491,5 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
         System.out.println();
     }
-
-    // public void Play() {
-    // mapTile = new int[MAX_WORLD_ROW][MAX_WORLD_COL]; // Inisialisasi peta
-    // Player player = new Player(1, 1, this); // Inisialisasi posisi awal player
-    // ArrayList<Key> keys = new ArrayList<>(); // Inisialisasi list kunci
-    // keys.add(new Key(3, 2, 7, 12)); // Tambahkan kunci ke list
-    // setKeys(mapTile, keys); // Set kunci di peta
-    // mapTile[player.playerX][player.playerY] = 3; // Set tile player
-    // solve(mapTile, player, keys, 0); // Panggil fungsi solve
-    // while (mapTile[player.playerX][player.playerY] != 2) { // Selama player belum
-    // sampai tujuan
-    // draw(mapTile);
-    // System.out.print("Input move (w/a/s/d): ");
-    // String input = getString.nextLine();
-    // if (input.equals("w")) {
-    // player.move(mapTile, 0, keys); // Up
-    // } else if (input.equals("s")) {
-    // player.move(mapTile, 1, keys); // Down
-    // } else if (input.equals("a")) {
-    // player.move(mapTile, 2, keys); // Left
-    // } else if (input.equals("d")) {
-    // player.move(mapTile, 3, keys); // Right
-    // } else {
-    // System.out.println("Input tidak valid!");
-    // }
-    // }
-    // }
 
 }

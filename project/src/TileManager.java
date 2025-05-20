@@ -34,6 +34,8 @@ public class TileManager {
         loadMap(gp.maps.get(gp.currentMap).path);
         player.playerX = gp.maps.get(gp.currentMap).PlayerStartX;
         player.playerY = gp.maps.get(gp.currentMap).PlayerStartY;
+        gp.playerXTemp = gp.maps.get(gp.currentMap).PlayerStartX;
+        gp.playerYTemp = gp.maps.get(gp.currentMap).PlayerStartY;
         mapTile[player.playerX][player.playerY] = 3;
         gp.copyMap(gp.mapTemp, mapTile);
     }
@@ -101,15 +103,17 @@ public class TileManager {
         }
     }
 
-    public void transform() {
+    public void transform(Player player) {
         try {
-            tile[3].image = ImageIO.read(new File("project/img/armoredPrince.png"));
+            if (!gp.isSolving) {
+                tile[3].image = ImageIO.read(new File("project/img/armoredPrince.png"));
+            } 
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        gp.player.playerHp += 10;
-        gp.player.playerAtk += 10;
+        player.playerHp = 2000;
+        player.playerAtk = 2000;
         sound.setFile(4);
         sound.playOnce();
     }

@@ -1,4 +1,4 @@
-public class Monster {
+public class Monster implements Cloneable {
     int monsterX, monsterY;
     int atk, def, hp;
 
@@ -26,5 +26,13 @@ public class Monster {
         atk = 50;
         def = 30;
         map[monsterX][monsterY] = 9; // set tile monster dragon
+    }
+
+    public Monster clone() {
+        try {
+            return (Monster) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError(); // Seharusnya tidak terjadi
+        }
     }
 }
