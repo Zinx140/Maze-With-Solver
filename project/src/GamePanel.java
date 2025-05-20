@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     final int ORI_TILE_SIZE = 15;
-    final int scale = 3;
+    final int scale = 2;
 
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
@@ -95,8 +95,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     Player player = new Player(1, 1, this);
     UI ui = new UI(this);
     Game game;
-    Sound bgmSound = new Sound();  // for looping music
-    Sound sfxSound = new Sound();  // for one-time effects
+    Sound bgmSound = new Sound(); // for looping music
+    Sound sfxSound = new Sound(); // for one-time effects
 
     ArrayList<Plate> plates = new ArrayList<>(); // Inisialisasi list kunci
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
@@ -116,7 +116,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.addKeyListener(this);
         this.setFocusable(true);
         this.setLayout(null);
-        bgmSound.setFile(0);  // assuming index 0 is mainTheme.wav
+        bgmSound.setFile(0); // assuming index 0 is mainTheme.wav
         bgmSound.play();
         bgmSound.loop();
         mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
@@ -162,8 +162,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        plates.add(new Plate(3, 2, 7, 12)); // Tambahkan kunci ke list
-        setPlates(tileM.mapTile, plates); // Set kunci di peta
+        setWall(plates, currentMap);
         tileM.mapTile[player.playerX][player.playerY] = 3; // Set tile player
         copyMap(mapTemp, tileM.mapTile); // Copy map ke mapTemp
 
@@ -174,7 +173,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             lastTime = currentTime;
 
             lastTime = currentTime;
-            
+
             if (delta >= 1) {
                 if (player.playerHp <= 0) { // Jika player mati
                     player.playerHp = 0;
@@ -232,7 +231,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
         tileM.draw(g2);
         ui.draw(g2);
-        
+
     }
 
     public void startgameThread() {
@@ -247,7 +246,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerYTemp = player.playerY;
         gamestate = PLAY_STATE;
 
-        playerHP = new JProgressBar(0 , player.maxHp);
+        playerHP = new JProgressBar(0, player.maxHp);
         playerHP.setValue(player.playerHp);
         playerHP.setStringPainted(true);
         playerHP.setForeground(Color.red);
@@ -268,11 +267,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             sfxSound.playOnce();
             if (!isSolving) {
                 isSolving = true;
-                int [][] solutionMap = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
+                int[][] solutionMap = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
                 copyMap(solutionMap, mapTemp);
                 draw(solutionMap);
                 new Thread(() -> {
-                    solve(solutionMap, new Player(player.playerX, player.playerY, this), plates, monsters, 0, player.gold);
+                    solve(solutionMap, new Player(player.playerX, player.playerY, this), plates, monsters, 0,
+                            player.gold);
                     isSolving = false;
                     SwingUtilities.invokeLater(() -> this.requestFocusInWindow());
                 }).start();
@@ -342,6 +342,15 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.add(exit);
     }
 
+    public void setWall(ArrayList<Plate> Plates, int map) {
+        if (map == 0) {
+            Plates.add(new Plate(3, 3, 2, 12)); // Tambahkan kunci ke list
+            Plates.add(new Plate(9, 3, 8, 12));
+            Plates.add(new Plate(7, 11, 13, 12));
+            setPlates(tileM.mapTile, Plates);
+        }
+    }
+
     public void copyMap(int[][] map, int[][] mapTile) {
         for (int i = 0; i < MAX_WORLD_ROW; i++) {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
@@ -362,9 +371,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         }
     }
 
-    public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
+    public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path,
+            int gold) {
         int[][] currentMap = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
-        if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
+        if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah
+                                                                                                     // sampai tujuan
             System.out.println("=== Path found! ===");
             System.out.println("Player HP: " + player.playerHp);
             System.out.println("Player Gold: " + player.gold);
@@ -372,7 +383,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             draw(map);
             solutions.add(new Solution(map, path, gold));
         } else {
-            if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4 && player.playerHp > 0) { // Up
+            if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4
+                    && player.playerHp > 0) { // Up
                 Player playerClone = player.clone();
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
                 ArrayList<Monster> monstersClone = new ArrayList<>();
@@ -382,7 +394,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 playerClone.move(currentMap, playerClone, 0, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
-            if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4 && player.playerHp > 0) { // Down
+            if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4
+                    && player.playerHp > 0) { // Down
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
@@ -392,7 +405,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 playerClone.move(currentMap, playerClone, 1, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
-            if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4 && player.playerHp > 0) { // Left
+            if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4
+                    && player.playerHp > 0) { // Left
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
@@ -402,7 +416,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 playerClone.move(currentMap, playerClone, 2, PlatesClone, monstersClone, true);
                 solve(currentMap, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
             }
-            if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4 && player.playerHp > 0) { // Right
+            if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4
+                    && player.playerHp > 0) { // Right
                 Player playerClone = player.clone();
                 copyMap(currentMap, map);
                 ArrayList<Plate> PlatesClone = new ArrayList<>();
