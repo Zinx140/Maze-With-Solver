@@ -1,25 +1,25 @@
 import java.util.ArrayList;
 
 public class Player implements Cloneable {
+    boolean isOpenChest = false;
+    boolean isArmored = false;
+    GamePanel gp;
+    int gold = 0;
+    int maxHp;
     int playerX;
     int playerY;
     int playerHp;
     int playerAtk;
-    int maxHp;
-    GamePanel gp;
-    int gold = 0;
-    boolean isOpenChest = false;
-    boolean isArmored = false;
+    Sound sound = new Sound();
     int trapDmg = 3;
     ArrayList<Trap> triggeredTraps = new ArrayList<>();
-    Sound sound = new Sound();
 
     public Player(int playerX, int playerY, GamePanel gp) {
+        this.gp = gp;
+        this.maxHp = 100; // Set maximum HP
         this.playerX = playerX;
         this.playerY = playerY;
-        this.gp = gp;
         this.playerHp = 100; // Set initial HP
-        this.maxHp = 100; // Set maximum HP
         this.playerAtk = 100; // Set initial attack power
     }
 
