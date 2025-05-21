@@ -36,10 +36,9 @@ public class Player implements Cloneable {
     }
 
     public void clearTrace(int[][] map) {
-        map[gp.playerXTemp][gp.playerYTemp] = 0;
         for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
             for (int j = 0; j < gp.MAX_WORLD_COL; j++) {
-                if (map[i][j] == 4) {
+                if (map[i][j] == 4 || map[i][j] == 3) {
                     map[i][j] = 6;
                 }
             }
@@ -125,13 +124,13 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             System.out.println("You stepped on a trap! " + trapDmg + " HP.");
             player.playerHp -= trapDmg;
             playMusic(2);
         } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
             map[player.playerX][player.playerY] = trace;
-            map[player.playerX + dx][player.playerY + dy] = player.playerTileNum;
+            map[player.playerX + dx][player.playerY + dy] = 15;
             player.playerX += dx;
             player.playerY += dy;
             System.out.println("You found a chest ! ");
@@ -195,7 +194,6 @@ public class Player implements Cloneable {
         }
 
         if (x.hp <= 0) {
-            // System.out.println("You win");
             return true; // Player menang
         } else {
             return false; // Player kalah

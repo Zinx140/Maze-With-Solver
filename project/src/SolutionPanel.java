@@ -179,7 +179,7 @@ public class SolutionPanel extends JPanel {
                 gp.player = currentSolution.get(indexSolution).player.clone();
                 
                 // ini set biar player kelihatan di map
-                gp.tileM.mapTile[gp.player.playerX][gp.player.playerY] = 3; // Ensure player tile is marked
+                gp.tileM.mapTile[gp.player.playerX][gp.player.playerY] = gp.player.playerTileNum; // Ensure player tile is marked
                 
                 // tutup panel
                 setVisible(false);

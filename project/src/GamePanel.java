@@ -270,7 +270,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 isSolving = true;
                 int [][] solutionMap = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
                 copyMap(solutionMap, mapTemp);
-                draw(solutionMap);
                 solutions.clear();
                 player.clearTrace(solutionMap);
                 
@@ -447,6 +446,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.gold = goldTemp;
         player.playerAtk = 100;
         player.isOpenChest = false; // Reset status chest
+        player.playerTileNum = 3; // Set tile player
         copyMap(tileM.mapTile, mapTemp);
         tileM.mapTile[player.playerX][player.playerY] = 3;
         player.isArmored = false;
