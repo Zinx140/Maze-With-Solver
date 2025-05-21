@@ -1,19 +1,9 @@
 import java.awt.Button;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.awt.Image;
-
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -103,6 +93,7 @@ public class SolutionPanel extends JPanel {
         // close button
         Button closeButton = new Button("Close");
         closeButton.setForeground(Color.WHITE);
+        closeButton.setBackground(new Color(50, 50, 50));
         closeButton.setBounds(panelWidth - 80, 10, 70, 25);
         closeButton.addActionListener(e -> {
             setVisible(false);
@@ -129,6 +120,7 @@ public class SolutionPanel extends JPanel {
             // all button
             Button all = new Button("All");
             all.setForeground(Color.WHITE);
+            all.setBackground(new Color(50, 50, 50));
             all.setBounds(x1, 60, 70, 25);
             all.addActionListener(e -> {
                 setCurrentSolution(allSolution);
@@ -140,6 +132,7 @@ public class SolutionPanel extends JPanel {
             // gold button
             Button gold = new Button("Gold");
             gold.setForeground(Color.WHITE);
+            gold.setBackground(new Color(50, 50, 50));
             gold.setBounds(x1 + 90, 60, 70, 25);
             gold.addActionListener(e -> {
                 setCurrentSolution(bestGold);
@@ -151,6 +144,7 @@ public class SolutionPanel extends JPanel {
             // path button
             Button path = new Button("Path");
             path.setForeground(Color.WHITE);
+            path.setBackground(new Color(50, 50, 50));
             path.setBounds(x1 + 180, 60, 70, 25);
             path.addActionListener(e -> {
                 setCurrentSolution(bestPath);
@@ -162,6 +156,7 @@ public class SolutionPanel extends JPanel {
             // hp button
             Button hp = new Button("HP");
             hp.setForeground(Color.WHITE);
+            hp.setBackground(new Color(50, 50, 50));
             hp.setBounds(x1 + 270, 60, 70, 25);
             hp.addActionListener(e -> {
                 setCurrentSolution(bestHP);
@@ -173,14 +168,14 @@ public class SolutionPanel extends JPanel {
             // implement button
             Button implement = new Button("Implement");
             implement.setForeground(Color.WHITE);
-    
+            implement.setBackground(new Color(50, 50, 50));
             implement.setBounds(x1, y + 50, x1 + 325, 25);
             implement.addActionListener(e -> {
                 //overwrite map di gamepanel
                 gp.copyMap(gp.tileM.mapTile, currentSolution.get(indexSolution).map);
                 
                 // player di gamepanel di ganti ama solution
-                Player originalPlayer = gp.player;
+        
                 gp.player = currentSolution.get(indexSolution).player.clone();
                 
                 // ini set biar player kelihatan di map
@@ -230,7 +225,6 @@ public class SolutionPanel extends JPanel {
             });
             add(nextButton);
             
-            
         } 
 
         setVisible(true);
@@ -246,8 +240,7 @@ public class SolutionPanel extends JPanel {
             g2.drawString("Maze is impossible to solve", x1 + 25, y1 + 50);
             g2.drawString("There is no Solution", x1 + 70, y1 + 80);
             return;
-        }
-
+        } 
         // current solution
         for (int worldRow = 0; worldRow < gp.MAX_WORLD_ROW; worldRow++) {
             for (int worldCol = 0; worldCol < gp.MAX_WORLD_COL; worldCol++) {

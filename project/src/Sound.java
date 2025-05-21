@@ -43,25 +43,25 @@ public class Sound {
     }
 
     public void loop() {
-        // clip.loop(Clip.LOOP_CONTINUOUSLY);
+        clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
 
     public void play() {
-        // if (clip != null) {
-        //     clip.setFramePosition(0);  // rewind to the start
-        //     clip.start();
-        // }
+        if (clip != null) {
+            clip.setFramePosition(0);  // rewind to the start
+            clip.start();
+        }
     }
 
     public void stop() {
-        // if (clip != null && clip.isRunning()) {
-        //     clip.stop();
-        // }
+        if (clip != null && clip.isRunning()) {
+            clip.stop();
+        }
     }
 
     public void playOnce() {
-        // clip.setFramePosition(0);
-        // clip.start();
+        clip.setFramePosition(0);
+        clip.start();
     }
 
 }

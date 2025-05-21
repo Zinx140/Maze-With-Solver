@@ -386,7 +386,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                      ", HP: " + player.playerHp);
 
         int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
-        // if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
         if (player.solved) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
             System.out.println("Current Map: " + currentMap);

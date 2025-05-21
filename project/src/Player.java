@@ -14,6 +14,7 @@ public class Player implements Cloneable {
     int trapDmg = 3;
     ArrayList<Trap> triggeredTraps = new ArrayList<>();
     boolean solved = false;
+    int playerTileNum;
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.gp = gp;
@@ -22,6 +23,7 @@ public class Player implements Cloneable {
         this.playerY = playerY;
         this.playerHp = 100; // Set initial HP
         this.playerAtk = 100; // Set initial attack power
+        this.playerTileNum = 3; // Set initial tile number
     }
 
     public int searchKey(ArrayList<Plate> keys) {
@@ -34,6 +36,7 @@ public class Player implements Cloneable {
     }
 
     public void clearTrace(int[][] map) {
+        map[gp.playerXTemp][gp.playerYTemp] = 0;
         for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
             for (int j = 0; j < gp.MAX_WORLD_COL; j++) {
                 if (map[i][j] == 4) {
@@ -63,19 +66,17 @@ public class Player implements Cloneable {
     public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving, int dx, int dy) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         if (map[player.playerX + dx][player.playerY + dy] == 2) {
-            if(!isSolving) {
+            if (!isSolving) {
                 player.playerX += dx;
                 player.playerY += dy;
-            }
-            else{
-
+            } else {
                 solved = true;
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 5) {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             int keyIndex = searchKey(keys);
             playMusic(7);
             if (keyIndex != -1) {
@@ -91,7 +92,7 @@ public class Player implements Cloneable {
                 map[player.playerX][player.playerY] = trace;
                 player.playerX += dx;
                 player.playerY += dy;
-                map[player.playerX][player.playerY] = 3;
+                map[player.playerX][player.playerY] = player.playerTileNum;
                 if (!isSolving) {
                     resetTraps(map);
                 }
@@ -103,7 +104,7 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             gold++;
             playMusic(1);
             clearTrace(map);
@@ -113,10 +114,8 @@ public class Player implements Cloneable {
                 gp.tileM.changeMap(this);
                 playMusic(6);
             } else {
-                map[player.playerX][player.playerY] = 3;
+                map[player.playerX][player.playerY] = player.playerTileNum;
                 solved = true;
-                // player.playerX += dx;
-                // player.playerY += dy;
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 12) {
             Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);
@@ -132,7 +131,7 @@ public class Player implements Cloneable {
             playMusic(2);
         } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
             map[player.playerX][player.playerY] = trace;
-            map[player.playerX + dx][player.playerY + dy] = 3;
+            map[player.playerX + dx][player.playerY + dy] = player.playerTileNum;
             player.playerX += dx;
             player.playerY += dy;
             System.out.println("You found a chest ! ");
@@ -145,7 +144,7 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             if (!isSolving) {
                 resetTraps(map);
             }
