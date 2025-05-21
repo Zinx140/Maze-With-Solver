@@ -106,7 +106,9 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = player.playerTileNum;
             gold++;
             playMusic(1);
-            clearTrace(map);
+            if (isSolving) {
+                clearTrace(map);
+            }
             resetTraps(map);
         } else if (map[player.playerX + dx][player.playerY + dy] == 10) {
             if (!isSolving) {

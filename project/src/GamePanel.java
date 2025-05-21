@@ -23,17 +23,16 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void keyPressed(KeyEvent e) {
         // TODO Auto-generated method stub
         int keyCode = e.getKeyCode();
-        if (keyCode == KeyEvent.VK_W) {
-            player.move(tileM.mapTile, player, 0, plates, monsters, false); // Up
-        } else if (keyCode == KeyEvent.VK_S) {
-            player.move(tileM.mapTile, player, 1, plates, monsters, false); // Down
-        } else if (keyCode == KeyEvent.VK_A) {
-            player.move(tileM.mapTile, player, 2, plates, monsters, false); // Left
-        } else if (keyCode == KeyEvent.VK_D) {
-            player.move(tileM.mapTile, player, 3, plates, monsters, false); // Right
-        }
-        if (keyCode == KeyEvent.VK_X && gamestate == PLAYER_STATE) {
-            gamestate = PLAY_STATE;
+        if (!isSolving) {
+            if (keyCode == KeyEvent.VK_W) {
+                player.move(tileM.mapTile, player, 0, plates, monsters, false); // Up
+            } else if (keyCode == KeyEvent.VK_S) {
+                player.move(tileM.mapTile, player, 1, plates, monsters, false); // Down
+            } else if (keyCode == KeyEvent.VK_A) {
+                player.move(tileM.mapTile, player, 2, plates, monsters, false); // Left
+            } else if (keyCode == KeyEvent.VK_D) {
+                player.move(tileM.mapTile, player, 3, plates, monsters, false); // Right
+            }
         }
     }
 
@@ -276,7 +275,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 new Thread(() -> {
                     player.solved = false;
                     solve(solutionMap, player.clone(), plates, monsters, 0, player.gold);
-                    isSolving = false;
                     SwingUtilities.invokeLater(() -> {
                         SolutionPanel solutionPanel = new SolutionPanel(this);
                         this.add(solutionPanel);
@@ -284,7 +282,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                         this.requestFocusInWindow();
                         this.revalidate();
                         this.repaint();
-
                     });
 
 
@@ -302,12 +299,14 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerstat.setIcon(playerStatIcon);
         playerstat.setBounds(290, 120, 100, 43);
         playerstat.addActionListener(e -> {
-            sfxSound.setFile(8); // assuming index 7 is click.wav
-            sfxSound.playOnce();
-            if (gamestate == PLAYER_STATE) {
-                gamestate = PLAY_STATE;
-            } else if (gamestate == PLAY_STATE) {
-                gamestate = PLAYER_STATE;
+            if (!isSolving) {
+                sfxSound.setFile(8); // assuming index 7 is click.wav
+                sfxSound.playOnce();
+                if (gamestate == PLAYER_STATE) {
+                    gamestate = PLAY_STATE;
+                } else if (gamestate == PLAY_STATE) {
+                    gamestate = PLAYER_STATE;
+                }
             }
         });
         this.add(playerstat);
@@ -320,9 +319,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         reset.setIcon(resetIcon);
         reset.setBounds(400, 120, 100, 43);
         reset.addActionListener(e -> {
-            sfxSound.setFile(8); // assuming index 7 is click.wav
-            sfxSound.playOnce();
-            reset();
+            if (!isSolving) {
+                sfxSound.setFile(8); // assuming index 7 is click.wav
+                sfxSound.playOnce();
+                reset();
+            }
         });
         this.add(reset);
 
@@ -334,11 +335,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         nextStage.setIcon(nextStageIcon);
         nextStage.setBounds(510, 120, 43, 43);
         nextStage.addActionListener(e -> {
-            sfxSound.setFile(8); // assuming index 7 is click.wav
-            sfxSound.playOnce();
-            if (currentMap < maps.size() - 1) {
-                tileM.changeMap(player);
-            } 
+            if (!isSolving) {
+                sfxSound.setFile(8); // assuming index 7 is click.wav
+                sfxSound.playOnce();
+                if (currentMap < maps.size() - 1) {
+                    tileM.changeMap(player);
+                } 
+            }
         });
         this.add(nextStage);
 
@@ -350,10 +353,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         exit.setIcon(exitIcon);
         exit.setBounds(570, 120, 43, 43);
         exit.addActionListener(e -> {
-            bgmSound.stop();
-            sfxSound.setFile(8); // assuming index 7 is click.wav
-            sfxSound.playOnce();
-            SwingUtilities.invokeLater(() -> game.returnToMenu());
+            if (!isSolving) {
+                bgmSound.stop();
+                sfxSound.setFile(8); // assuming index 7 is click.wav
+                sfxSound.playOnce();
+                SwingUtilities.invokeLater(() -> game.returnToMenu());
+            }
         });
         this.add(exit);
     }

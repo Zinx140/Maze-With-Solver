@@ -62,7 +62,9 @@ public class UI extends JPanel {
         g2.setColor(Color.white);
         g2.setFont(new Font("Arial", Font.BOLD, 24));
         g2.drawImage(img, 0, 0, gp.SCREEN_WIDTH, 210, null);
-        g2.drawString("Stage: " + (gp.currentMap + 1), 50, 150);
+        g2.drawString("Stage: " + (gp.currentMap + 1), 50, 145);
+        g2.setFont(new Font("Arial", Font.PLAIN, 20));
+        g2.drawString("Gold: " + gp.player.gold, 50, 175);
     }
 
     public void drawStats() {

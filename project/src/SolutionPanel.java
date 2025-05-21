@@ -101,6 +101,7 @@ public class SolutionPanel extends JPanel {
             gp.revalidate();
             gp.repaint();
             gp.requestFocusInWindow();
+            gp.isSolving = false;
         });
         add(closeButton);
 
@@ -188,6 +189,8 @@ public class SolutionPanel extends JPanel {
                 // Update UI hp dkk
                 gp.playerHP.setValue(gp.player.playerHp);
                 gp.playerHP.setString("Player HP: " + gp.player.playerHp);
+                
+                gp.isSolving = false;
                 
                 gp.revalidate();
                 gp.repaint();
