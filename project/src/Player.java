@@ -62,8 +62,9 @@ public class Player implements Cloneable {
     public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving, int dx, int dy) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         if (map[player.playerX + dx][player.playerY + dy] == 2) {
-            player.playerX += dx;
-            player.playerY += dy;
+            // player.playerX += dx;
+            // player.playerY += dy;
+            solved = true;
         } else if (map[player.playerX + dx][player.playerY + dy] == 5) {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
