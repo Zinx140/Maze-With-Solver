@@ -12,6 +12,7 @@ public class Player implements Cloneable {
     int trapDmg = 3;
     ArrayList<Trap> triggeredTraps = new ArrayList<>();
     Sound sound = new Sound();
+    boolean solved = false;
 
     public Player(int playerX, int playerY, GamePanel gp) {
         this.playerX = playerX;
@@ -105,9 +106,10 @@ public class Player implements Cloneable {
                 gp.tileM.changeMap(this);
                 playMusic(6);
             } else {
-                map[player.playerX][player.playerY] = trace;
-                player.playerX += dx;
-                player.playerY += dy;
+                map[player.playerX][player.playerY] = 3;
+                solved = true;
+                // player.playerX += dx;
+                // player.playerY += dy;
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 12) {
             Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);

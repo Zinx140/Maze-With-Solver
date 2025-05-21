@@ -275,6 +275,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                 player.clearTrace(solutionMap);
                 
                 new Thread(() -> {
+                    player.solved = false;
                     solve(solutionMap, player.clone(), plates, monsters, 0, player.gold);
                     isSolving = false;
                     SwingUtilities.invokeLater(() -> {
@@ -288,11 +289,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     });
 
 
-                            // JPanel panel = new JPanel();
-                            // panel.setSize(100, 100);
-                            // panel.setBackground(Color.MAGENTA);
-                            // panel.setBounds(10, 350, 100, 100);
-                            // add(panel);                    
                 }).start();
             }
 
@@ -388,7 +384,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                      ", HP: " + player.playerHp);
 
         int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
-        if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
+        // if (map[player.playerX][player.playerY] == 10 || map[player.playerX][player.playerY] == 2) { // Jika sudah sampai tujuan
+        if (player.solved) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");
             System.out.println("Current Map: " + currentMap);
             System.out.println("Player HP: " + player.playerHp);
@@ -397,6 +394,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             draw(map);
             copyMap(currentMapArr, map);
             solutions.add(new Solution(currentMapArr, path, player.clone()));
+            player.solved = false;
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4 && player.playerHp > 0) { // Up
                 Player playerClone = player.clone();
