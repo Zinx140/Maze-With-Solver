@@ -1,6 +1,6 @@
 public class Monster implements Cloneable {
     int monsterX, monsterY;
-    int atk, def, hp;
+    int atk, def, hp, maxHP;
 
     public Monster(int monsterX, int monsterY) {
         this.monsterX = monsterX;
@@ -9,7 +9,7 @@ public class Monster implements Cloneable {
 
     public void setSpider(int map[][]) {
         hp = 500;
-        // atk = 1;
+        maxHP = 500;
         atk = 10;
         def = 10;
         map[monsterX][monsterY] = 7; // set tile monster spider
@@ -17,16 +17,16 @@ public class Monster implements Cloneable {
 
     public void setOgre(int map[][]) {
         hp = 800;
+        maxHP = 800;
         atk = 15;
-        // atk = 1;
         def = 10;
         map[monsterX][monsterY] = 8; // set tile monster ogre
     }
 
     public void setDragon(int map[][]) {
         hp = 1000;
+        maxHP = 1000;
         atk = 50;
-        // atk = 1;
         def = 30;
         map[monsterX][monsterY] = 9; // set tile monster dragon
     }

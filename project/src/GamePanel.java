@@ -268,9 +268,9 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             if (!isSolving) {
                 isSolving = true;
                 int [][] solutionMap = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
-                copyMap(solutionMap, mapTemp);
+                copyMap(solutionMap, tileM.mapTile);
                 solutions.clear();
-                player.clearTrace(solutionMap);
+                clearTracePlayer(solutionMap);
                 
                 new Thread(() -> {
                     player.solved = false;
@@ -442,12 +442,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void reset() {
         player.playerX = playerXTemp;
         player.playerY = playerYTemp;
-        player.playerHp = player.maxHp;
+        player.playerHp = hpTemp;
         player.gold = goldTemp;
         player.playerAtk = 100;
         player.isOpenChest = false; // Reset status chest
         player.playerTileNum = 3; // Set tile player
         copyMap(tileM.mapTile, mapTemp);
+        resetMonsterHP();
         tileM.mapTile[player.playerX][player.playerY] = 3;
         player.isArmored = false;
         try {
@@ -461,6 +462,22 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public void setPlates(int map[][], ArrayList<Plate> Plates) {
         for (int i = 0; i < Plates.size(); i++) {
             Plates.get(i).setKey(map);
+        }
+    }
+
+    public void resetMonsterHP() {
+        for (int i = 0; i < monsters.size(); i++) {
+            monsters.get(i).hp = monsters.get(i).maxHP;
+        }
+    }
+
+    public void clearTracePlayer(int[][] map) {
+        for (int i = 0; i < MAX_WORLD_ROW; i++) {
+            for (int j = 0; j < MAX_WORLD_COL; j++) {
+                if (map[i][j] == 6) {
+                    map[i][j] = 0;
+                }
+            }
         }
     }
 

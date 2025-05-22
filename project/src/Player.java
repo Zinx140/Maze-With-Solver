@@ -66,6 +66,7 @@ public class Player implements Cloneable {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         if (map[player.playerX + dx][player.playerY + dy] == 2) {
             if (!isSolving) {
+                gp.hpTemp = player.playerHp;
                 player.playerX += dx;
                 player.playerY += dy;
             } else {
@@ -87,6 +88,7 @@ public class Player implements Cloneable {
         } else if (map[player.playerX + dx][player.playerY + dy] == 7 || map[player.playerX + dx][player.playerY + dy] == 8
                 || map[player.playerX + dx][player.playerY + dy] == 9) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
+            System.out.println("You encountered a monster!" + x);
             boolean win = winBattle(x);
             if (win) {
                 map[player.playerX][player.playerY] = trace;
@@ -113,6 +115,7 @@ public class Player implements Cloneable {
             resetTraps(map);
         } else if (map[player.playerX + dx][player.playerY + dy] == 10) {
             if (!isSolving) {
+                gp.hpTemp = player.playerHp;
                 gp.tileM.changeMap(player);
                 playMusic(6);
             } else {
@@ -199,7 +202,6 @@ public class Player implements Cloneable {
         } else {
             return false; // Player kalah
         }
-
     }
 
     public Player clone() {
