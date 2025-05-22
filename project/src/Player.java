@@ -84,7 +84,9 @@ public class Player implements Cloneable {
                 keys.get(keyIndex).openPath(map);
                 keys.remove(keyIndex);
             }
-            clearTrace(map);
+            if (isSolving) {
+                clearTrace(map);
+            }
         } else if (map[player.playerX + dx][player.playerY + dy] == 7 || map[player.playerX + dx][player.playerY + dy] == 8
                 || map[player.playerX + dx][player.playerY + dy] == 9) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
