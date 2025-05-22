@@ -384,11 +384,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path, int gold) {
-
-    System.out.println("posisi : (" + player.playerX + "," + player.playerY + 
-                     ") value map : " + map[player.playerX][player.playerY] + 
-                     ", HP: " + player.playerHp);
-
         int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
         if (player.solved) { // Jika sudah sampai tujuan
             System.out.println("=== Path found! ===");

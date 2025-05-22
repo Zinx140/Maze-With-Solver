@@ -69,7 +69,8 @@ public class Player implements Cloneable {
                 player.playerX += dx;
                 player.playerY += dy;
             } else {
-                solved = true;
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 5) {
             map[player.playerX][player.playerY] = trace;
@@ -112,11 +113,11 @@ public class Player implements Cloneable {
             resetTraps(map);
         } else if (map[player.playerX + dx][player.playerY + dy] == 10) {
             if (!isSolving) {
-                gp.tileM.changeMap(this);
+                gp.tileM.changeMap(player);
                 playMusic(6);
             } else {
                 map[player.playerX][player.playerY] = player.playerTileNum;
-                solved = true;
+                player.solved = true;
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 12) {
             Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);
@@ -150,8 +151,6 @@ public class Player implements Cloneable {
                 resetTraps(map);
             }
         }
-
-        System.out.println("Current HP : " + player.playerHp);
     }
 
     public Monster getId(ArrayList<Monster> monster, int x, int y) {
