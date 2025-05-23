@@ -101,6 +101,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     ArrayList<Solution> solutions = new ArrayList<>(); // Inisialisasi list solusi
     ArrayList<Monster> monsters = new ArrayList<>(); // Inisialisasi list monster
     ArrayList<Trap> traps = new ArrayList<>(); // Inisialisasi list trap
+    ArrayList<Potion> potions = new ArrayList<>(); // Inisialisasi list potion
 
     ArrayList<Map> maps = new ArrayList<>();
 
@@ -161,7 +162,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        setWall(plates, currentMap);
         tileM.mapTile[player.playerX][player.playerY] = 3; // Set tile player
         copyMap(mapTemp, tileM.mapTile); // Copy map ke mapTemp
 
@@ -361,15 +361,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         this.add(exit);
     }
 
-    public void setWall(ArrayList<Plate> Plates, int map) {
-        if (map == 0) {
-            Plates.add(new Plate(3, 3, 2, 12)); // Tambahkan kunci ke list
-            Plates.add(new Plate(9, 3, 8, 12));
-            Plates.add(new Plate(7, 11, 13, 12));
-            setPlates(tileM.mapTile, Plates);
-        }
-    }
-
     public void copyMap(int[][] map, int[][] mapTile) {
         for (int i = 0; i < MAX_WORLD_ROW; i++) {
             for (int j = 0; j < MAX_WORLD_COL; j++) {
@@ -468,12 +459,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
-    }
-
-    public void setPlates(int map[][], ArrayList<Plate> Plates) {
-        for (int i = 0; i < Plates.size(); i++) {
-            Plates.get(i).setKey(map);
         }
     }
 

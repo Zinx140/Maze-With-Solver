@@ -45,7 +45,8 @@ public class Player implements Cloneable {
         }
     }
 
-    public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving) {
+    public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
+            boolean isSolving) {
         switch (direction) {
             case 0: // up
                 movePlayer(map, player, keys, monsters, isSolving, 0, -1);
@@ -62,7 +63,8 @@ public class Player implements Cloneable {
         }
     }
 
-    public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving, int dx, int dy) {
+    public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters,
+            boolean isSolving, int dx, int dy) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         if (map[player.playerX + dx][player.playerY + dy] == 2) {
             if (!isSolving) {
@@ -87,7 +89,8 @@ public class Player implements Cloneable {
             if (isSolving) {
                 clearTrace(map);
             }
-        } else if (map[player.playerX + dx][player.playerY + dy] == 7 || map[player.playerX + dx][player.playerY + dy] == 8
+        } else if (map[player.playerX + dx][player.playerY + dy] == 7
+                || map[player.playerX + dx][player.playerY + dy] == 8
                 || map[player.playerX + dx][player.playerY + dy] == 9) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
             System.out.println("You encountered a monster!" + x);
@@ -100,7 +103,7 @@ public class Player implements Cloneable {
                 if (!isSolving) {
                     resetTraps(map);
                 }
-            } 
+            }
             if (player.playerHp < 0) {
                 player.playerHp = 0;
             }
@@ -136,6 +139,15 @@ public class Player implements Cloneable {
             System.out.println("You stepped on a trap! " + trapDmg + " HP.");
             player.playerHp -= trapDmg;
             playMusic(2);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 16) {
+            Potion potion = getIdPotion(gp.potions, player.playerX + dx, player.playerY + dy);
+            potion.healPlayer(player);
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            System.out.println("You found a potion!");
+            playMusic(10);
         } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
             map[player.playerX][player.playerY] = trace;
             map[player.playerX + dx][player.playerY + dy] = 15;
@@ -146,7 +158,8 @@ public class Player implements Cloneable {
             gp.tileM.transform(player);
             resetTraps(map);
             clearTrace(map);
-        } else if (map[player.playerX + dx][player.playerY + dy] != 1 && map[player.playerX + dx][player.playerY + dy] != 4
+        } else if (map[player.playerX + dx][player.playerY + dy] != 1
+                && map[player.playerX + dx][player.playerY + dy] != 4
                 && map[player.playerX + dx][player.playerY + dy] != 2) {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
@@ -162,6 +175,15 @@ public class Player implements Cloneable {
         for (Monster monster2 : monster) {
             if (monster2.monsterX == x && monster2.monsterY == y) {
                 return monster2;
+            }
+        }
+        return null;
+    }
+
+    public Potion getIdPotion(ArrayList<Potion> potions, int x, int y) {
+        for (Potion potion : potions) {
+            if (potion.potionX == x && potion.potionY == y) {
+                return potion;
             }
         }
         return null;
@@ -189,7 +211,7 @@ public class Player implements Cloneable {
             sound.play();
         }
     }
-    
+
     public boolean winBattle(Monster x) {
         while (playerHp > 0 && x.hp > 0) {
             x.hp -= (playerAtk - x.def);

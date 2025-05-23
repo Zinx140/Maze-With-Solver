@@ -21,7 +21,8 @@ public class Sound {
             soundURL[7] = new File("project/sound/click.wav").toURI().toURL();
             soundURL[8] = new File("project/sound/btnpress.wav").toURI().toURL();
             soundURL[9] = new File("project/sound/lobby.wav").toURI().toURL();
-        }  catch (Exception e) {
+            soundURL[10] = new File("project/sound/healSound.wav").toURI().toURL();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -48,7 +49,7 @@ public class Sound {
 
     public void play() {
         if (clip != null) {
-            clip.setFramePosition(0);  // rewind to the start
+            clip.setFramePosition(0); // rewind to the start
             clip.start();
         }
     }

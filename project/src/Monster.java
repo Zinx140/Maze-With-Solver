@@ -8,26 +8,26 @@ public class Monster implements Cloneable {
     }
 
     public void setSpider(int map[][]) {
-        hp = 500;
-        maxHP = 500;
-        atk = 10;
-        def = 10;
+        hp = 200;
+        maxHP = 200;
+        atk = 8;
+        def = 5;
         map[monsterX][monsterY] = 7; // set tile monster spider
     }
 
     public void setOgre(int map[][]) {
-        hp = 800;
-        maxHP = 800;
-        atk = 15;
-        def = 10;
+        hp = 350;
+        maxHP = 350;
+        atk = 12;
+        def = 8;
         map[monsterX][monsterY] = 8; // set tile monster ogre
     }
 
     public void setDragon(int map[][]) {
         hp = 1000;
         maxHP = 1000;
-        atk = 50;
-        def = 30;
+        atk = 200;
+        def = 35;
         map[monsterX][monsterY] = 9; // set tile monster dragon
     }
 

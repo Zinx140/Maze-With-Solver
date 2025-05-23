@@ -20,6 +20,11 @@ public class TileManager {
         tile = new Tile[30];
         mapTile = new int[gp.MAX_WORLD_COL][gp.MAX_WORLD_ROW];
 
+        // Initialize plates list if it's null
+        if (gp.plates == null) {
+            gp.plates = new ArrayList<>();
+        }
+
         loadMap("project/src/maps/map1.txt");
         getTileImage();
     }
@@ -102,6 +107,10 @@ public class TileManager {
             tile[15].image = ImageIO.read(new File("project/img/armoredPrince.png"));
             tile[15].collison = false;
 
+            tile[16] = new Tile();
+            tile[16].image = ImageIO.read(new File("project/img/heal.png"));
+            tile[16].collison = false;
+
         } catch (IOException e) {
             e.getStackTrace();
         }
@@ -180,6 +189,10 @@ public class TileManager {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
         }
+        // set key
+        setWall(mapTile, gp.currentMap);
+        // set potion
+        setPotionMap(mapTile, gp.currentMap);
         // set monster
         setMonsterMap(mapTile, gp.currentMap);
         // set trap
@@ -188,12 +201,43 @@ public class TileManager {
         randomGold(mapTile);
     }
 
+    public void setPotionMap(int[][] map, int currentlvl) {
+        if (currentlvl == 1) {
+            gp.potions.add(new Potion(6, 1));
+            for (int i = 0; i < gp.potions.size(); i++) {
+                gp.potions.get(i).setPotion(map);
+            }
+        }
+        if (currentlvl == 2) {
+            gp.potions.clear();
+            gp.potions.add(new Potion(5, 13));
+            for (int i = 0; i < gp.potions.size(); i++) {
+                gp.potions.get(i).setPotion(map);
+            }
+        }
+        if (currentlvl == 3) {
+            gp.potions.clear();
+            gp.potions.add(new Potion(5, 13));
+            for (int i = 0; i < gp.potions.size(); i++) {
+                gp.potions.get(i).setPotion(map);
+            }
+        }
+
+        if (currentlvl == 4) {
+            gp.potions.clear();
+            gp.potions.add(new Potion(5, 13));
+            for (int i = 0; i < gp.potions.size(); i++) {
+                gp.potions.get(i).setPotion(map);
+            }
+        }
+    }
+
     public void setTrapMap(int[][] map, int currentlvl) {
         if (currentlvl == 1) {
-            gp.traps.add(new Trap(3, 8));
-            gp.traps.add(new Trap(2, 13));
-            gp.traps.add(new Trap(9, 10));
-            gp.traps.add(new Trap(13, 6));
+            gp.traps.add(new Trap(3, 6));
+            gp.traps.add(new Trap(5, 10));
+            gp.traps.add(new Trap(13, 7));
+            gp.traps.add(new Trap(11, 12));
             for (int i = 0; i < gp.traps.size(); i++) {
                 gp.traps.get(i).setTrap(map);
             }
@@ -228,9 +272,9 @@ public class TileManager {
 
     public void setMonsterMap(int[][] map, int currentlvl) {
         if (currentlvl == 2) {
-            gp.monsters.add(new Monster(1, 8));
-            gp.monsters.add(new Monster(11, 5));
-            gp.monsters.add(new Monster(13, 9));
+            gp.monsters.add(new Monster(2, 13));
+            gp.monsters.add(new Monster(11, 3));
+            gp.monsters.add(new Monster(7, 13));
             for (int i = 0; i < gp.monsters.size(); i++) {
                 gp.monsters.get(i).setSpider(map);
             }
@@ -262,6 +306,49 @@ public class TileManager {
             gp.monsters.get(4).setOgre(map);
             gp.monsters.get(5).setDragon(map);
 
+        }
+    }
+
+    public void setWall(int map[][], int currentlvl) {
+        if (currentlvl == 0) {
+            gp.plates.add(new Plate(3, 3, 2, 12)); // Tambahkan kunci ke list
+            gp.plates.add(new Plate(9, 3, 8, 12));
+            gp.plates.add(new Plate(7, 11, 10, 2));
+            setPlates(map, gp.plates);
+        }
+        if (currentlvl == 1) {
+            gp.plates.clear();
+            gp.plates.add(new Plate(3, 11, 5, 12));
+            gp.plates.add(new Plate(1, 13, 10, 3));
+            gp.plates.add(new Plate(5, 1, 10, 13));
+            setPlates(map, gp.plates);
+        }
+        if (currentlvl == 2) {
+            gp.plates.clear();
+            gp.plates.add(new Plate(1, 3, 1, 12));
+            gp.plates.add(new Plate(5, 13, 10, 3));
+            gp.plates.add(new Plate(7, 11, 10, 2));
+            setPlates(map, gp.plates);
+        }
+        if (currentlvl == 3) {
+            gp.plates.clear();
+            gp.plates.add(new Plate(1, 3, 1, 12));
+            gp.plates.add(new Plate(5, 13, 10, 3));
+            gp.plates.add(new Plate(7, 11, 10, 2));
+            setPlates(map, gp.plates);
+        }
+        if (currentlvl == 4) {
+            gp.plates.clear();
+            gp.plates.add(new Plate(1, 3, 1, 12));
+            gp.plates.add(new Plate(5, 13, 10, 3));
+            gp.plates.add(new Plate(7, 11, 10, 2));
+            setPlates(map, gp.plates);
+        }
+    }
+
+    public void setPlates(int map[][], ArrayList<Plate> Plates) {
+        for (int i = 0; i < Plates.size(); i++) {
+            Plates.get(i).setKey(map);
         }
     }
 
