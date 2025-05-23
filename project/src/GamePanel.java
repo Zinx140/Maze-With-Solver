@@ -162,10 +162,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
-        plates.add(new Plate(3, 3, 2, 12));
-        plates.add(new Plate(9, 3, 8, 12));
-        plates.add(new Plate(7, 11, 10, 2));
-        setPlates(tileM.mapTile, plates);
+        setWallFirst();
         tileM.mapTile[player.playerX][player.playerY] = 3; // Set tile player
         copyMap(mapTemp, tileM.mapTile); // Copy map ke mapTemp
 
@@ -456,6 +453,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.playerTileNum = 3; // Set tile player
         copyMap(tileM.mapTile, mapTemp);
         resetMonsterHP();
+        if (currentMap == 0) {
+            setWallFirst();
+        }
+        tileM.setWall(tileM.mapTile, currentMap);
         tileM.mapTile[player.playerX][player.playerY] = 3;
         player.isArmored = false;
         try {
@@ -486,6 +487,13 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         for (int i = 0; i < Plates.size(); i++) {
             Plates.get(i).setKey(map);
         }
+    }
+
+    public void setWallFirst() {
+        plates.add(new Plate(3, 3, 2, 12));
+        plates.add(new Plate(9, 3, 8, 12));
+        plates.add(new Plate(7, 11, 10, 2));
+        setPlates(tileM.mapTile, plates);
     }
 
     public void draw(int map[][]) {
