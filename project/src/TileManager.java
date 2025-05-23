@@ -98,24 +98,24 @@ public class TileManager {
             tile[14].image = ImageIO.read(new File("project/img/chest.png"));
             tile[14].collison = false;
 
+            tile[15] = new Tile();
+            tile[15].image = ImageIO.read(new File("project/img/armoredPrince.png"));
+            tile[15].collison = false;
+
         } catch (IOException e) {
             e.getStackTrace();
         }
     }
 
     public void transform(Player player) {
-        try {
-            if (!gp.isSolving) {
-                tile[3].image = ImageIO.read(new File("project/img/armoredPrince.png"));
-            } 
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        player.playerTileNum = 15;
         player.playerHp = 2000;
         player.playerAtk = 2000;
-        sound.setFile(4);
-        sound.playOnce();
+        player.isArmored = true;
+        if (!gp.isSolving) {
+            sound.setFile(4);
+            sound.playOnce();
+        }
     }
 
     public void randomGold(int[][] map) {

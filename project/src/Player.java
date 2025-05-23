@@ -1,25 +1,29 @@
 import java.util.ArrayList;
 
 public class Player implements Cloneable {
+    boolean isOpenChest = false;
+    boolean isArmored = false;
+    GamePanel gp;
+    int gold = 0;
+    int maxHp;
     int playerX;
     int playerY;
     int playerHp;
     int playerAtk;
-    int maxHp;
-    GamePanel gp;
-    int gold = 0;
-    boolean isOpenChest = false;
+    Sound sound = new Sound();
     int trapDmg = 3;
     ArrayList<Trap> triggeredTraps = new ArrayList<>();
-    Sound sound = new Sound();
+    boolean solved = false;
+    int playerTileNum;
 
     public Player(int playerX, int playerY, GamePanel gp) {
+        this.gp = gp;
+        this.maxHp = 100; // Set maximum HP
         this.playerX = playerX;
         this.playerY = playerY;
-        this.gp = gp;
         this.playerHp = 100; // Set initial HP
-        this.maxHp = 100; // Set maximum HP
         this.playerAtk = 100; // Set initial attack power
+        this.playerTileNum = 3; // Set initial tile number
     }
 
     public int searchKey(ArrayList<Plate> keys) {
@@ -34,7 +38,7 @@ public class Player implements Cloneable {
     public void clearTrace(int[][] map) {
         for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
             for (int j = 0; j < gp.MAX_WORLD_COL; j++) {
-                if (map[i][j] == 4) {
+                if (map[i][j] == 4 || map[i][j] == 3) {
                     map[i][j] = 6;
                 }
             }
@@ -61,29 +65,38 @@ public class Player implements Cloneable {
     public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters, boolean isSolving, int dx, int dy) {
         int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
         if (map[player.playerX + dx][player.playerY + dy] == 2) {
-            player.playerX += dx;
-            player.playerY += dy;
+            if (!isSolving) {
+                gp.hpTemp = player.playerHp;
+                player.playerX += dx;
+                player.playerY += dy;
+            } else {
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
+            }
         } else if (map[player.playerX + dx][player.playerY + dy] == 5) {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             int keyIndex = searchKey(keys);
             playMusic(7);
             if (keyIndex != -1) {
                 keys.get(keyIndex).openPath(map);
                 keys.remove(keyIndex);
             }
-            clearTrace(map);
+            if (isSolving) {
+                clearTrace(map);
+            }
         } else if (map[player.playerX + dx][player.playerY + dy] == 7 || map[player.playerX + dx][player.playerY + dy] == 8
                 || map[player.playerX + dx][player.playerY + dy] == 9) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
+            System.out.println("You encountered a monster!" + x);
             boolean win = winBattle(x);
             if (win) {
                 map[player.playerX][player.playerY] = trace;
                 player.playerX += dx;
                 player.playerY += dy;
-                map[player.playerX][player.playerY] = 3;
+                map[player.playerX][player.playerY] = player.playerTileNum;
                 if (!isSolving) {
                     resetTraps(map);
                 }
@@ -95,19 +108,21 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             gold++;
             playMusic(1);
-            clearTrace(map);
+            if (isSolving) {
+                clearTrace(map);
+            }
             resetTraps(map);
         } else if (map[player.playerX + dx][player.playerY + dy] == 10) {
             if (!isSolving) {
-                gp.tileM.changeMap(this);
+                gp.hpTemp = player.playerHp;
+                gp.tileM.changeMap(player);
                 playMusic(6);
             } else {
-                map[player.playerX][player.playerY] = trace;
-                player.playerX += dx;
-                player.playerY += dy;
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 12) {
             Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);
@@ -117,15 +132,15 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             System.out.println("You stepped on a trap! " + trapDmg + " HP.");
             player.playerHp -= trapDmg;
             playMusic(2);
         } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
             map[player.playerX][player.playerY] = trace;
+            map[player.playerX + dx][player.playerY + dy] = 15;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
             System.out.println("You found a chest ! ");
             isOpenChest = true;
             gp.tileM.transform(player);
@@ -136,7 +151,7 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
-            map[player.playerX][player.playerY] = 3;
+            map[player.playerX][player.playerY] = player.playerTileNum;
             if (!isSolving) {
                 resetTraps(map);
             }
@@ -185,13 +200,10 @@ public class Player implements Cloneable {
         }
 
         if (x.hp <= 0) {
-            System.out.println("You win");
             return true; // Player menang
         } else {
-            System.out.println("You lose");
             return false; // Player kalah
         }
-
     }
 
     public Player clone() {
