@@ -218,7 +218,7 @@ public class TileManager {
         if (currentlvl == 3) {
             gp.potions.clear();
             gp.potions.add(new Potion(7, 7));
-            gp.potions.add(new Potion(11, 2));
+            gp.potions.add(new Potion(9, 2));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }
@@ -227,7 +227,7 @@ public class TileManager {
         if (currentlvl == 4) {
             gp.potions.clear();
             gp.potions.add(new Potion(2, 12));
-            gp.potions.add(new Potion(6, 1));
+            gp.potions.add(new Potion(4, 1));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }

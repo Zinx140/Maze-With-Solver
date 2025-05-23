@@ -1,5 +1,6 @@
 public class Monster implements Cloneable {
     int monsterX, monsterY;
+    String nama = "";
     int atk, def, hp, maxHP;
 
     public Monster(int monsterX, int monsterY) {
@@ -8,6 +9,7 @@ public class Monster implements Cloneable {
     }
 
     public void setSpider(int map[][]) {
+        nama = "Spider";
         hp = 200;
         maxHP = 200;
         atk = 8;
@@ -16,6 +18,7 @@ public class Monster implements Cloneable {
     }
 
     public void setOgre(int map[][]) {
+        nama = "Ogre";
         hp = 350;
         maxHP = 350;
         atk = 12;
@@ -24,6 +27,7 @@ public class Monster implements Cloneable {
     }
 
     public void setDragon(int map[][]) {
+        nama = "Dragon";
         hp = 1000;
         maxHP = 1000;
         atk = 200;

@@ -93,7 +93,7 @@ public class Player implements Cloneable {
                 || map[player.playerX + dx][player.playerY + dy] == 8
                 || map[player.playerX + dx][player.playerY + dy] == 9) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
-            System.out.println("You encountered a monster!" + x);
+            System.out.println("You encountered a monster!" + x.nama);
             boolean win = winBattle(x);
             if (win) {
                 map[player.playerX][player.playerY] = trace;
