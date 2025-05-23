@@ -162,6 +162,10 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         long lastTime = System.nanoTime();
         long currentTime;
         long timer = 0;
+        plates.add(new Plate(3, 3, 2, 12));
+        plates.add(new Plate(9, 3, 8, 12));
+        plates.add(new Plate(7, 11, 10, 2));
+        setPlates(tileM.mapTile, plates);
         tileM.mapTile[player.playerX][player.playerY] = 3; // Set tile player
         copyMap(mapTemp, tileM.mapTile); // Copy map ke mapTemp
 
@@ -475,6 +479,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
                     map[i][j] = 0;
                 }
             }
+        }
+    }
+
+    public void setPlates(int map[][], ArrayList<Plate> Plates) {
+        for (int i = 0; i < Plates.size(); i++) {
+            Plates.get(i).setKey(map);
         }
     }
 

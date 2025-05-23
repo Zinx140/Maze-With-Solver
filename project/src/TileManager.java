@@ -210,14 +210,15 @@ public class TileManager {
         }
         if (currentlvl == 2) {
             gp.potions.clear();
-            gp.potions.add(new Potion(5, 13));
+            gp.potions.add(new Potion(11, 5));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }
         }
         if (currentlvl == 3) {
             gp.potions.clear();
-            gp.potions.add(new Potion(5, 13));
+            gp.potions.add(new Potion(7, 7));
+            gp.potions.add(new Potion(11, 2));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }
@@ -225,7 +226,8 @@ public class TileManager {
 
         if (currentlvl == 4) {
             gp.potions.clear();
-            gp.potions.add(new Potion(5, 13));
+            gp.potions.add(new Potion(2, 12));
+            gp.potions.add(new Potion(6, 1));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }
@@ -244,26 +246,26 @@ public class TileManager {
         }
         if (currentlvl == 2) {
             gp.traps.clear();
-            gp.traps.add(new Trap(5, 13));
-            gp.traps.add(new Trap(7, 5));
-            gp.traps.add(new Trap(11, 10));
+            gp.traps.add(new Trap(3, 13));
+            gp.traps.add(new Trap(4, 3));
+            gp.traps.add(new Trap(10, 13));
             for (int i = 0; i < gp.traps.size(); i++) {
                 gp.traps.get(i).setTrap(map);
             }
         }
         if (currentlvl == 3) {
             gp.traps.clear();
-            gp.traps.add(new Trap(13, 11));
-            gp.traps.add(new Trap(3, 5));
-            gp.traps.add(new Trap(13, 2));
+            gp.traps.add(new Trap(5, 12));
+            gp.traps.add(new Trap(7, 5));
+            gp.traps.add(new Trap(12, 9));
             for (int i = 0; i < gp.traps.size(); i++) {
                 gp.traps.get(i).setTrap(map);
             }
         }
         if (currentlvl == 4) {
             gp.traps.clear();
-            gp.traps.add(new Trap(11, 7));
-            gp.traps.add(new Trap(13, 5));
+            gp.traps.add(new Trap(6, 3));
+            gp.traps.add(new Trap(6, 11));
             for (int i = 0; i < gp.traps.size(); i++) {
                 gp.traps.get(i).setTrap(map);
             }
@@ -272,17 +274,17 @@ public class TileManager {
 
     public void setMonsterMap(int[][] map, int currentlvl) {
         if (currentlvl == 2) {
-            gp.monsters.add(new Monster(2, 13));
-            gp.monsters.add(new Monster(11, 3));
-            gp.monsters.add(new Monster(7, 13));
+            gp.monsters.add(new Monster(13, 12));
+            gp.monsters.add(new Monster(6, 11));
+            gp.monsters.add(new Monster(6, 13));
             for (int i = 0; i < gp.monsters.size(); i++) {
                 gp.monsters.get(i).setSpider(map);
             }
         } else if (currentlvl == 3) {
             gp.monsters.clear();
-            gp.monsters.add(new Monster(1, 6));
-            gp.monsters.add(new Monster(5, 11));
-            gp.monsters.add(new Monster(1, 13));
+            gp.monsters.add(new Monster(7, 4));
+            gp.monsters.add(new Monster(6, 12));
+            gp.monsters.add(new Monster(6, 1));
             for (int i = 0; i < gp.monsters.size(); i++) {
                 gp.monsters.get(i).setSpider(map);
             }
@@ -293,15 +295,15 @@ public class TileManager {
 
         } else if (currentlvl == 4) {
             gp.monsters.clear();
-            gp.monsters.add(new Monster(1, 12));
+            gp.monsters.add(new Monster(1, 5));
             gp.monsters.get(0).setDragon(map);
-            gp.monsters.add(new Monster(1, 3));
-            gp.monsters.add(new Monster(1, 7));
+            gp.monsters.add(new Monster(9, 12));
+            gp.monsters.add(new Monster(9, 2));
             gp.monsters.get(1).setSpider(map);
             gp.monsters.get(2).setSpider(map);
-            gp.monsters.add(new Monster(13, 9));
-            gp.monsters.add(new Monster(13, 13));
-            gp.monsters.add(new Monster(2, 13));
+            gp.monsters.add(new Monster(11, 5));
+            gp.monsters.add(new Monster(1, 9));
+            gp.monsters.add(new Monster(3, 7));
             gp.monsters.get(3).setOgre(map);
             gp.monsters.get(4).setOgre(map);
             gp.monsters.get(5).setDragon(map);
@@ -310,12 +312,6 @@ public class TileManager {
     }
 
     public void setWall(int map[][], int currentlvl) {
-        if (currentlvl == 0) {
-            gp.plates.add(new Plate(3, 3, 2, 12)); // Tambahkan kunci ke list
-            gp.plates.add(new Plate(9, 3, 8, 12));
-            gp.plates.add(new Plate(7, 11, 10, 2));
-            setPlates(map, gp.plates);
-        }
         if (currentlvl == 1) {
             gp.plates.clear();
             gp.plates.add(new Plate(3, 11, 5, 12));
@@ -325,23 +321,26 @@ public class TileManager {
         }
         if (currentlvl == 2) {
             gp.plates.clear();
-            gp.plates.add(new Plate(1, 3, 1, 12));
-            gp.plates.add(new Plate(5, 13, 10, 3));
-            gp.plates.add(new Plate(7, 11, 10, 2));
+            gp.plates.add(new Plate(7, 13, 3, 12));
+            gp.plates.add(new Plate(7, 11, 13, 2));
             setPlates(map, gp.plates);
         }
         if (currentlvl == 3) {
             gp.plates.clear();
-            gp.plates.add(new Plate(1, 3, 1, 12));
-            gp.plates.add(new Plate(5, 13, 10, 3));
-            gp.plates.add(new Plate(7, 11, 10, 2));
+            gp.plates.add(new Plate(11, 3, 9, 8));
+            gp.plates.add(new Plate(9, 3, 12, 1));
+            gp.plates.add(new Plate(1, 13, 11, 10));
+            gp.plates.add(new Plate(3, 5, 9, 4));
             setPlates(map, gp.plates);
         }
         if (currentlvl == 4) {
             gp.plates.clear();
-            gp.plates.add(new Plate(1, 3, 1, 12));
-            gp.plates.add(new Plate(5, 13, 10, 3));
-            gp.plates.add(new Plate(7, 11, 10, 2));
+            gp.plates.add(new Plate(8, 2, 1, 4));
+            gp.plates.add(new Plate(8, 8, 12, 5));
+            gp.plates.add(new Plate(8, 12, 1, 10));
+            gp.plates.add(new Plate(6, 13, 4, 7));
+            gp.plates.add(new Plate(11, 4, 6, 10));
+            gp.plates.add(new Plate(11, 10, 6, 4));
             setPlates(map, gp.plates);
         }
     }
