@@ -111,6 +111,10 @@ public class TileManager {
             tile[16].image = ImageIO.read(new File("project/img/heal.png"));
             tile[16].collison = false;
 
+            tile[17] = new Tile();
+            tile[17].image = ImageIO.read(new File("project/img/phoenix.png"));
+            tile[17].collison = false;
+
         } catch (IOException e) {
             e.getStackTrace();
         }
@@ -296,7 +300,7 @@ public class TileManager {
         } else if (currentlvl == 4) {
             gp.monsters.clear();
             gp.monsters.add(new Monster(1, 5));
-            gp.monsters.get(0).setDragon(map);
+            gp.monsters.get(0).setPhx(map);(map);
             gp.monsters.add(new Monster(9, 12));
             gp.monsters.add(new Monster(9, 2));
             gp.monsters.get(1).setSpider(map);

@@ -26,6 +26,15 @@ public class Monster implements Cloneable {
         map[monsterX][monsterY] = 8; // set tile monster ogre
     }
 
+    public void setPhx(int map[][]) {
+        nama = "Phoenix";
+        hp = 100;
+        maxHP = 100;
+        atk = 99;
+        def = 0;
+        map[monsterX][monsterY] = 16; // set tile monster dragon
+    }
+
     public void setDragon(int map[][]) {
         nama = "Dragon";
         hp = 1000;
