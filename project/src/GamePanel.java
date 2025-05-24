@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     final int ORI_TILE_SIZE = 15;
-    final int scale = 2;
+    final int scale = 3;
 
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
@@ -77,7 +77,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     public int currentMap = 0; // Map yang sedang dimainkan
 
     // gold di game
-    public int MAX_GOLD_PERMAP = 5;
+    public int MAX_GOLD_PERMAP = 3;
 
     int playerXTemp = 1;
     int playerYTemp = 1;

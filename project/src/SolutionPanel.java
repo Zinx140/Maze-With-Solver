@@ -285,5 +285,4 @@ public class SolutionPanel extends JPanel {
         draw(g2);
     }
 
-
 }

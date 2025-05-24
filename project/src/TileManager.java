@@ -342,7 +342,7 @@ public class TileManager {
             gp.plates.add(new Plate(8, 2, 1, 4));
             gp.plates.add(new Plate(8, 8, 12, 5));
             gp.plates.add(new Plate(8, 12, 1, 10));
-            gp.plates.add(new Plate(6, 13, 4, 7));
+            gp.plates.add(new Plate(6, 13, 5, 7));
             gp.plates.add(new Plate(11, 4, 6, 10));
             gp.plates.add(new Plate(11, 10, 6, 4));
             setPlates(map, gp.plates);

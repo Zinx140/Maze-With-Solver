@@ -145,6 +145,7 @@ public class Player implements Cloneable {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
+            clearTrace(map);
             map[player.playerX][player.playerY] = player.playerTileNum;
             System.out.println("You found a potion!");
             playMusic(10);
@@ -155,9 +156,9 @@ public class Player implements Cloneable {
             player.playerY += dy;
             System.out.println("You found a chest ! ");
             isOpenChest = true;
+            clearTrace(map);
             gp.tileM.transform(player);
             resetTraps(map);
-            clearTrace(map);
         } else if (map[player.playerX + dx][player.playerY + dy] != 1
                 && map[player.playerX + dx][player.playerY + dy] != 4
                 && map[player.playerX + dx][player.playerY + dy] != 2) {
