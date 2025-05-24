@@ -32,7 +32,7 @@ public class Monster implements Cloneable {
         maxHP = 100;
         atk = 99;
         def = 0;
-        map[monsterX][monsterY] = 16; // set tile monster dragon
+        map[monsterX][monsterY] = 17; // set tile monster pxh
     }
 
     public void setDragon(int map[][]) {
