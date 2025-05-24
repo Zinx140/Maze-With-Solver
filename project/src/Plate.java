@@ -19,5 +19,5 @@ public class Plate {
         map[keyX][keyY] = 5; // Set tile kunci
         map[targetX][targetY] = 1; // Set tile dinding
     }
-    
+
 }

@@ -231,7 +231,7 @@ public class TileManager {
         if (currentlvl == 4) {
             gp.potions.clear();
             gp.potions.add(new Potion(2, 12));
-            gp.potions.add(new Potion(4, 1));
+            gp.potions.add(new Potion(6, 1));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }
@@ -300,7 +300,7 @@ public class TileManager {
         } else if (currentlvl == 4) {
             gp.monsters.clear();
             gp.monsters.add(new Monster(1, 5));
-            gp.monsters.get(0).setPhx(map);(map);
+            gp.monsters.get(0).setPhx(map);
             gp.monsters.add(new Monster(9, 12));
             gp.monsters.add(new Monster(9, 2));
             gp.monsters.get(1).setSpider(map);
@@ -343,8 +343,6 @@ public class TileManager {
             gp.plates.add(new Plate(8, 8, 12, 5));
             gp.plates.add(new Plate(8, 12, 1, 10));
             gp.plates.add(new Plate(6, 13, 5, 7));
-            gp.plates.add(new Plate(11, 4, 6, 10));
-            gp.plates.add(new Plate(11, 10, 6, 4));
             setPlates(map, gp.plates);
         }
     }
