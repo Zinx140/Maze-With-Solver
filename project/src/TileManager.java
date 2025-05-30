@@ -318,8 +318,7 @@ public class TileManager {
     public void setWall(int map[][], int currentlvl) {
         if (currentlvl == 1) {
             gp.plates.clear();
-            gp.plates.add(new Plate(3, 11, 5, 12));
-            gp.plates.add(new Plate(1, 13, 10, 3));
+            gp.plates.add(new Plate(3, 11, 10, 3));
             gp.plates.add(new Plate(5, 1, 10, 13));
             setPlates(map, gp.plates);
         }

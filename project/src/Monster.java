@@ -12,8 +12,8 @@ public class Monster implements Cloneable {
         nama = "Spider";
         hp = 200;
         maxHP = 200;
-        atk = 8;
-        def = 5;
+        atk = 5;
+        def = 3;
         map[monsterX][monsterY] = 7; // set tile monster spider
     }
 
@@ -21,8 +21,8 @@ public class Monster implements Cloneable {
         nama = "Ogre";
         hp = 350;
         maxHP = 350;
-        atk = 12;
-        def = 8;
+        atk = 8;
+        def = 5;
         map[monsterX][monsterY] = 8; // set tile monster ogre
     }
 
@@ -30,7 +30,7 @@ public class Monster implements Cloneable {
         nama = "Phoenix";
         hp = 100;
         maxHP = 100;
-        atk = 99;
+        atk = 50;
         def = 0;
         map[monsterX][monsterY] = 17; // set tile monster pxh
     }

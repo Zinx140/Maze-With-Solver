@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
     }
 
     final int ORI_TILE_SIZE = 15;
-    final int scale = 3;
+    final int scale = 2;
 
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
@@ -395,7 +395,12 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             copyMap(currentMapArr, map);
             solutions.add(new Solution(currentMapArr, path, player.clone()));
             player.solved = false;
-        } else {
+        }
+        // else if (solutions.size() > 200) { // iki buat batesi solusi soale kebanyakan
+        // jadine lama
+        // return;
+        // }
+        else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4
                     && player.playerHp > 0) { // Up
                 Player playerClone = player.clone();
