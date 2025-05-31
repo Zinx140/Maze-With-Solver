@@ -5,7 +5,6 @@ import javax.swing.JPanel;
 
 public class MenuPanel extends JPanel{
 
-
     public MenuPanel() {
         this.setPreferredSize(new Dimension(675, 925));
         this.setBackground(Color.black);
