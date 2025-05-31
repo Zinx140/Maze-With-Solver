@@ -395,6 +395,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             copyMap(currentMapArr, map);
             solutions.add(new Solution(currentMapArr, path, player.clone()));
             player.solved = false;
+        } else if (solutions.size() > 500) { // iki buat batesi solusi soale kebanyakan jadine lama
+            return;
         } else {
             if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4
                     && player.playerHp > 0) { // Up

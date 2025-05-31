@@ -111,6 +111,10 @@ public class TileManager {
             tile[16].image = ImageIO.read(new File("project/img/heal.png"));
             tile[16].collison = false;
 
+            tile[17] = new Tile();
+            tile[17].image = ImageIO.read(new File("project/img/phoenix.png"));
+            tile[17].collison = false;
+
         } catch (IOException e) {
             e.getStackTrace();
         }
@@ -227,7 +231,7 @@ public class TileManager {
         if (currentlvl == 4) {
             gp.potions.clear();
             gp.potions.add(new Potion(2, 12));
-            gp.potions.add(new Potion(4, 1));
+            gp.potions.add(new Potion(6, 1));
             for (int i = 0; i < gp.potions.size(); i++) {
                 gp.potions.get(i).setPotion(map);
             }
@@ -296,7 +300,7 @@ public class TileManager {
         } else if (currentlvl == 4) {
             gp.monsters.clear();
             gp.monsters.add(new Monster(1, 5));
-            gp.monsters.get(0).setDragon(map);
+            gp.monsters.get(0).setPhx(map);
             gp.monsters.add(new Monster(9, 12));
             gp.monsters.add(new Monster(9, 2));
             gp.monsters.get(1).setSpider(map);
@@ -314,8 +318,7 @@ public class TileManager {
     public void setWall(int map[][], int currentlvl) {
         if (currentlvl == 1) {
             gp.plates.clear();
-            gp.plates.add(new Plate(3, 11, 5, 12));
-            gp.plates.add(new Plate(1, 13, 10, 3));
+            gp.plates.add(new Plate(3, 11, 10, 3));
             gp.plates.add(new Plate(5, 1, 10, 13));
             setPlates(map, gp.plates);
         }
@@ -339,8 +342,6 @@ public class TileManager {
             gp.plates.add(new Plate(8, 8, 12, 5));
             gp.plates.add(new Plate(8, 12, 1, 10));
             gp.plates.add(new Plate(6, 13, 5, 7));
-            gp.plates.add(new Plate(11, 4, 6, 10));
-            gp.plates.add(new Plate(11, 10, 6, 4));
             setPlates(map, gp.plates);
         }
     }

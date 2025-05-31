@@ -91,7 +91,8 @@ public class Player implements Cloneable {
             }
         } else if (map[player.playerX + dx][player.playerY + dy] == 7
                 || map[player.playerX + dx][player.playerY + dy] == 8
-                || map[player.playerX + dx][player.playerY + dy] == 9) {
+                || map[player.playerX + dx][player.playerY + dy] == 9
+                || map[player.playerX + dx][player.playerY + dy] == 17) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
             System.out.println("You encountered a monster!" + x.nama);
             boolean win = winBattle(x);
