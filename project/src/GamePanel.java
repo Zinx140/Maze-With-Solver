@@ -48,8 +48,8 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
 
     }
 
-    final int ORI_TILE_SIZE = 15;
-    final int scale = 3;
+    final int ORI_TILE_SIZE = 17;
+    final int scale = 2;
 
     public final int TILE_SIZE = ORI_TILE_SIZE * scale;
     final int MAX_SCREEN_COL = 15;
@@ -122,23 +122,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         try {
             img = ImageIO.read(new File("project/img/solveBtn.png"));
-            Image scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
+            Image scaledImage = img.getScaledInstance(90, 33, Image.SCALE_SMOOTH);
             solveIcon = new ImageIcon(scaledImage);
 
             img = ImageIO.read(new File("project/img/resetBtn.png"));
-            scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
+            scaledImage = img.getScaledInstance(90, 33, Image.SCALE_SMOOTH);
             resetIcon = new ImageIcon(scaledImage);
 
             img = ImageIO.read(new File("project/img/statusBtn.png"));
-            scaledImage = img.getScaledInstance(100, 43, Image.SCALE_SMOOTH);
+            scaledImage = img.getScaledInstance(90, 33, Image.SCALE_SMOOTH);
             playerStatIcon = new ImageIcon(scaledImage);
 
             img = ImageIO.read(new File("project/img/nextBtn.png"));
-            scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
+            scaledImage = img.getScaledInstance(33, 33, Image.SCALE_SMOOTH);
             nextStageIcon = new ImageIcon(scaledImage);
 
             img = ImageIO.read(new File("project/img/exit.png"));
-            scaledImage = img.getScaledInstance(43, 43, Image.SCALE_SMOOTH);
+            scaledImage = img.getScaledInstance(33, 33, Image.SCALE_SMOOTH);
             exitIcon = new ImageIcon(scaledImage);
         } catch (IOException e) {
             // TODO: handle exception
@@ -250,7 +250,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerHP.setValue(player.playerHp);
         playerHP.setStringPainted(true);
         playerHP.setForeground(Color.red);
-        playerHP.setBounds(30, 20, 600, 70);
+        playerHP.setBounds(30, 20, 450, 70);
         playerHP.setFont(new Font("Arial", Font.PLAIN, 20));
         playerHP.setString("Player HP: " + player.playerHp);
         playerHP.setBackground(Color.black);
@@ -261,7 +261,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         solution.setBorderPainted(false);
         solution.setContentAreaFilled(false);
         solution.setFocusPainted(false);
-        solution.setBounds(170, 120, 100, 43);
+        solution.setBounds(115, 120, 90, 33);
         solution.addActionListener(e -> {
             sfxSound.setFile(8); // assuming index 7 is click.wav
             sfxSound.playOnce();
@@ -296,7 +296,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         playerstat.setFocusPainted(false);
         playerstat.setFocusable(false);
         playerstat.setIcon(playerStatIcon);
-        playerstat.setBounds(290, 120, 100, 43);
+        playerstat.setBounds(215, 120, 90, 33);
         playerstat.addActionListener(e -> {
             if (!isSolving) {
                 sfxSound.setFile(8); // assuming index 7 is click.wav
@@ -316,7 +316,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         reset.setFocusPainted(false);
         reset.setFocusable(false);
         reset.setIcon(resetIcon);
-        reset.setBounds(400, 120, 100, 43);
+        reset.setBounds(315, 120, 90, 33);
         reset.addActionListener(e -> {
             if (!isSolving) {
                 sfxSound.setFile(8); // assuming index 7 is click.wav
@@ -332,7 +332,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         nextStage.setFocusPainted(false);
         nextStage.setFocusable(false);
         nextStage.setIcon(nextStageIcon);
-        nextStage.setBounds(510, 120, 43, 43);
+        nextStage.setBounds(410, 120, 33, 33);
         nextStage.addActionListener(e -> {
             if (!isSolving) {
                 sfxSound.setFile(8); // assuming index 7 is click.wav
@@ -350,7 +350,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         exit.setFocusPainted(false);
         exit.setFocusable(false);
         exit.setIcon(exitIcon);
-        exit.setBounds(570, 120, 43, 43);
+        exit.setBounds(450, 120, 33, 33);
         exit.addActionListener(e -> {
             if (!isSolving) {
                 bgmSound.stop();

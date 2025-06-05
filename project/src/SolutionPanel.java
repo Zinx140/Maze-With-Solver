@@ -74,7 +74,7 @@ public class SolutionPanel extends JPanel {
         
         //ini buat overall panel
         panelWidth = (int)(gp.SCREEN_WIDTH * 0.7);
-        panelHeight = (int)(gp.SCREEN_HEIGHT * 1);
+        panelHeight = (int)(gp.SCREEN_HEIGHT) + 50;
         x = (gp.SCREEN_WIDTH - panelWidth) / 2;
         y = (gp.SCREEN_HEIGHT - panelHeight) / 2 + 100;
 
@@ -83,7 +83,7 @@ public class SolutionPanel extends JPanel {
         panelWidth1 = (int)(panelWidth * 0.8);
         panelHeight1 = (int)(panelHeight * 0.8);
         x1 = (panelWidth - panelWidth1) / 2;
-        y1 = (panelHeight - panelHeight1) / 2+150;
+        y1 = (panelHeight - panelHeight1) / 2 + 150;
         tileSize = (int)(panelWidth1 / gp.MAX_WORLD_COL);
         
         setLayout(null);
@@ -122,7 +122,7 @@ public class SolutionPanel extends JPanel {
             Button all = new Button("All");
             all.setForeground(Color.WHITE);
             all.setBackground(new Color(50, 50, 50));
-            all.setBounds(x1, 60, 70, 25);
+            all.setBounds(x1, 60, 50, 25);
             all.addActionListener(e -> {
                 setCurrentSolution(allSolution);
                 indexSolution = 0;
@@ -134,7 +134,7 @@ public class SolutionPanel extends JPanel {
             Button gold = new Button("Gold");
             gold.setForeground(Color.WHITE);
             gold.setBackground(new Color(50, 50, 50));
-            gold.setBounds(x1 + 90, 60, 70, 25);
+            gold.setBounds(x1 + 70, 60, 50, 25);
             gold.addActionListener(e -> {
                 setCurrentSolution(bestGold);
                 indexSolution = 0;
@@ -146,7 +146,7 @@ public class SolutionPanel extends JPanel {
             Button path = new Button("Path");
             path.setForeground(Color.WHITE);
             path.setBackground(new Color(50, 50, 50));
-            path.setBounds(x1 + 180, 60, 70, 25);
+            path.setBounds(x1 + 140, 60, 50, 25);
             path.addActionListener(e -> {
                 setCurrentSolution(bestPath);
                 indexSolution = 0;
@@ -158,7 +158,7 @@ public class SolutionPanel extends JPanel {
             Button hp = new Button("HP");
             hp.setForeground(Color.WHITE);
             hp.setBackground(new Color(50, 50, 50));
-            hp.setBounds(x1 + 270, 60, 70, 25);
+            hp.setBounds(x1 + 210, 60, 50, 25);
             hp.addActionListener(e -> {
                 setCurrentSolution(bestHP);
                 indexSolution = 0;
@@ -170,7 +170,7 @@ public class SolutionPanel extends JPanel {
             Button implement = new Button("Implement");
             implement.setForeground(Color.WHITE);
             implement.setBackground(new Color(50, 50, 50));
-            implement.setBounds(x1, y + 50, x1 + 325, 25);
+            implement.setBounds(x1, y + 55, x1 + 250, 25);
             implement.addActionListener(e -> {
                 //overwrite map di gamepanel
                 gp.copyMap(gp.tileM.mapTile, currentSolution.get(indexSolution).map);
@@ -236,11 +236,11 @@ public class SolutionPanel extends JPanel {
     public void draw(Graphics2D g2) {
         // cek kalo ada solusi ga
         if (gp.solutions == null || gp.solutions.isEmpty() || indexSolution >= gp.solutions.size()) {
-            Font fontBaru = new Font("Arial", Font.BOLD, 24);
+            Font fontBaru = new Font("Arial", Font.BOLD, 16);
 
             g2.setFont(fontBaru);
             g2.setColor(Color.WHITE);
-            g2.drawString("Maze is impossible to solve", x1 + 25, y1 + 50);
+            g2.drawString("Maze is impossible to solve", x1 + 47, y1 + 50);
             g2.drawString("There is no Solution", x1 + 70, y1 + 80);
             return;
         } 
@@ -251,7 +251,7 @@ public class SolutionPanel extends JPanel {
                 int tileNum = currentSolution.get(indexSolution).map[worldCol][worldRow];
                 
                 int worldX = x1 + (worldCol * tileSize);
-                int worldY = y1 + (worldRow * tileSize);
+                int worldY = y1 + (worldRow * tileSize) - 10;
                 
                 if (gp.tileM.tile[tileNum].image != null) {
                     g2.drawImage(gp.tileM.tile[tileNum].image, worldX, worldY, tileSize, tileSize, null);
@@ -265,14 +265,14 @@ public class SolutionPanel extends JPanel {
         // jumlah solusi perpart
         g2.setColor(Color.WHITE);
         g2.drawString("Solution " + (indexSolution + 1) + " of " + currentSolution.size() , 
-                    x1, y1 - 10);
+                    x1, y1 - 25);
         // solusi info
         g2.setColor(Color.WHITE);
-        Font fontBaru = new Font("Arial", Font.PLAIN , 20);
+        Font fontBaru = new Font("Arial", Font.PLAIN , 15);
         g2.setFont(fontBaru);
-        g2.drawString("HP : " + currentSolution.get(indexSolution).player.playerHp , x1, y + 30);
-        g2.drawString("Path : " + currentSolution.get(indexSolution).path , x1 + 150, y + 30);
-        g2.drawString("Gold : " + currentSolution.get(indexSolution).player.gold, x1 + 300, y + 30);
+        g2.drawString("HP : " + currentSolution.get(indexSolution).player.playerHp , x1, y + 40);
+        g2.drawString("Path : " + currentSolution.get(indexSolution).path , x1 + 100, y + 40);
+        g2.drawString("Gold : " + currentSolution.get(indexSolution).player.gold, x1 + 200, y + 40);
 
     }
 

@@ -17,6 +17,7 @@ public class UI extends JPanel {
     BufferedImage spider;
     BufferedImage ogre;
     BufferedImage dragon;
+    BufferedImage phx;
     int[][] dummyMap = new int[10][10];
 
     public UI(GamePanel gp) {
@@ -28,6 +29,7 @@ public class UI extends JPanel {
             spider = ImageIO.read(new File("project/img/spiderUI.png"));
             ogre = ImageIO.read(new File("project/img/ogreUI.png"));
             dragon = ImageIO.read(new File("project/img/dragonUI.png"));
+            phx = ImageIO.read(new File("project/img/phoenixUI.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -44,9 +46,6 @@ public class UI extends JPanel {
             int y = gp.SCREEN_HEIGHT / 2 + 70;
             g2.drawString(text, x, y);
         } 
-        if (gp.gamestate == gp.SOLVING_STATE) {
-
-        }
         if (gp.gamestate == gp.PLAYER_STATE) {
             drawStats();
         }
@@ -60,11 +59,11 @@ public class UI extends JPanel {
         }
 
         g2.setColor(Color.white);
-        g2.setFont(new Font("Arial", Font.BOLD, 24));
-        g2.drawImage(img, 0, 0, gp.SCREEN_WIDTH, 210, null);
-        g2.drawString("Stage: " + (gp.currentMap + 1), 50, 145);
+        g2.setFont(new Font("Arial", Font.BOLD, 20));
+        g2.drawImage(img, 0, 0, gp.SCREEN_WIDTH, 180, null);
+        g2.drawString("Stage: " + (gp.currentMap + 1), 20, 125);
         g2.setFont(new Font("Arial", Font.PLAIN, 20));
-        g2.drawString("Gold: " + gp.player.gold, 50, 175);
+        g2.drawString("Gold: " + gp.player.gold, 20, 155);
     }
 
     public void drawStats() {
@@ -75,30 +74,33 @@ public class UI extends JPanel {
 
         drawSubWindow(frameX, frameY, frameWidth, frameHeight);
 
-        g2.setFont(new Font("Sans Serif", Font.PLAIN, 32));
-        g2.drawString("Player & Monsters Stats", gp.TILE_SIZE * 3 + 20, 360);
+        g2.setFont(new Font("Sans Serif", Font.PLAIN, 20));
+        g2.drawString("Player & Monsters Stats", gp.TILE_SIZE * 3 + 50, 250);
         
-        g2.setFont(new Font("Sans Serif", Font.PLAIN, 24));
-        if (gp.player.isArmored) {
-            g2.drawImage(playerTransformed, gp.TILE_SIZE * 3, 450, 48, 96, null);
-        } else {
-            g2.drawImage(player, gp.TILE_SIZE * 3, 450, 48, 96, null);
-        }
-        g2.drawString("Player", gp.TILE_SIZE * 4 + 30, 450);
-        
-        g2.drawImage(dragon, gp.TILE_SIZE * 7 + 20, 450, 80, 80, null);
-        g2.drawString("Red Dragon", gp.TILE_SIZE * 9 + 20, 450);
-        
-        g2.drawImage(spider, gp.TILE_SIZE * 3 - 20, 650, 80, 80, null);
-        g2.drawString("Spider", gp.TILE_SIZE * 4 + 30, 650);
-
-        g2.drawImage(ogre, gp.TILE_SIZE * 7 + 20, 650, 80, 80, null);
-        g2.drawString("Ogre", gp.TILE_SIZE * 9 + 20, 650);
-
         g2.setFont(new Font("Sans Serif", Font.PLAIN, 16));
-        g2.drawString("HP: " + gp.player.playerHp, gp.TILE_SIZE * 4 + 30, 480);
-        g2.drawString("ATK: " + gp.player.playerAtk, gp.TILE_SIZE * 4 + 30, 510);
-        g2.drawString("Coin: " + gp.player.gold, gp.TILE_SIZE * 4 + 30, 540);
+        if (gp.player.isArmored) {
+            g2.drawImage(playerTransformed, gp.TILE_SIZE * 3, 275, 32, 64, null);
+        } else {
+            g2.drawImage(player, gp.TILE_SIZE * 3, 275, 32, 64, null);
+        }
+        g2.drawString("Player", gp.TILE_SIZE * 4 + 20, 290);
+        
+        g2.drawImage(dragon, gp.TILE_SIZE * 7 + 20, 275, 64, 64, null);
+        g2.drawString("Red Dragon", gp.TILE_SIZE * 9 + 20, 290);
+        
+        g2.drawImage(spider, gp.TILE_SIZE * 3 - 20, 400, 64, 64, null);
+        g2.drawString("Spider", gp.TILE_SIZE * 4 + 30, 415);
+
+        g2.drawImage(ogre, gp.TILE_SIZE * 7 + 20, 400, 64, 64, null);
+        g2.drawString("Ogre", gp.TILE_SIZE * 9 + 20, 415);
+
+        g2.drawImage(phx, gp.TILE_SIZE * 5 + 20, 525, 64, 64, null);
+        g2.drawString("Phoenix", gp.TILE_SIZE * 7 + 20, 540);
+
+        g2.setFont(new Font("Sans Serif", Font.PLAIN, 13));
+        g2.drawString("HP: " + gp.player.playerHp, gp.TILE_SIZE * 4 + 20, 310);
+        g2.drawString("ATK: " + gp.player.playerAtk, gp.TILE_SIZE * 4 + 20, 330);
+        g2.drawString("Coin: " + gp.player.gold, gp.TILE_SIZE * 4 + 20, 350);
 
         Monster spider = new Monster(0, 0);
         spider.setSpider(dummyMap);
@@ -106,37 +108,50 @@ public class UI extends JPanel {
         ogre.setOgre(dummyMap);
         Monster dragon = new Monster(0, 2);
         dragon.setDragon(dummyMap);
+        Monster phoenix = new Monster(0, 3);
+        dragon.setPhx(dummyMap);
         
-        g2.drawString("HP: 20", gp.TILE_SIZE * 9 + 20, 480);
-        g2.drawString("ATK: 20", gp.TILE_SIZE * 9 + 20, 510);
+        g2.drawString("HP: 20", gp.TILE_SIZE * 9 + 20, 310);
+        g2.drawString("ATK: 20", gp.TILE_SIZE * 9 + 20, 330);
         if (gp.player.clone().winBattle(dragon)) {
             g2.setColor(Color.green);
-            g2.drawString("Can be killed", gp.TILE_SIZE * 9 + 20, 540);
+            g2.drawString("Can be killed", gp.TILE_SIZE * 9 + 20, 350);
         } else {
             g2.setColor(Color.red);
-            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 9 + 20, 540);
+            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 9 + 20, 350);
         }
         g2.setColor(Color.white);
 
-        g2.drawString("HP: 30", gp.TILE_SIZE * 4 + 30, 680);
-        g2.drawString("ATK: 30", gp.TILE_SIZE * 4 + 30, 710);
+        g2.drawString("HP: 30", gp.TILE_SIZE * 4 + 30, 435);
+        g2.drawString("ATK: 30", gp.TILE_SIZE * 4 + 30, 455);
         if (gp.player.clone().winBattle(spider)) {
             g2.setColor(Color.green);
-            g2.drawString("Can be killed", gp.TILE_SIZE * 4 + 30, 740);
+            g2.drawString("Can be killed", gp.TILE_SIZE * 4 + 30, 475);
         } else {
             g2.setColor(Color.red);
-            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 4 + 30, 740);
+            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 4 + 30, 475);
         }
         g2.setColor(Color.white);
 
-        g2.drawString("HP: 30", gp.TILE_SIZE * 9 + 20, 680);
-        g2.drawString("ATK: 30", gp.TILE_SIZE * 9 + 20, 710);
+        g2.drawString("HP: 30", gp.TILE_SIZE * 9 + 20, 435);
+        g2.drawString("ATK: 30", gp.TILE_SIZE * 9 + 20, 455);
         if (gp.player.clone().winBattle(ogre)) {
             g2.setColor(Color.green);
-            g2.drawString("Can be killed", gp.TILE_SIZE * 9 + 20, 740);
+            g2.drawString("Can be killed", gp.TILE_SIZE * 9 + 20, 475);
         } else {
             g2.setColor(Color.red);
-            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 9 + 20, 740);
+            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 9 + 20, 475);
+        }
+        g2.setColor(Color.white);
+
+        g2.drawString("HP: 30", gp.TILE_SIZE * 7 + 20, 560);
+        g2.drawString("ATK: 30", gp.TILE_SIZE * 7 + 20, 580);
+        if (gp.player.clone().winBattle(phoenix)) {
+            g2.setColor(Color.green);
+            g2.drawString("Can be killed", gp.TILE_SIZE * 7 + 20, 600);
+        } else {
+            g2.setColor(Color.red);
+            g2.drawString("(Cannot be Killed)", gp.TILE_SIZE * 7 + 20, 600);
         }
         g2.setColor(Color.white);
 

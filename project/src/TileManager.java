@@ -361,7 +361,7 @@ public class TileManager {
             int tileNum = mapTile[worldCol][worldRow];
 
             int worldX = worldCol * gp.TILE_SIZE;
-            int worldY = worldRow * gp.TILE_SIZE + 205;
+            int worldY = worldRow * gp.TILE_SIZE + 180;
 
             if (tile[tileNum].image != null) {
                 g2.drawImage(tile[tileNum].image, worldX, worldY, gp.TILE_SIZE, gp.TILE_SIZE, null);

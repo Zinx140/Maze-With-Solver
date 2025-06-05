@@ -26,7 +26,7 @@ public class Game {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.setTitle("Maze");
-        window.setPreferredSize(new Dimension(675, 925));
+        window.setPreferredSize(new Dimension(525, 725));
         window.setBackground(new Color(59, 69, 96));
 
         try {
@@ -51,7 +51,7 @@ public class Game {
         }
 
         JButton start = new JButton(startIcon);
-        start.setBounds(230, 600, 175, 64);
+        start.setBounds(180, 430, 175, 64);
         start.setContentAreaFilled(false);
         start.setBorderPainted(false);
         start.setFocusPainted(false);
@@ -59,7 +59,7 @@ public class Game {
             sfxSound.setFile(8); // assuming index 7 is click.wav
             sfxSound.playOnce();
             GamePanel gamePanel = new GamePanel(this);
-            window.setPreferredSize(new Dimension(gamePanel.SCREEN_WIDTH, gamePanel.SCREEN_HEIGHT + 250));
+            window.setPreferredSize(new Dimension(gamePanel.SCREEN_WIDTH, gamePanel.SCREEN_HEIGHT + 180));
             
             window.setContentPane(gamePanel); // Ganti mainPanel dengan gamePanel
             window.revalidate();
@@ -70,7 +70,7 @@ public class Game {
         });
         
         JButton exit = new JButton(exitIcon);
-        exit.setBounds(230, 700, 175, 64);
+        exit.setBounds(180, 550, 175, 64);
         exit.setContentAreaFilled(false);
         exit.setBorderPainted(false);
         exit.setFocusPainted(false);
@@ -91,7 +91,7 @@ public class Game {
             }
         };
         mainPanel.setLayout(null); // Supaya bisa pakai setBounds untuk tombol
-        mainPanel.setPreferredSize(new Dimension(675, 925));
+        mainPanel.setPreferredSize(new Dimension(525, 725));
 
         // Tambahkan tombol ke panel
         mainPanel.add(start);
