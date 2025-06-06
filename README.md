@@ -8,8 +8,8 @@
 # Apa saja yang ada di game ?
 <ul>
   <li><h4>Ada beberapa trap pada maze ini yaitu :</h4></li>
-  <ul>
-    <li align="center"><img src="project/img/plate.png" width="50px"> Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</li>
-  </ul>
+  <div style="display: flex; align-items: center;">
+    <li><img src="project/img/plate.png" width="50px"> Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</li>
+  </div>
 </ul>
 
