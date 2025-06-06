@@ -301,7 +301,7 @@ jika move selanjutnya berakibat mempertemukan player dengan princess maka piliha
   - player tidak akan bergerak dan mode solve akan menemukan solusi agar saat di implementkan player akan berada di depan princess persis 
 ### 🗝️ Pengecekan Apabila tujuan adalah plate/key
 ``` java
-else if (map[player.playerX + dx][player.playerY + dy] == 5) {
+        else if (map[player.playerX + dx][player.playerY + dy] == 5) {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
@@ -324,7 +324,7 @@ Jika player bertemu dengan plate/key maka :
 
 ### 👺 Pengecekan Apabila Bertemu dengan monster
 ``` java
-else if (map[player.playerX + dx][player.playerY + dy] == 7
+        else if (map[player.playerX + dx][player.playerY + dy] == 7
                 || map[player.playerX + dx][player.playerY + dy] == 8
                 || map[player.playerX + dx][player.playerY + dy] == 9
                 || map[player.playerX + dx][player.playerY + dy] == 17) {
@@ -357,7 +357,7 @@ jika player encounter dengan monster maka pertama player akan mencari monster ap
 ### Pengecekan
 
 ```java
-else if (map[player.playerX + dx][player.playerY + dy] == 11) {
+        else if (map[player.playerX + dx][player.playerY + dy] == 11) {
             map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
@@ -493,6 +493,13 @@ else if (map[player.playerX + dx][player.playerY + dy] == 11) {
                              v
                            [END]
 </code></pre>
+
+### ❓Cara Kerja :
+1. Cek apakah map yang dilempar dalam fungsi rekursif sudah sampai di garis finish atau belum. <br/>
+2. Cek terlebih dahulu apakah jumlah solusi yang sudah disimpan jumlah nya < 500 karena untuk mempersingkat lamanya backtracking saat demo. <br/>
+3. Coba bergerak ke 4 arah berbeda yaitu atas, bawah, kiri, dan kanan pada saat proses ini jejak yang dtinggalkan atau jejak yang sudah dilewati player tidak bisa dilewati lagi. <br/>
+4. Sebelum menggerakkan posisi player jangan lupa untuk mengcloning player dan map karena kita harus menghindari adanya Pass By Reff agar rekursif tidak terganggu. <br/>
+5. Dalam kasus ini jejak yang ditinggalkan player akan dihapus setelah player menemukan objektif seperti gold, plate, atau heal sehingga saat player mendapatkan objektif tidak berhenti. <br/> 
 
 
 
