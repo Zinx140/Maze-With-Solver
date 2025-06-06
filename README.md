@@ -9,7 +9,7 @@
 <ul>
   <li><h4>Ada beberapa trap pada maze ini yaitu :</h4></li>
   <ul>
-    <li><img src="project/img/plate.png" width="50px" top="20px"> Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</li>
+    <li align="center"><img src="project/img/plate.png" width="50px"> Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</li>
   </ul>
 </ul>
 
