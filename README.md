@@ -8,9 +8,7 @@
 # Apa saja yang ada di game ?
 <ul>
   <li><h4>Ada beberapa trap pada maze ini yaitu :</h4></li>
-  <div style="display: flex; align-items: center; height: auto; width:100%;">
-    <img src="project/img/plate.png" width="50px">
+    <img src="project/img/plate.png" width="50px" align="center">
     <p style="display: inline-block">Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</p>
-  </div>
 </ul>
 
