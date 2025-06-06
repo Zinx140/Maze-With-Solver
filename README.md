@@ -15,6 +15,7 @@
     player untuk mempermudah pemain mevisualisasikannya
   </p>
 </div>
+<br/>
 
 # Apa saja yang ada di game ?
 <ul>
