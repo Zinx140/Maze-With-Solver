@@ -211,7 +211,74 @@
     }
 ```
 <div align="center">
+  <div align="left">
+    
+## 🕹️ Move Player
+
+### 🔧 Method: `public void move`
+
+```java
+public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
+                 boolean isSolving) {
+    switch (direction) {
+        case 0: // up
+            movePlayer(map, player, keys, monsters, isSolving, 0, -1);
+            break;
+        case 1: // down
+            movePlayer(map, player, keys, monsters, isSolving, 0, 1);
+            break;
+        case 2: // left
+            movePlayer(map, player, keys, monsters, isSolving, -1, 0);
+            break;
+        case 3: // right
+            movePlayer(map, player, keys, monsters, isSolving, 1, 0);
+            break;
+    }
+}
+```
+> **Method move() adalah sebuah prosedur yang digunakan untuk menentukan perpindahan koordinat x dan y berdasarkan arah yang diberikan melalui parameter direction.
+Fungsi ini akan meneruskan data tersebut ke method movePlayer() untuk diproses lebih lanjut.**
+ ### 🎯 Nilai direction dan Pergerakannya:
+  - 0 → Atas: x tetap, y = y - 1
+  - 1 → Bawah: x tetap, y = y + 1
+  - 2 → Kiri: x = x - 1, y tetap
+  - 3 → Kanan: x = x + 1, y tetap 
+ ### 📥 Parameter yang Dipass ke movePlayer():
+  - map: Matriks 2D yang mewakili peta permainan
+  - player: Objek pemain
+  - keys: Daftar Plate di dalam peta
+  - monsters: Daftar monster
+  - isSolving: Boolean penanda apakah pergerakan ini digunakan dalam proses backtracking 
+
+### 🔧 Method: `public void movePlayer`
+
+### 👣 Menentukan trace yang akan digunakan saat player bergerak
+```java
+  int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
+```
+Secara visual, tile 4 dan tile 6 menggunakan gambar yang sama. Namun, keduanya memiliki peran yang berbeda tergantung mode permainan.
+- Saat mode adalah solve (sedang menjalankan backtracking), tile 4 digunakan untuk menandai jalur yang sudah pernah dilalui oleh algoritma backtracking.
+- Sedangkan saat mode adalah free mode (mode bebas), tile 6 digunakan untuk menandai jalur yang sudah dilalui pemain.
+Perbedaannya terletak pada logika backtracking itu sendiri. Pada backtracking, tile 4 menandai jalur yang tidak bisa dilalui lagi karena prinsipnya jalur tersebut sudah dieksplorasi dan dianggap dead end. Sementara itu, tile 6 di free mode tidak memiliki pembatasan tersebut karena jalur tersebut masih bisa dilalui.
+Backtracking pada program ini dimulai dari posisi tombol solve ditekan sampai algoritma menemukan solusi, sehingga tile 4 membantu algoritma menandai jalur yang sudah diperiksa agar tidak kembali lagi ke titik yang sama.
+
+
+
+#### Pengecekan apabila tujuan move player adalah princess
+```java
+if (map[player.playerX + dx][player.playerY + dy] == 2) {
+            if (!isSolving) {
+                gp.hpTemp = player.playerHp;
+                player.playerX += dx;
+                player.playerY += dy;
+            } else {
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
+            }
+        }
+```
   
+  </div>
 </div>
 
 # Bagaimana Algoritma Backtracking Bekerja ?
