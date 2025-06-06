@@ -6,11 +6,15 @@
 </div>
 
 # How to play ?
-<p align="center">
-  Gerakkan player dengan menggunakan W/A/S/D layaknya game pada umumnya disini terdapat beberapa tombol di header yakni solve untuk mencari solusi yang ada pada kondisi anda saat itu.
-  Ada juga tombol reset untuk mengulang dari awal jika pemain mengalami jalan buntu saat menyelesaikan maze. Ada juga tombol skip stage untuk mempercepat demo saat presentasi.
-  Ada juga tombol status agar player bisa melihat apakah dia menang saat bertemu dengan monster tersebut.
-</p>
+<div align="center">
+  <img src="" width="350px">
+  <p>
+    Gerakkan player dengan menggunakan W/A/S/D layaknya game pada umumnya disini terdapat beberapa tombol di header yakni solve untuk mencari solusi yang ada pada kondisi anda saat itu.
+    Ada juga tombol reset untuk mengulang dari awal jika pemain mengalami jalan buntu saat menyelesaikan maze. Ada juga tombol skip stage untuk mempercepat demo saat presentasi.
+    Ada juga tombol status agar player bisa melihat apakah dia menang saat bertemu dengan monster tersebut. Di atas juga dilengkapi dengan jumlah gold, stage, dan HP dari 
+    player untuk mempermudah pemain mevisualisasikannya
+  </p>
+</div>
 
 # Apa saja yang ada di game ?
 <ul>
