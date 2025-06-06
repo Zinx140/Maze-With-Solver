@@ -210,6 +210,9 @@
         }
     }
 ```
+<div align="center">
+  
+</div>
 
 # Bagaimana Algoritma Backtracking Bekerja ?
 ```
