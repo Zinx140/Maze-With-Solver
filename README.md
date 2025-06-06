@@ -213,12 +213,12 @@
 <div align="center">
   <div align="left">
 
-<hr>
+
 ## 🕹️ Move Player
-<hr>
+
 
 ### 🔧 Method: `public void move`
-<hr>
+
 ```java
 public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
                  boolean isSolving) {
@@ -253,7 +253,7 @@ Fungsi ini akan meneruskan data tersebut ke method movePlayer() untuk diproses l
   - isSolving: Boolean penanda apakah pergerakan ini digunakan dalam proses backtracking 
 
 ### 🔧 Method: `public void clearTrace`
-<hr>
+
 ``` java
     public void clearTrace(int[][] map) {
         for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
@@ -270,7 +270,7 @@ Method ini berfungsi untuk membersihkan jejak-jejak yang telah dilalui pada peta
 
 
 ### 🔧 Method: `public void movePlayer`
-<hr>
+
 
 ### 👣 Menentukan trace yang akan digunakan saat player bergerak
 ```java
