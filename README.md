@@ -17,7 +17,9 @@
       <img src="project/img/trap.png" width="50px">
       <p style="display: inline-block">Spike Trap : jika player melewati spike palyer akan terkena damage sebesar 3 </p>
     </div>
+  <hr/>
   <li><h3>Ada beberapa monster pada maze ini yaitu :</h3></li>
+  <hr/>
     <div align="center">
       <img src="project/img/spider.png" width="50px">
       <p style="display: inline-block">Spider : monster ini memiliki stats berupa hp = 200, atk = 5, def = 3</p>
@@ -34,6 +36,7 @@
       <img src="project/img/redDragon.png" width="50px">
       <p style="display: inline-block">Red Dragon : monster ini memiliki stats berupa hp = 1000, atk = 200, def = 35</p>
     </div>
+  <hr/>
   <li><h3>Ada beberapa objektif pada maze ini yaitu :</h3></li>
     <div align="center">
       <img src="project/img/spider.png" width="50px">
