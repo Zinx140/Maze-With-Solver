@@ -441,4 +441,58 @@ else if (map[player.playerX + dx][player.playerY + dy] == 11) {
 
 ```
 
+### 🧠 Flowchart dari Bakctracking 
+<pre><code>
++-----------------------------+
+|      solve(map, ...)        |
++-----------------------------+
+              |
+              v
+ +-----------------------------+
+ |  Apakah player.solved?      |
+ +-----------------------------+
+        | Ya        | Tidak
+        v           v
++----------------+  +--------------------------------------+
+| Tambah solusi  |  | Apakah jumlah solusi > 500?          |
+| ke daftar      |  +--------------------------------------+
+| (solutions)    |           | Ya         | Tidak
++----------------+           |            v
+       |                     |   +-------------------------+
+       v                     |   | Cek arah Up bisa jalan? |
+     [END]                   |   +-------------------------+
+                             |           | Ya
+                             |           v
+                             |   - Clone Player, Map, dll
+                             |   - Panggil solve() rekursif
+                             |
+                             |   +--------------------------+
+                             |   | Cek arah Down bisa jalan?|
+                             |   +--------------------------+
+                             |           | Ya
+                             |           v
+                             |   - Clone Player, Map, dll
+                             |   - Panggil solve() rekursif
+                             |
+                             |   +--------------------------+
+                             |   | Cek arah Left bisa jalan?|
+                             |   +--------------------------+
+                             |           | Ya
+                             |           v
+                             |   - Clone Player, Map, dll
+                             |   - Panggil solve() rekursif
+                             |
+                             |   +---------------------------+
+                             |   | Cek arah Right bisa jalan?|
+                             |   +---------------------------+
+                             |           | Ya
+                             |           v
+                             |   - Clone Player, Map, dll
+                             |   - Panggil solve() rekursif
+                             |
+                             v
+                           [END]
+</code></pre>
+
+
 
