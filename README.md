@@ -7,7 +7,7 @@
 
 # Apa saja yang ada di game ?
 <ul>
-  <li><h4>Ada beberapa rintangan pada maze ini yaitu :</h4></li>
+  <li><h3>Ada beberapa rintangan pada maze ini yaitu :</h3></li>
     <div align="center">
       <img src="project/img/plate.png" width="50px">
       <p style="display: inline-block">Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</p>
@@ -16,22 +16,39 @@
       <img src="project/img/trap.png" width="50px">
       <p style="display: inline-block">Spike Trap : jika player melewati spike palyer akan terkena damage sebesar 3 </p>
     </div>
-  <li><h4>Ada beberapa monster pada maze ini yaitu :</h4></li>
+  <li><h3>Ada beberapa monster pada maze ini yaitu :</h3></li>
     <div align="center">
       <img src="project/img/spider.png" width="50px">
-      <p style="display: inline-block">Spider : jika player berada di posisi plate maka akan membuka sebuah pintu</p>
+      <p style="display: inline-block">Spider : monster ini memiliki stats berupa hp = 200, atk = 5, def = 3</p>
     </div>
     <div align="center">
       <img src="project/img/ogre.png" width="50px">
-      <p style="display: inline-block">Ogre : jika player melewati spike palyer akan terkena damage sebesar 3 </p>
+      <p style="display: inline-block">Ogre : monster ini memiliki stats berupa hp = 350, atk = 8, def = 5</p>
     </div>
     <div align="center">
       <img src="project/img/phoenix.png" width="50px">
-      <p style="display: inline-block">Phoenix : jika player berada di posisi plate maka akan membuka sebuah pintu</p>
+      <p style="display: inline-block">Phoenix : monster ini memiliki stats berupa hp = 100, atk = 50, def = 0</p>
     </div>
     <div align="center">
       <img src="project/img/redDragon.png" width="50px">
-      <p style="display: inline-block">Red Dragon : jika player melewati spike palyer akan terkena damage sebesar 3 </p>
+      <p style="display: inline-block">Red Dragon : monster ini memiliki stats berupa hp = 1000, atk = 200, def = 35</p>
+    </div>
+  <li><h3>Ada beberapa objektif pada maze ini yaitu :</h3></li>
+    <div align="center">
+      <img src="project/img/spider.png" width="50px">
+      <p style="display: inline-block">Spider : monster ini memiliki stats berupa hp = 200, atk = 5, def = 3</p>
+    </div>
+    <div align="center">
+      <img src="project/img/ogre.png" width="50px">
+      <p style="display: inline-block">Ogre : monster ini memiliki stats berupa hp = 350, atk = 8, def = 5</p>
+    </div>
+    <div align="center">
+      <img src="project/img/phoenix.png" width="50px">
+      <p style="display: inline-block">Phoenix : monster ini memiliki stats berupa hp = 100, atk = 50, def = 0</p>
+    </div>
+    <div align="center">
+      <img src="project/img/redDragon.png" width="50px">
+      <p style="display: inline-block">Red Dragon : monster ini memiliki stats berupa hp = 1000, atk = 200, def = 35</p>
     </div>
 </ul>
 
