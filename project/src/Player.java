@@ -223,6 +223,10 @@ public class Player implements Cloneable {
             }
         }
 
+        if (playerHp <= 0) {
+            return false; // Player kalah
+        }
+
         if (x.hp <= 0) {
             return true; // Player menang
         } else {

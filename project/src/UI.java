@@ -109,7 +109,7 @@ public class UI extends JPanel {
         Monster dragon = new Monster(0, 2);
         dragon.setDragon(dummyMap);
         Monster phoenix = new Monster(0, 3);
-        dragon.setPhx(dummyMap);
+        phoenix.setPhx(dummyMap);
         
         g2.drawString("HP: 20", gp.TILE_SIZE * 9 + 20, 310);
         g2.drawString("ATK: 20", gp.TILE_SIZE * 9 + 20, 330);
@@ -144,8 +144,8 @@ public class UI extends JPanel {
         }
         g2.setColor(Color.white);
 
-        g2.drawString("HP: 30", gp.TILE_SIZE * 7 + 20, 560);
-        g2.drawString("ATK: 30", gp.TILE_SIZE * 7 + 20, 580);
+        g2.drawString("HP: " + phoenix.hp, gp.TILE_SIZE * 7 + 20, 560);
+        g2.drawString("ATK: " + phoenix.atk, gp.TILE_SIZE * 7 + 20, 580);
         if (gp.player.clone().winBattle(phoenix)) {
             g2.setColor(Color.green);
             g2.drawString("Can be killed", gp.TILE_SIZE * 7 + 20, 600);
