@@ -266,7 +266,7 @@ Backtracking pada program ini dimulai dari posisi tombol solve ditekan sampai al
 
 #### Pengecekan apabila tujuan move player adalah princess
 ```java
-if (map[player.playerX + dx][player.playerY + dy] == 2) {
+        if (map[player.playerX + dx][player.playerY + dy] == 2) {
             if (!isSolving) {
                 gp.hpTemp = player.playerHp;
                 player.playerX += dx;
@@ -282,7 +282,7 @@ if (map[player.playerX + dx][player.playerY + dy] == 2) {
 </div>
 
 # Bagaimana Algoritma Backtracking Bekerja ?
-```
+```java
   public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path,
             int gold) {
         int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
