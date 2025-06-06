@@ -7,7 +7,7 @@
 
 # Apa saja yang ada di game ?
 <ul>
-  <li><h3>Ada beberapa rintangan pada maze ini yaitu :</h3></li>
+  <li><h3>## Ada beberapa rintangan pada maze ini yaitu :</h3></li>
     <div align="center">
       <img src="project/img/plate.png" width="50px">
       <p style="display: inline-block">Plate Trap : jika player berada di posisi plate maka akan membuka sebuah pintu</p>
