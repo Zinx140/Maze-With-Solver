@@ -212,11 +212,13 @@
 ```
 <div align="center">
   <div align="left">
-    
+
+<hr>
 ## 🕹️ Move Player
+<hr>
 
 ### 🔧 Method: `public void move`
-
+<hr>
 ```java
 public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
                  boolean isSolving) {
@@ -251,6 +253,7 @@ Fungsi ini akan meneruskan data tersebut ke method movePlayer() untuk diproses l
   - isSolving: Boolean penanda apakah pergerakan ini digunakan dalam proses backtracking 
 
 ### 🔧 Method: `public void clearTrace`
+<hr>
 ``` java
     public void clearTrace(int[][] map) {
         for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
@@ -267,6 +270,7 @@ Method ini berfungsi untuk membersihkan jejak-jejak yang telah dilalui pada peta
 
 
 ### 🔧 Method: `public void movePlayer`
+<hr>
 
 ### 👣 Menentukan trace yang akan digunakan saat player bergerak
 ```java
@@ -302,7 +306,7 @@ jika move selanjutnya berakibat mempertemukan player dengan princess maka piliha
 ### 🗝️ Pengecekan Apabila tujuan adalah plate/key
 ``` java
         else if (map[player.playerX + dx][player.playerY + dy] == 5) {
-            map[player.playerX][player.playerY] = trace;
+go           map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
             map[player.playerX][player.playerY] = player.playerTileNum;
@@ -329,7 +333,7 @@ Jika player bertemu dengan plate/key maka :
                 || map[player.playerX + dx][player.playerY + dy] == 9
                 || map[player.playerX + dx][player.playerY + dy] == 17) {
             Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
-            System.out.println("You encountered a monster!" + x.nama);
+            System.goldt.println("You encountered a monster!" + x.nama);
             boolean win = winBattle(x);
             if (win) {
                 map[player.playerX][player.playerY] = trace;
@@ -354,7 +358,7 @@ jika player encounter dengan monster maka pertama player akan mencari monster ap
 > Player akan memberi damage kepada monster sesuai perhitungan (player attack - monster defense)
 > monster akan memberi player damage sesuai dengan attack dari monster
 
-### Pengecekan
+### 🪙 Pengecekan gold
 
 ```java
         else if (map[player.playerX + dx][player.playerY + dy] == 11) {
@@ -370,6 +374,99 @@ jika player encounter dengan monster maka pertama player akan mencari monster ap
             resetTraps(map);
         } 
 ```
+jika player bertemu dengan gold maka gold player akan bertambah, player bergerak, resetTrap, dan jika mode sedang solve maka trace akan di clear. 
+
+### 🚪 Pengecekan Stair
+
+```java
+     else if (map[player.playerX + dx][player.playerY + dy] == 10) {
+            if (!isSolving) {
+                gp.hpTemp = player.playerHp;
+                gp.tileM.changeMap(player);
+                playMusic(6);
+            } else {
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
+            }
+        }    
+```
+Untuk pengecekan stair kurang lebih sama dengan pengecekan princess dimana jika mode sedang solve maka player akan diberhentikan di posisi sebelum stair tetapi jika bukan, maka HPTemp akan di update sesuai HP player sekarang dan map akan diganti menjadi stage berikutnya. 
+
+### 🕳 Pengecekan trap
+
+```java
+        else if (map[player.playerX + dx][player.playerY + dy] == 12) {
+            Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);
+            if (triggered != null && !triggeredTraps.contains(triggered)) {
+                triggeredTraps.add(triggered);
+            }
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+            player.playerHp -= trapDmg;
+            playMusic(2);
+        } 
+```
+jika player bertemu dengan trap maka trap tersebut akan disimpan pada suatu arraylist yang nantinya akan di reset agar dapat dilalui lagi melalui resetTrap dan player akan terkena damage sesuai trapDmg dan berjalan ke posisi trap jika HP player lebih besar dari 0.
+
+### ❤️‍🩹 Pengecekan potion
+
+```java
+        else if (map[player.playerX + dx][player.playerY + dy] == 16) {
+            Potion potion = getIdPotion(gp.potions, player.playerX + dx, player.playerY + dy);
+            potion.healPlayer(player);
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            clearTrace(map);
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            System.out.println("You found a potion!");
+            playMusic(10);
+        } 
+```
+jika player bertemu dengan potion maka HP player akan bertambah sesuai efek potion, posisi player berubah, dan clearTrace dijalankan. 
+
+### 🧰 Pengecekan chest
+
+```java
+        else if (map[player.playerX + dx][player.playerY + dy] == 14) {
+            map[player.playerX][player.playerY] = trace;
+            map[player.playerX + dx][player.playerY + dy] = 15;
+            player.playerX += dx;
+            player.playerY += dy;
+            System.out.println("You found a chest ! ");
+            isOpenChest = true;
+            clearTrace(map);
+            gp.tileM.transform(player);
+            resetTraps(map);
+        } 
+```
+jika player bertemu dengan chest maka posisi player berpindah dan karakter player yaitu prince akan transform menjadi Armored prince dan stat akan meningkat. setelah itu trace akan di clear dan traps akan direset
+
+
+### 🧱 Pengecekan path yang dapat dilewati
+
+```java
+        else if (map[player.playerX + dx][player.playerY + dy] != 1
+                && map[player.playerX + dx][player.playerY + dy] != 4
+                && map[player.playerX + dx][player.playerY + dy] != 2) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            if (!isSolving) {
+                resetTraps(map);
+            }
+        }
+```
+jika player tidak memenuhi pengecekan apapun dan bertemu dengan wall ataupun juga dengan trace yang digunakan untuk backtrack pada solve maka player tidak akan dijalankan. jika tidak, maka pengecekan ini berfungsi sebagai default case untuk playerMove dimana player hanya akan bergerak sesuai dengan direction. 
+
+> untuk apa kah method resetTrap?<br>
+> resetTrap berguna untuk menaruh kembali trap yang telah diaktifkan kedalam map. trap tidak dapat langsung direset saat player diposisi trap maka trap akan direset pada gerakan setelah player menginjak trap. karena itu pada setiap akhir pengecekan disertakan resetTrap.
+
+
   
   </div>
 </div>
