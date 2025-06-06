@@ -7,7 +7,7 @@
 
 # How to play ?
 <div align="center">
-  <img src="" width="350px">
+  <img src="project/dokumentasi/navbar.png" width="350px">
   <p>
     Gerakkan player dengan menggunakan W/A/S/D layaknya game pada umumnya disini terdapat beberapa tombol di header yakni solve untuk mencari solusi yang ada pada kondisi anda saat itu.
     Ada juga tombol reset untuk mengulang dari awal jika pemain mengalami jalan buntu saat menyelesaikan maze. Ada juga tombol skip stage untuk mempercepat demo saat presentasi.
