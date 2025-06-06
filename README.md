@@ -250,6 +250,22 @@ Fungsi ini akan meneruskan data tersebut ke method movePlayer() untuk diproses l
   - monsters: Daftar monster
   - isSolving: Boolean penanda apakah pergerakan ini digunakan dalam proses backtracking 
 
+### 🔧 Method: `public void clearTrace`
+``` java
+    public void clearTrace(int[][] map) {
+        for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
+            for (int j = 0; j < gp.MAX_WORLD_COL; j++) {
+                if (map[i][j] == 4 || map[i][j] == 3) {
+                    map[i][j] = 6;
+                }
+            }
+        }
+    }
+
+```
+Method ini berfungsi untuk membersihkan jejak-jejak yang telah dilalui pada peta. jejak yang dimaksud ini adalah representasi posisi atau lintasan yang pernah dilewati selama proses backtracking. Dengan mengganti nilai-nilai tersebut menjadi 6, method ini menghilangkan semua jejak yang pernah dilalui, termasuk posisi saat ini, sehingga pada backtracking dapat berjalan kembali ke track sebenarnya. Metode ini penting untuk solusi yang mengutamakan kriteria tertentu atau saat terdapat item yang telah ditemukan, contohnya adalah pada pengambilan plate, chest, potion, dll.
+
+
 ### 🔧 Method: `public void movePlayer`
 
 ### 👣 Menentukan trace yang akan digunakan saat player bergerak
@@ -264,7 +280,7 @@ Backtracking pada program ini dimulai dari posisi tombol solve ditekan sampai al
 
 
 
-#### Pengecekan apabila tujuan move player adalah princess
+#### 👸 Pengecekan apabila tujuan move player adalah princess
 ```java
         if (map[player.playerX + dx][player.playerY + dy] == 2) {
             if (!isSolving) {
@@ -276,6 +292,83 @@ Backtracking pada program ini dimulai dari posisi tombol solve ditekan sampai al
                 player.solved = true;
             }
         }
+```
+jika move selanjutnya berakibat mempertemukan player dengan princess maka pilihan nya adalah : 
+- jika free mode
+  - menyimpan hp player saat ini ke sebuah variabel temporary agar jika player memilih untuk restart maka hp akan tetap sama dengan saat player masuk ke stage tersebut
+  - Memidahkan posisi player
+- jika mode saat ini mode solve
+  - player tidak akan bergerak dan mode solve akan menemukan solusi agar saat di implementkan player akan berada di depan princess persis 
+### 🗝️ Pengecekan Apabila tujuan adalah plate/key
+``` java
+else if (map[player.playerX + dx][player.playerY + dy] == 5) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            int keyIndex = searchKey(keys);
+            playMusic(7);
+            if (keyIndex != -1) {
+                keys.get(keyIndex).openPath(map);
+                keys.remove(keyIndex);
+            }
+            if (isSolving) {
+                clearTrace(map);
+            }
+        }
+```
+Jika player bertemu dengan plate/key maka :
+- player akan bergerak, dan meninggalkan jejak pada posisi sekaran
+- akan mencari index key pada arraylist dengan menggunakan function searchKey yang mengembalikan index dari key pada posisi player saat ini
+- jika index key ditemukan maka key akan di hilangkan dari map dan juga akan membuka sebuah jalur baru 
+
+### 👺 Pengecekan Apabila Bertemu dengan monster
+``` java
+else if (map[player.playerX + dx][player.playerY + dy] == 7
+                || map[player.playerX + dx][player.playerY + dy] == 8
+                || map[player.playerX + dx][player.playerY + dy] == 9
+                || map[player.playerX + dx][player.playerY + dy] == 17) {
+            Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
+            System.out.println("You encountered a monster!" + x.nama);
+            boolean win = winBattle(x);
+            if (win) {
+                map[player.playerX][player.playerY] = trace;
+                player.playerX += dx;
+                player.playerY += dy;
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                if (!isSolving) {
+                    resetTraps(map);
+                }
+            }
+            if (player.playerHp < 0) {
+                player.playerHp = 0;
+            }
+        } 
+
+```
+
+jika player encounter dengan monster maka pertama player akan mencari monster apakah itu dengan mencari monster yang memiliki posisi sama dengan player dan melakukan battle dengan monster tersebut jika player menang maka player akan bergerak ke posisi monster dan posisi sekarang menjadi trace tetapi jika tidak maka akan kembali ke main menu dan jika mode = free maka semua traps akan di reset melalui method resetTraps (traps dapat dilalui berulang kali meskipun telah dilalui)
+
+> 🎮 Kriteria Battle melawan monster :
+> selama player dan monster masih memiliki hp
+> Player akan memberi damage kepada monster sesuai perhitungan (player attack - monster defense)
+> monster akan memberi player damage sesuai dengan attack dari monster
+
+### Pengecekan
+
+```java
+else if (map[player.playerX + dx][player.playerY + dy] == 11) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            gold++;
+            playMusic(1);
+            if (isSolving) {
+                clearTrace(map);
+            }
+            resetTraps(map);
+        } 
 ```
   
   </div>
