@@ -6,9 +6,9 @@
 </div>
 
 # How to play ?
-<p>
-  Gerakkan player dengan menggunakan W/A/S/D layaknya game pada umumnya disini terdapat beberapa tombol di header yakni solve untuk mencari solusi yang ada pada kondisi anda saat itu. <br/>
-  Ada juga tombol reset untuk mengulang dari awal jika pemain mengalami jalan buntu saat menyelesaikan maze. Ada juga tombol skip stage untuk mempercepat demo saat presentasi. <br/>
+<p align="center">
+  Gerakkan player dengan menggunakan W/A/S/D layaknya game pada umumnya disini terdapat beberapa tombol di header yakni solve untuk mencari solusi yang ada pada kondisi anda saat itu.
+  Ada juga tombol reset untuk mengulang dari awal jika pemain mengalami jalan buntu saat menyelesaikan maze. Ada juga tombol skip stage untuk mempercepat demo saat presentasi.
   Ada juga tombol status agar player bisa melihat apakah dia menang saat bertemu dengan monster tersebut.
 </p>
 
