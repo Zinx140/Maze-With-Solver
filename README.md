@@ -306,7 +306,7 @@ jika move selanjutnya berakibat mempertemukan player dengan princess maka piliha
 ### 🗝️ Pengecekan Apabila tujuan adalah plate/key
 ``` java
         else if (map[player.playerX + dx][player.playerY + dy] == 5) {
-go           map[player.playerX][player.playerY] = trace;
+            map[player.playerX][player.playerY] = trace;
             player.playerX += dx;
             player.playerY += dy;
             map[player.playerX][player.playerY] = player.playerTileNum;
