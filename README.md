@@ -71,7 +71,7 @@
 </ul>
 
 # Bagaimana Cara Player Bergerak dan Pengecekannya ?
-```
+```java
   public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
             boolean isSolving) {
         switch (direction) {
