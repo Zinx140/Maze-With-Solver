@@ -70,6 +70,212 @@
   <hr/>
 </ul>
 
+# Bagaimana Cara Player Bergerak dan Pengecekannya ?
+```
+  public void move(int map[][], Player player, int direction, ArrayList<Plate> keys, ArrayList<Monster> monsters,
+            boolean isSolving) {
+        switch (direction) {
+            case 0: // up
+                movePlayer(map, player, keys, monsters, isSolving, 0, -1);
+                break;
+            case 1: // down
+                movePlayer(map, player, keys, monsters, isSolving, 0, 1);
+                break;
+            case 2: // left
+                movePlayer(map, player, keys, monsters, isSolving, -1, 0);
+                break;
+            case 3: // right
+                movePlayer(map, player, keys, monsters, isSolving, 1, 0);
+                break;
+        }
+    }
+
+    public void clearTrace(int[][] map) {
+        for (int i = 0; i < gp.MAX_WORLD_ROW; i++) {
+            for (int j = 0; j < gp.MAX_WORLD_COL; j++) {
+                if (map[i][j] == 4 || map[i][j] == 3) {
+                    map[i][j] = 6;
+                }
+            }
+        }
+    }
+
+    public void movePlayer(int[][] map, Player player, ArrayList<Plate> keys, ArrayList<Monster> monsters,
+            boolean isSolving, int dx, int dy) {
+        int trace = (isSolving) ? 4 : 6; // Set trace tile based on solving state
+        if (map[player.playerX + dx][player.playerY + dy] == 2) {
+            if (!isSolving) {
+                gp.hpTemp = player.playerHp;
+                player.playerX += dx;
+                player.playerY += dy;
+            } else {
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
+            }
+        } else if (map[player.playerX + dx][player.playerY + dy] == 5) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            int keyIndex = searchKey(keys);
+            playMusic(7);
+            if (keyIndex != -1) {
+                keys.get(keyIndex).openPath(map);
+                keys.remove(keyIndex);
+            }
+            if (isSolving) {
+                clearTrace(map);
+            }
+        } else if (map[player.playerX + dx][player.playerY + dy] == 7
+                || map[player.playerX + dx][player.playerY + dy] == 8
+                || map[player.playerX + dx][player.playerY + dy] == 9
+                || map[player.playerX + dx][player.playerY + dy] == 17) {
+            Monster x = getId(monsters, player.playerX + dx, player.playerY + dy);
+            System.out.println("You encountered a monster!" + x.nama);
+            boolean win = winBattle(x);
+            if (win) {
+                map[player.playerX][player.playerY] = trace;
+                player.playerX += dx;
+                player.playerY += dy;
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                if (!isSolving) {
+                    resetTraps(map);
+                }
+            }
+            if (player.playerHp < 0) {
+                player.playerHp = 0;
+            }
+        } else if (map[player.playerX + dx][player.playerY + dy] == 11) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            gold++;
+            playMusic(1);
+            if (isSolving) {
+                clearTrace(map);
+            }
+            resetTraps(map);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 10) {
+            if (!isSolving) {
+                gp.hpTemp = player.playerHp;
+                gp.tileM.changeMap(player);
+                playMusic(6);
+            } else {
+                map[player.playerX][player.playerY] = player.playerTileNum;
+                player.solved = true;
+            }
+        } else if (map[player.playerX + dx][player.playerY + dy] == 12) {
+            Trap triggered = getIdTrap(gp.traps, player.playerX + dx, player.playerY + dy);
+            if (triggered != null && !triggeredTraps.contains(triggered)) {
+                triggeredTraps.add(triggered);
+            }
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            System.out.println("You stepped on a trap! " + trapDmg + " HP.");
+            player.playerHp -= trapDmg;
+            playMusic(2);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 16) {
+            Potion potion = getIdPotion(gp.potions, player.playerX + dx, player.playerY + dy);
+            potion.healPlayer(player);
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            clearTrace(map);
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            System.out.println("You found a potion!");
+            playMusic(10);
+        } else if (map[player.playerX + dx][player.playerY + dy] == 14) {
+            map[player.playerX][player.playerY] = trace;
+            map[player.playerX + dx][player.playerY + dy] = 15;
+            player.playerX += dx;
+            player.playerY += dy;
+            System.out.println("You found a chest ! ");
+            isOpenChest = true;
+            clearTrace(map);
+            gp.tileM.transform(player);
+            resetTraps(map);
+        } else if (map[player.playerX + dx][player.playerY + dy] != 1
+                && map[player.playerX + dx][player.playerY + dy] != 4
+                && map[player.playerX + dx][player.playerY + dy] != 2) {
+            map[player.playerX][player.playerY] = trace;
+            player.playerX += dx;
+            player.playerY += dy;
+            map[player.playerX][player.playerY] = player.playerTileNum;
+            if (!isSolving) {
+                resetTraps(map);
+            }
+        }
+    }
+```
+
 # Bagaimana Algoritma Backtracking Bekerja ?
+```
+  public void solve(int map[][], Player player, ArrayList<Plate> Plates, ArrayList<Monster> monsters, int path,
+            int gold) {
+        int[][] currentMapArr = new int[MAX_WORLD_COL][MAX_WORLD_ROW];
+        if (player.solved) { // Jika sudah sampai tujuan
+            System.out.println("=== Path found! ===");
+            System.out.println("Current Map: " + currentMap);
+            System.out.println("Player HP: " + player.playerHp);
+            System.out.println("Player Gold: " + player.gold);
+            System.out.println("Path: " + path);
+            draw(map);
+            copyMap(currentMapArr, map);
+            solutions.add(new Solution(currentMapArr, path, player.clone()));
+            player.solved = false;
+        } else if (solutions.size() > 500) { // iki buat batesi solusi soale kebanyakan jadine lama
+            return;
+        } else {
+            if (map[player.playerX][player.playerY - 1] != 1 && map[player.playerX][player.playerY - 1] != 4
+                    && player.playerHp > 0) { // Up
+                Player playerClone = player.clone();
+                ArrayList<Plate> PlatesClone = new ArrayList<>();
+                ArrayList<Monster> monstersClone = new ArrayList<>();
+                copyArrayListPlate(PlatesClone, Plates);
+                copyArrayListMonster(monstersClone, monsters);
+                copyMap(currentMapArr, map);
+                playerClone.move(currentMapArr, playerClone, 0, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+            }
+            if (map[player.playerX][player.playerY + 1] != 1 && map[player.playerX][player.playerY + 1] != 4
+                    && player.playerHp > 0) { // Down
+                Player playerClone = player.clone();
+                copyMap(currentMapArr, map);
+                ArrayList<Plate> PlatesClone = new ArrayList<>();
+                ArrayList<Monster> monstersClone = new ArrayList<>();
+                copyArrayListPlate(PlatesClone, Plates);
+                copyArrayListMonster(monstersClone, monsters);
+                playerClone.move(currentMapArr, playerClone, 1, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+            }
+            if (map[player.playerX - 1][player.playerY] != 1 && map[player.playerX - 1][player.playerY] != 4
+                    && player.playerHp > 0) { // Left
+                Player playerClone = player.clone();
+                copyMap(currentMapArr, map);
+                ArrayList<Plate> PlatesClone = new ArrayList<>();
+                ArrayList<Monster> monstersClone = new ArrayList<>();
+                copyArrayListPlate(PlatesClone, Plates);
+                copyArrayListMonster(monstersClone, monsters);
+                playerClone.move(currentMapArr, playerClone, 2, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+            }
+            if (map[player.playerX + 1][player.playerY] != 1 && map[player.playerX + 1][player.playerY] != 4
+                    && player.playerHp > 0) { // Right
+                Player playerClone = player.clone();
+                copyMap(currentMapArr, map);
+                ArrayList<Plate> PlatesClone = new ArrayList<>();
+                ArrayList<Monster> monstersClone = new ArrayList<>();
+                copyArrayListPlate(PlatesClone, Plates);
+                copyArrayListMonster(monstersClone, monsters);
+                playerClone.move(currentMapArr, playerClone, 3, PlatesClone, monstersClone, true);
+                solve(currentMapArr, playerClone, PlatesClone, monstersClone, path + 1, playerClone.gold);
+            }
+        }
+    }
+
+```
 
 
