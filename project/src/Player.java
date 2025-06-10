@@ -155,6 +155,7 @@ public class Player implements Cloneable {
             map[player.playerX + dx][player.playerY + dy] = 15;
             player.playerX += dx;
             player.playerY += dy;
+            player.maxHp = 2000;
             System.out.println("You found a chest ! ");
             isOpenChest = true;
             clearTrace(map);
@@ -221,7 +222,12 @@ public class Player implements Cloneable {
             if (playerHp < 0) {
                 playerHp = 0;
             }
+            if (x.hp < 0) {
+                break; // Monster kalah
+            }
         }
+
+        if (playerHp <= 0) return false; // Player kalah
 
         if (x.hp <= 0) {
             return true; // Player menang

@@ -450,6 +450,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         player.playerY = playerYTemp;
         player.playerHp = hpTemp;
         player.gold = goldTemp;
+        player.maxHp = 100; // Reset max HP
         player.playerAtk = 100;
         player.isOpenChest = false; // Reset status chest
         player.playerTileNum = 3; // Set tile player

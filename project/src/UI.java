@@ -109,7 +109,7 @@ public class UI extends JPanel {
         Monster dragon = new Monster(0, 2);
         dragon.setDragon(dummyMap);
         Monster phoenix = new Monster(0, 3);
-        dragon.setPhx(dummyMap);
+        phoenix.setPhx(dummyMap);
         
         g2.drawString("HP: 20", gp.TILE_SIZE * 9 + 20, 310);
         g2.drawString("ATK: 20", gp.TILE_SIZE * 9 + 20, 330);
