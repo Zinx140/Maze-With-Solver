@@ -101,9 +101,7 @@ public class Player implements Cloneable {
                 player.playerX += dx;
                 player.playerY += dy;
                 map[player.playerX][player.playerY] = player.playerTileNum;
-                if (!isSolving) {
-                    resetTraps(map);
-                }
+                resetTraps(map);
             }
             if (player.playerHp < 0) {
                 player.playerHp = 0;
@@ -147,6 +145,7 @@ public class Player implements Cloneable {
             player.playerX += dx;
             player.playerY += dy;
             clearTrace(map);
+            resetTraps(map);
             map[player.playerX][player.playerY] = player.playerTileNum;
             System.out.println("You found a potion!");
             playMusic(10);
@@ -168,9 +167,7 @@ public class Player implements Cloneable {
             player.playerX += dx;
             player.playerY += dy;
             map[player.playerX][player.playerY] = player.playerTileNum;
-            if (!isSolving) {
-                resetTraps(map);
-            }
+            resetTraps(map);
         }
     }
 
@@ -227,7 +224,8 @@ public class Player implements Cloneable {
             }
         }
 
-        if (playerHp <= 0) return false; // Player kalah
+        if (playerHp <= 0)
+            return false; // Player kalah
 
         if (x.hp <= 0) {
             return true; // Player menang
