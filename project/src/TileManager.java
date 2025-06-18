@@ -1,7 +1,5 @@
 import java.awt.Graphics2D;
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -25,7 +23,7 @@ public class TileManager {
             gp.plates = new ArrayList<>();
         }
 
-        loadMap("project/src/maps/map1.txt");
+        loadMap("/maps/map1.txt");
         getTileImage();
     }
 
@@ -48,71 +46,71 @@ public class TileManager {
     public void getTileImage() {
         try {
             tile[0] = new Tile();
-            tile[0].image = ImageIO.read(new File("project/img/way.png"));
+            tile[0].image = ImageIO.read(getClass().getResource("/img/way.png"));
             tile[0].collison = false;
 
             tile[1] = new Tile();
-            tile[1].image = ImageIO.read(new File("project/img/wall.png"));
+            tile[1].image = ImageIO.read(getClass().getResource("/img/wall.png"));
             tile[1].collison = false;
 
             tile[2] = new Tile();
-            tile[2].image = ImageIO.read(new File("project/img/princess.png"));
+            tile[2].image = ImageIO.read(getClass().getResource("/img/princess.png"));
             tile[2].collison = false;
 
             tile[3] = new Tile();
-            tile[3].image = ImageIO.read(new File("project/img/prince.png"));
+            tile[3].image = ImageIO.read(getClass().getResource("/img/prince.png"));
             tile[3].collison = false;
 
             tile[4] = new Tile();
-            tile[4].image = ImageIO.read(new File("project/img/path.png"));
+            tile[4].image = ImageIO.read(getClass().getResource("/img/path.png"));
             tile[4].collison = false;
 
             tile[5] = new Tile();
-            tile[5].image = ImageIO.read(new File("project/img/plate.png"));
+            tile[5].image = ImageIO.read(getClass().getResource("/img/plate.png"));
             tile[5].collison = false;
 
             tile[6] = new Tile();
-            tile[6].image = ImageIO.read(new File("project/img/path.png"));
+            tile[6].image = ImageIO.read(getClass().getResource("/img/path.png"));
             tile[6].collison = false;
 
             tile[7] = new Tile();
-            tile[7].image = ImageIO.read(new File("project/img/spider.png"));
+            tile[7].image = ImageIO.read(getClass().getResource("/img/spider.png"));
             tile[7].collison = false;
 
             tile[8] = new Tile();
-            tile[8].image = ImageIO.read(new File("project/img/ogre.png"));
+            tile[8].image = ImageIO.read(getClass().getResource("/img/ogre.png"));
             tile[8].collison = false;
 
             tile[9] = new Tile();
-            tile[9].image = ImageIO.read(new File("project/img/redDragon.png"));
+            tile[9].image = ImageIO.read(getClass().getResource("/img/redDragon.png"));
             tile[9].collison = false;
 
             tile[10] = new Tile();
-            tile[10].image = ImageIO.read(new File("project/img/stair.png"));
+            tile[10].image = ImageIO.read(getClass().getResource("/img/stair.png"));
             tile[10].collison = false;
 
             tile[11] = new Tile();
-            tile[11].image = ImageIO.read(new File("project/img/gold.png"));
+            tile[11].image = ImageIO.read(getClass().getResource("/img/gold.png"));
             tile[11].collison = false;
 
             tile[12] = new Tile();
-            tile[12].image = ImageIO.read(new File("project/img/trap.png"));
+            tile[12].image = ImageIO.read(getClass().getResource("/img/trap.png"));
             tile[12].collison = false;
 
             tile[14] = new Tile();
-            tile[14].image = ImageIO.read(new File("project/img/chest.png"));
+            tile[14].image = ImageIO.read(getClass().getResource("/img/chest.png"));
             tile[14].collison = false;
 
             tile[15] = new Tile();
-            tile[15].image = ImageIO.read(new File("project/img/armoredPrince.png"));
+            tile[15].image = ImageIO.read(getClass().getResource("/img/armoredPrince.png"));
             tile[15].collison = false;
 
             tile[16] = new Tile();
-            tile[16].image = ImageIO.read(new File("project/img/heal.png"));
+            tile[16].image = ImageIO.read(getClass().getResource("/img/heal.png"));
             tile[16].collison = false;
 
             tile[17] = new Tile();
-            tile[17].image = ImageIO.read(new File("project/img/phoenix.png"));
+            tile[17].image = ImageIO.read(getClass().getResource("/img/phoenix.png"));
             tile[17].collison = false;
 
         } catch (IOException e) {
@@ -145,13 +143,12 @@ public class TileManager {
 
     public void loadMap(String path) {
         try {
-            File file = new File(path);
-            if (!file.exists()) {
+            // Use getResourceAsStream for reading from JAR/classpath
+            InputStream is = getClass().getResourceAsStream(path);
+            if (is == null) {
                 System.err.println("File tidak ditemukan: " + path);
                 return;
             }
-
-            InputStream is = new FileInputStream(file);
             BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"));
 
             List<Integer> numbers = new ArrayList<>();
@@ -170,9 +167,9 @@ public class TileManager {
 
             int totalTiles = gp.MAX_WORLD_COL * gp.MAX_WORLD_COL;
             if (numbers.size() != totalTiles) {
-                throw new IllegalArgumentException("Jumlah angka dalam file tidak sesuai dengan ukuran peta ("
-                        + gp.MAX_WORLD_COL + "x" + gp.MAX_WORLD_COL + "). Dibutuhkan " + totalTiles
-                        + " angka, tetapi ditemukan " + numbers.size() + ".");
+                throw new IllegalArgumentException("Jumlah angka dalam file tidak sesuai dengan ukuran peta (" +
+                    gp.MAX_WORLD_COL + "x" + gp.MAX_WORLD_COL + "). Dibutuhkan " + totalTiles +
+                    " angka, tetapi ditemukan " + numbers.size() + ".");
             }
 
             int col = 0;

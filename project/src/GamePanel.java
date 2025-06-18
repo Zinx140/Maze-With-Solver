@@ -7,7 +7,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
@@ -121,23 +120,23 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         bgmSound.loop();
         mapTemp = new int[MAX_WORLD_ROW][MAX_WORLD_COL];
         try {
-            img = ImageIO.read(new File("project/img/solveBtn.png"));
+            img = ImageIO.read(getClass().getResource("/img/solveBtn.png"));
             Image scaledImage = img.getScaledInstance(90, 33, Image.SCALE_SMOOTH);
             solveIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("project/img/resetBtn.png"));
+            img = ImageIO.read(getClass().getResource("/img/resetBtn.png"));
             scaledImage = img.getScaledInstance(90, 33, Image.SCALE_SMOOTH);
             resetIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("project/img/statusBtn.png"));
+            img = ImageIO.read(getClass().getResource("/img/statusBtn.png"));
             scaledImage = img.getScaledInstance(90, 33, Image.SCALE_SMOOTH);
             playerStatIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("project/img/nextBtn.png"));
+            img = ImageIO.read(getClass().getResource("/img/nextBtn.png"));
             scaledImage = img.getScaledInstance(33, 33, Image.SCALE_SMOOTH);
             nextStageIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("project/img/exit.png"));
+            img = ImageIO.read(getClass().getResource("/img/exit.png"));
             scaledImage = img.getScaledInstance(33, 33, Image.SCALE_SMOOTH);
             exitIcon = new ImageIcon(scaledImage);
         } catch (IOException e) {
@@ -147,11 +146,11 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         initMenuBtn();
 
         // isi list map
-        maps.add(new Map("project/src/maps/map1.txt", 1, 1));
-        maps.add(new Map("project/src/maps/map2.txt", 1, 1));
-        maps.add(new Map("project/src/maps/map3.txt", 9, 1));
-        maps.add(new Map("project/src/maps/map4.txt", 1, 1));
-        maps.add(new Map("project/src/maps/map5.txt", 13, 1));
+        maps.add(new Map("/maps/map1.txt", 1, 1));
+        maps.add(new Map("/maps/map2.txt", 1, 1));
+        maps.add(new Map("/maps/map3.txt", 9, 1));
+        maps.add(new Map("/maps/map4.txt", 1, 1));
+        maps.add(new Map("/maps/map5.txt", 13, 1));
     }
 
     @Override
@@ -391,7 +390,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
             System.out.println("Player HP: " + player.playerHp);
             System.out.println("Player Gold: " + player.gold);
             System.out.println("Path: " + path);
-            draw(map);
             copyMap(currentMapArr, map);
             solutions.add(new Solution(currentMapArr, path, player.clone()));
             player.solved = false;
@@ -463,7 +461,7 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         tileM.mapTile[player.playerX][player.playerY] = 3;
         player.isArmored = false;
         try {
-            tileM.tile[3].image = ImageIO.read(new File("project/img/prince.png"));
+            tileM.tile[3].image = ImageIO.read(getClass().getResource("/img/prince.png"));
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -497,62 +495,6 @@ public class GamePanel extends JPanel implements Runnable, KeyListener {
         plates.add(new Plate(9, 3, 8, 12));
         plates.add(new Plate(7, 11, 10, 2));
         setPlates(tileM.mapTile, plates);
-    }
-
-    public void draw(int map[][]) {
-        for (int i = 0; i < MAX_WORLD_ROW; i++) {
-            for (int j = 0; j < MAX_WORLD_COL; j++) {
-                switch (map[j][i]) {
-                    case 0:
-                        System.out.print("  "); // Tile kosong
-                        break;
-                    case 1:
-                        System.out.print("# "); // Tile dinding
-                        break;
-                    case 2:
-                        System.out.print("F "); // Tile princess
-                        break;
-                    case 3:
-                        System.out.print("P "); // Tile player
-                        break;
-                    case 4:
-                        System.out.print(". "); // Tile path
-                        break;
-                    case 5:
-                        System.out.print("_ "); // Tile plate
-                        break;
-                    case 6:
-                        System.out.print(". "); // Tile paath
-                        break;
-                    case 7:
-                        System.out.print("S "); // Tile monster spider
-                        break;
-                    case 8:
-                        System.out.print("O "); // Tile monster ogre
-                        break;
-                    case 9:
-                        System.out.print("D "); // Tile monster dragon
-                        break;
-                    case 10:
-                        System.out.print("G "); // Tile exit
-                        break;
-                    case 11:
-                        System.out.print("g "); // Tile gold
-                        break;
-                    case 12:
-                        System.out.print("T "); // Tile trap
-                        break;
-                    // case 13:
-                    // System.out.print("E "); // Tile enemy
-                    // break;
-                    case 14:
-                        System.out.print("C "); // Tile chest
-                        break;
-                }
-            }
-            System.out.println();
-        }
-        System.out.println();
     }
 
 }

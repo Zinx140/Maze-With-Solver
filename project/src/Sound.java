@@ -1,4 +1,3 @@
-import java.io.File;
 import java.net.URL;
 
 import javax.sound.sampled.AudioInputStream;
@@ -11,17 +10,16 @@ public class Sound {
 
     public Sound() {
         try {
-            soundURL[0] = new File("project/sound/mainTheme.wav").toURI().toURL();
-            soundURL[1] = new File("project/sound/coin.wav").toURI().toURL();
-            soundURL[2] = new File("project/sound/hurt.wav").toURI().toURL();
-            soundURL[3] = new File("project/sound/death.wav").toURI().toURL();
-            soundURL[4] = new File("project/sound/transform.wav").toURI().toURL();
-            soundURL[5] = new File("project/sound/won.wav").toURI().toURL();
-            soundURL[6] = new File("project/sound/climb.wav").toURI().toURL();
-            soundURL[7] = new File("project/sound/click.wav").toURI().toURL();
-            soundURL[8] = new File("project/sound/btnpress.wav").toURI().toURL();
-            soundURL[9] = new File("project/sound/lobby.wav").toURI().toURL();
-            soundURL[10] = new File("project/sound/healSound.wav").toURI().toURL();
+            soundURL[0] = getClass().getResource("/sound/mainTheme.wav").toURI().toURL();
+            soundURL[1] = getClass().getResource("/sound/coin.wav").toURI().toURL();
+            soundURL[2] = getClass().getResource("/sound/hurt.wav").toURI().toURL();
+            soundURL[3] = getClass().getResource("/sound/death.wav").toURI().toURL();
+            soundURL[4] = getClass().getResource("/sound/transform.wav").toURI().toURL();
+            soundURL[5] = getClass().getResource("/sound/won.wav").toURI().toURL();
+            soundURL[6] = getClass().getResource("/sound/climb.wav").toURI().toURL();
+            soundURL[7] = getClass().getResource("/sound/click.wav").toURI().toURL();
+            soundURL[8] = getClass().getResource("/sound/btnpress.wav").toURI().toURL();
+            soundURL[10] = getClass().getResource("/sound/healSound.wav").toURI().toURL();
         } catch (Exception e) {
             e.printStackTrace();
         }

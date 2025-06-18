@@ -3,7 +3,6 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -30,18 +29,18 @@ public class Game {
         window.setBackground(new Color(59, 69, 96));
 
         try {
-            background = ImageIO.read(new File("project/img/mainMenu.png"));
+            background = ImageIO.read(getClass().getResource("/img/mainMenu.png"));
         } catch (IOException e) {
             // TODO: handle exception
             e.printStackTrace();
         }
 
         try {
-            img = ImageIO.read(new File("project/img/startMenu.png"));
+            img = ImageIO.read(getClass().getResource("/img/startMenu.png"));
             Image scaledImage = img.getScaledInstance(175, 64, Image.SCALE_SMOOTH);
             startIcon = new ImageIcon(scaledImage);
 
-            img = ImageIO.read(new File("project/img/exitMenu.png"));
+            img = ImageIO.read(getClass().getResource("/img/exitMenu.png"));
             scaledImage = img.getScaledInstance(175, 64, Image.SCALE_SMOOTH);
             exitIcon = new ImageIcon(scaledImage);
 

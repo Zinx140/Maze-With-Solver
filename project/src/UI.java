@@ -3,7 +3,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -23,13 +22,13 @@ public class UI extends JPanel {
     public UI(GamePanel gp) {
         this.gp = gp;
         try {
-            img = ImageIO.read(new File("project/img/header.png"));
-            player = ImageIO.read(new File("project/img/playerUI.png"));
-            playerTransformed = ImageIO.read(new File("project/img/armoredUI.png"));
-            spider = ImageIO.read(new File("project/img/spiderUI.png"));
-            ogre = ImageIO.read(new File("project/img/ogreUI.png"));
-            dragon = ImageIO.read(new File("project/img/dragonUI.png"));
-            phx = ImageIO.read(new File("project/img/phoenixUI.png"));
+            img = ImageIO.read(getClass().getResource("/img/header.png"));
+            player = ImageIO.read(getClass().getResource("/img/playerUI.png"));
+            playerTransformed = ImageIO.read(getClass().getResource("/img/armoredUI.png"));
+            spider = ImageIO.read(getClass().getResource("/img/spiderUI.png"));
+            ogre = ImageIO.read(getClass().getResource("/img/ogreUI.png"));
+            dragon = ImageIO.read(getClass().getResource("/img/dragonUI.png"));
+            phx = ImageIO.read(getClass().getResource("/img/phoenixUI.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
